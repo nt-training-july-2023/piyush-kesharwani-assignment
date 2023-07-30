@@ -13,6 +13,7 @@ public class p1_replaceVowels {
 	   meth obj =(s)-> s.replaceAll("[AEIOUaeiou]", "#");
 	   
 	   String newstr = obj.replace(str);
+//	   System.out.println(obj.replace(str));
 	   System.out.println(newstr);
 }
 }

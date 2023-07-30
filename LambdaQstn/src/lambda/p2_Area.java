@@ -20,7 +20,7 @@ public class p2_Area {
 		  return a1*a2;  
 	  };
 	  float squareArea = squr.area(9,9);
-	  System.out.println("The area of square is  -" + squareArea);
+	  System.out.println("The area of square is  - " + squareArea);
 	  
 	  //Area of circle
 	  shape circ = (a3,a4)->{
