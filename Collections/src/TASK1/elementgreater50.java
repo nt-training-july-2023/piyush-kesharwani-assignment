@@ -15,7 +15,7 @@ public class elementgreater50 {
 			arr.add(sc.nextInt());
 		}
 		
-		System.out.println("the elements are - 2");
+		System.out.println("the elements are - ");
 		System.out.println(arr);
 		
 		for(int i=0;i<arr.size();i++) {
