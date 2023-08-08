@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap%27');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Poppins',sans-serif;
+}
+body{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background:linear-gradient(130deg, #71B7E6, #9B59B6);
+}
+.maincontent{
+    max-width: 600px;
+    width: 100%;
+    background-color: white;
+    padding: 30px 35px;
+    border-radius: 10px;
+}
+.maincontent .title{
+    font-size: 30px;
+    font-weight: 600;
+    position: relative;
+}
+.maincontent .title::before{
+    content: ' ';
+    position: absolute;
+    height: 4px;
+    width: 40px;
+    /* background-color: #9B59B6; */
+    left: 0;
+    bottom: 0;
+}
+.maincontent form .details{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-between;
+}
+form .details .input{
+    margin: 20px 0 10px 0;
+    width: calc(100% /2 - 20px);
+}
+.details .input input{
+    height: 40px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding-left: 15px;
+    box-sizing: content-box;
+    transition: all 0.5s ease;
+}
+.details .input .personal{
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 10px;
+    display: block;
+}
+form .gender-details .gender{
+    font-weight: 500;
+    font-size: 15px;
+}
+form .gender-details .Select{
+    display: flex;
+    align-content: center;
+    margin: 10px 0;
+    justify-content: space-between;
+}
+.Select label{
+   text-align: left;
+}
+form .button{
+    height: 35px;
+    margin: 50px 0;
+}
+form .button input{
+    height: 100%;
+    width: 100%;
+    background:linear-gradient(130deg, #71B7E6, #9B59B6) ;
+    outline: none;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+}
+form .button input:hover{
+    background:linear-gradient(-130deg, #71B7E6, #9B59B6);
+}
+@media (max-width:500px){
+    .maincontent{
+        max-width: 100%;
+    }
+    form .details .input{
+        width: 100%;
+        margin-bottom: 50px;
+    }
+}
