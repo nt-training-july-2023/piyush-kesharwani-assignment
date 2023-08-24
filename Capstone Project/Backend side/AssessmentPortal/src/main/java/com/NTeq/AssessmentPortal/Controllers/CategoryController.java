@@ -30,7 +30,7 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/getCategory/{id}")
-	public ResponseEntity<Category>getEmp(@PathVariable("id") long id){
+	public ResponseEntity<Category>getCategory(@PathVariable("id") long id){
 		Category cg = categoryService.getCategoryById(id);
 		if(cg==null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
