@@ -51,12 +51,14 @@ public class CategoryServiceImpl implements CategoryService{
 		 }
 	}
 	
+	@Override
 	public String UpdateCategory(Long categoryId , Category cg) {
 		cg.setCategoryId(categoryId);
 		categoryRepository.save(cg);
 		return "Updated successfully..";
 	}
 	
+	@Override
 	public void deleteCategory(Long categoryId) {
 		categoryRepository.deleteById(categoryId);
 	}

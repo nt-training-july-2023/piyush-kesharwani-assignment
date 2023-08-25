@@ -17,6 +17,12 @@ function Login() {
           email,
           password,
         });
+        if(response.data.role==='admin')
+        navigate('/AdminDashboard')
+        if(response.data.role==='user')
+        navigate('/UserDashboard')
+        localStorage.setItem('IsLoggedIn',response.data.status);
+        localStorage.setItem('userRole',response.data.role);
       console.log("Login successful!", response.data);
     } catch (error) {
       console.error("Login failed:", error);

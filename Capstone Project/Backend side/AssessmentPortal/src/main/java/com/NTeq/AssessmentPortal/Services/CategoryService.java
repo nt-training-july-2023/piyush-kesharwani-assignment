@@ -8,4 +8,6 @@ public interface CategoryService {
 	public String addCategory(Category cg);
 	public List<Category> getAllCategory();
 	public Category getCategoryById(Long categoryId);
+	public String UpdateCategory(Long categoryId , Category cg);
+	public void deleteCategory(Long categoryId);
 }
