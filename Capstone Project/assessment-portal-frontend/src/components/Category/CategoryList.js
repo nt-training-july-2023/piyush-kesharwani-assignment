@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import categoryService from "../../Services/categoryService";
+import "./CategoryList.css";
 
 const CategoryList = () => {
   const [category, setCategory] = useState([]);
@@ -8,7 +9,7 @@ const CategoryList = () => {
   useEffect(() => {
     getCategory();
   }, []);
-  
+
   const getCategory = () => {
     categoryService
       .getAll()
@@ -20,7 +21,7 @@ const CategoryList = () => {
         console.log(error);
       });
   };
- 
+
   const deleteCategories = (categoryId) => {
     categoryService
       .deleteCategory(categoryId)
@@ -31,14 +32,11 @@ const CategoryList = () => {
         console.log(error);
       });
   };
- 
+
   return (
-    <div className="container">
+    <div className="cat-container">
       <h2 className="text-center">List of Category</h2>
-      <Link to="/category/all/addCategory" className="btn btn-primary mb-2">
-        Add Category
-      </Link>
-      <table className="table table-bordered ">
+      <table className="table">
         <thead>
           <tr>
             <th>S No</th>
@@ -53,7 +51,7 @@ const CategoryList = () => {
               <td> {ct.categoryId} </td>
               <td> {ct.categoryName} </td>
               <td> {ct.description} </td>
-              <td>
+              <td className="btn-group">
                 <Link
                   className="btn btn-info"
                   to={`/category/all/edit-category/${ct.categoryId}`}
@@ -63,7 +61,6 @@ const CategoryList = () => {
                 <button
                   className="btn btn-danger"
                   onClick={() => deleteCategories(ct.categoryId)}
-                  style={{ marginLeft: "10px" }}
                 >
                   Delete
                 </button>
@@ -72,7 +69,11 @@ const CategoryList = () => {
           ))}
         </tbody>
       </table>
+      <div className="button-group">
+        <button className="btn btn-primary btn-sm">Add Category</button>
+      </div>
     </div>
   );
 };
+
 export default CategoryList;

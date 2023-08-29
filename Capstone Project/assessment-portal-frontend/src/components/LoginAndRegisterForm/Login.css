@@ -1,27 +1,123 @@
-.Portal-container{
-    display :flex;
+/* Login.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background : linear-gradient(#183D3D ,#93B1A6) /* Add your desired background color */
+  }
+  
+.register-container {
+    display: flex;
     justify-content: center;
     align-items: center;
-    width:100vw;
-    height: 100vh;
-}
-
-.portal-form{
-    width: 420px;
-    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
-    padding-top: 30px;
-    padding-bottom: 20px;
-    border-radius: 8px;
-    background-color: white;
-}
-
-.portal-form-content{
-    padding-left: 12%;
-    padding-right: 12%;
-}
-
-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: rgb(34, 34, 34);
+   min-height: 120vh;
+    /* background-color: #f5f5f5; */
+    
   }
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   min-height: 100vh;
+    /* background-color: #f5f5f5; */
+    
+  }
+  
+  .portal-form {
+    background-color:lavender;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 500px;
+  }
+
+  .portal-form-container {
+    width: 450px; /* Adjust the width as needed */
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+  
+  .portal-form-content {
+    text-align: center;
+  }
+  
+  .text-center {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .my-3 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .register-link {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+  }
+  
+  .link-primary {
+    color: #007bff;
+    cursor: pointer;
+  }
+  
+  .link-primary:hover {
+    text-decoration: underline;
+  }
+
+/* Add these styles to customize success and error messages */
+.custom-message {
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.custom-error {
+  color: #dc3545;
+}
+

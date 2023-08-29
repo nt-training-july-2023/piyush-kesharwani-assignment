@@ -1,80 +1,106 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setErrorMessage("Please enter both email and password.");
+      return false;
+    }
+    setErrorMessage(""); // Clear error message if validation passes
+    return true;
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/candidate/login",
-        {
-          email,
-          password,
-        });
-        if(response.data.role==='admin')
-        navigate('/AdminDashboard')
-        if(response.data.role==='user')
-        navigate('/UserDashboard')
-        localStorage.setItem('IsLoggedIn',response.data.status);
-        localStorage.setItem('userRole',response.data.role);
-      console.log("Login successful!", response.data);
-    } catch (error) {
-      console.error("Login failed:", error);
+    if (validateForm()) {
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/candidate/login",
+          {
+            email,
+            password,
+          }
+        );
+        if (response.data.status === "true") {
+          if (response.data.role === "admin") {
+            navigate("/AdminDashboard");
+          } else if (response.data.role === "user") {
+            navigate("/UserDashboard");
+          }
+        } else {
+          setErrorMessage("Login failed. " + response.data.message);
+        }
+      } catch (error) {
+        setErrorMessage("Wrong Credentials");
+        console.error("Login failed:", error);
+      }
     }
   };
 
-  const Register =()=>{
-       navigate('/Register')
-  }
+  const handleRegisterClick = () => {
+    navigate("/Register");
+  };
 
   return (
-    <div className="Portal-container">
+    <div className="login-container">
       <form className="portal-form" onSubmit={handleLogin}>
         <div className="portal-form-content">
-            <div>
-                <h2 className="text-center">Login</h2>
-            </div>
+          <div>
+            <h2 className="text-center"><b>Login</b></h2>
+          </div>
+          {errorMessage && <div className="custom-error">{errorMessage}</div>}
           <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Email address</label>
             <input
               type="email"
               className="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               placeholder="Enter email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setErrorMessage("");
+              }}
               value={email}
-              required
             />
           </div>
           <div className="form-group my-3">
-            <label htmlFor="exampleInputPassword1">Password</label>
             <input
               type="password"
               className="form-control"
               id="exampleInputPassword1"
               placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setErrorMessage("");
+              }}
               value={password}
-              required
             />
           </div>
           <button type="submit" className="btn btn-primary my-3">
             Login
           </button>
           <div className="register-link">
-            Not a member ?<span className="link-primary" style={{cursor:"pointer"}} onClick={Register}>  Register here</span>
+            Not a member?{" "}
+            <span
+              className="link-primary"
+              style={{ cursor: "pointer" }}
+              onClick={handleRegisterClick}
+            >
+              Register here
+            </span>
           </div>
         </div>
       </form>
     </div>
   );
-}
+};
 
 export default Login;

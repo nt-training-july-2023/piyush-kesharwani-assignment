@@ -2,12 +2,16 @@ package com.NTeq.AssessmentPortal.Services;
 
 import java.util.List;
 
-import com.NTeq.AssessmentPortal.Entity.Category;
+import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 
 public interface CategoryService {
-	public String addCategory(Category cg);
-	public List<Category> getAllCategory();
-	public Category getCategoryById(Long categoryId);
-	public String UpdateCategory(Long categoryId , Category cg);
-	public void deleteCategory(Long categoryId);
+    public String addCategory(CategoryDto cgDto);
+
+    public List<CategoryDto> getAllCategory();
+
+    public CategoryDto getCategoryById(Long categoryId);
+
+    public String UpdateCategory(Long categoryId, CategoryDto cgDto);
+
+    public void deleteCategory(Long categoryId);
 }
