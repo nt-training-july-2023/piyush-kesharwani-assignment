@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const IsLoggedIn = localStorage.getItem("IsLoggedIn");
 
   const validateForm = () => {
     if (!email || !password) {
@@ -29,7 +32,14 @@ const Login = () => {
             password,
           }
         );
-        if (response.data.status === "true") {
+        Swal.fire({
+          title: "Success",
+          text: "Login Successful",
+          icon: "success",
+          timer:2000,
+          showConfirmButton:false
+        });
+        if (response.data && response.data.status === "true") {
           if (response.data.role === "admin") {
             navigate("/AdminDashboard");
           } else if (response.data.role === "user") {
@@ -38,8 +48,20 @@ const Login = () => {
         } else {
           setErrorMessage("Login failed. " + response.data.message);
         }
+        localStorage.setItem("IsLoggedIn",response.data.status)
+        localStorage.setItem("role",response.data.role)
       } catch (error) {
         setErrorMessage("Wrong Credentials");
+        const submitError = error.response.data.message;
+        Swal.fire({
+          title: "Error",
+          text: `${submitError}`,
+          icon: "error",
+          confirmButtonText: "Retry",
+          confirmButtonColor:"red"
+        });
+        setEmail('');
+        setPassword('');
         console.error("Login failed:", error);
       }
     }

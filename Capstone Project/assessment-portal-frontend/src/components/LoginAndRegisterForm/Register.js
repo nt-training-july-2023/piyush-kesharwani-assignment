@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -58,13 +59,31 @@ const Register = () => {
             password,
           }
         );
+        Swal.fire({
+          title: "Success",
+          text: "User registered successfully",
+          icon: "success",
+          timer:2000,
+          showConfirmButton:false
+        });
         console.log(response.data);
+        if(response.status===200){
+          navigate("/")
+        }
         setSuccessMessage("Registration successful. Please log in.");
         setErrorMessage("");
       } catch (error) {
         // console.error(
         //   error.response ? error.response.data : "An error occurred"
         // );
+        const submitError=error.response.data.message
+            Swal.fire({
+              title: "Error",
+              text: `${submitError}`,
+              icon: "error",
+              confirmButtonText: "Retry",
+              confirmButtonColor:"red"
+            });
         console.error(error);
         if (error.response) {
           setErrorMessage("Registration failed. " + error.response.data.message);

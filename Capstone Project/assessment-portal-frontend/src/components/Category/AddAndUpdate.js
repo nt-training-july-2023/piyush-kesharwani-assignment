@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams,Link } from 'react-router-dom';
 import categoryService from '../../Services/categoryService';
 import './styles.css';
 
 const AddAndUpdate = () => {
-  const [categoryId, setCategoryId] = useState();
+  // const [categoryId, setCategoryId] = useState();
   const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('');
   const navigate = useNavigate();
@@ -13,8 +13,16 @@ const AddAndUpdate = () => {
   const saveCategory = (e) => {
     e.preventDefault();
 
-    const category = { categoryId, categoryName, description };
-
+    const category = { categoryName, description };
+    if(id){
+      categoryService.updateCategory(id,category).then((response)=>{
+        console.log(response.data);
+        navigate('/category/all');
+      }).catch(error=>{
+        console.log(error);
+      });
+    }
+    else{
     categoryService
       .addCategory(category)
       .then((response) => {
@@ -24,13 +32,14 @@ const AddAndUpdate = () => {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   useEffect(() => {
     categoryService
       .getCategoryById(id)
       .then((response) => {
-        setCategoryId(response.data.categoryId);
+        // setCategoryId(response.data.categoryId);
         setCategoryName(response.data.categoryName);
         setDescription(response.data.description);
       })
@@ -53,7 +62,7 @@ const AddAndUpdate = () => {
         {title()}
         <div className='card-body'>
           <form>
-            <div className='form-group'>
+            {/* <div className='form-group'>
               <label className='form-label' htmlFor='categoryId'>
                 Category ID:
               </label>
@@ -65,7 +74,7 @@ const AddAndUpdate = () => {
                 value={categoryId || ''}
                 onChange={(e) => setCategoryId(e.target.value)}
               />
-            </div>
+            </div> */}
             <div className='form-group'>
               <label className='form-label' htmlFor='categoryName'>
                 Name:
@@ -95,6 +104,9 @@ const AddAndUpdate = () => {
             <button className='btn-primary' onClick={(e) => saveCategory(e)}>
               Submit
             </button>
+            <Link to = "/category/all">
+               <button className='btn-primary'>Cancel</button>
+            </Link>
           </form>
         </div>
       </div>

@@ -15,8 +15,8 @@ class categoryService{
         return axios.get(Category_BASE_API_URL + "/getCategory/" + id);
     }
 
-    updateCategory(id){
-        return axios.put(Category_BASE_API_URL + "/update/" + id);
+    updateCategory(id, Category){
+        return axios.put(Category_BASE_API_URL + "/update/" + id,Category);
     }
 
     deleteCategory(id){
