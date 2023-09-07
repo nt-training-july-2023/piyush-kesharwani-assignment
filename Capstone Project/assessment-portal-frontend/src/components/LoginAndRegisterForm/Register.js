@@ -25,10 +25,11 @@ const Register = () => {
       return false;
     }
 
-    if (!emailRegex.test(email)) {
-      setErrorMessage("Enter a valid Email Id.");
+    if (!emailRegex.test(email) && !email.endsWith("@nucleusTeq.com")) {
+      setErrorMessage("email domain should be end with @nucleusTeq.com");
       return false;
     }
+    
 
     if (!passwordRegex.test(password)) {
       setErrorMessage(

@@ -1,33 +1,57 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import categoryService from "../../Services/categoryService";
 import "./CategoryList.css";
+import Swal from "sweetalert2";
+
 
 const CategoryList = () => {
-  const [category, setCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [valid, setValid] = useState("")
+  const navigate = useNavigate();
 
+  const isLoggedIn = localStorage.getItem("IsLoggedIn");
   const role = localStorage.getItem("role");
+  
+  useEffect(() => {
+    if (role === "admin") {
+      setValid("true");
+    } else {
+      setValid("false");
+    }
+  }, [role]);
+
 
   useEffect(() => {
-    getCategory();
-  }, []);
+    if (isLoggedIn !== null) {
+      getCategory();
+    } else {
+      navigate("/"); // Redirect to the login page if not logged in
+    }
+  }, [isLoggedIn, navigate]);
 
   const getCategory = () => {
     categoryService
       .getAll()
       .then((response) => {
-        setCategory(response.data); // Make sure response.data is an array
-        console.log(response.data);
+        setCategories(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const deleteCategories = (categoryId) => {
+  const deleteCategory = (categoryId) => {
     categoryService
       .deleteCategory(categoryId)
-      .then((response) => {
+      .then(() => {
+        Swal.fire({
+          title: "Success",
+          text: "Category deleted successfully",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        });
         getCategory();
       })
       .catch((error) => {
@@ -35,9 +59,12 @@ const CategoryList = () => {
       });
   };
 
+  
   return (
     <div className="category-container">
+      
       <h2 className="category-title">List of Categories</h2>
+      {(isLoggedIn === "true") && (
       <table className="category-table">
         <thead>
           <tr>
@@ -48,37 +75,66 @@ const CategoryList = () => {
           </tr>
         </thead>
         <tbody>
-          {category.map((ct,index) => (
+          {categories.map((category, index) => (
             <tr key={index}>
-              <td> {++index} </td>
-              <td> {ct.categoryName} </td>
-              <td> {ct.description} </td>
-              <td className="category-actions">
-                <Link
-                  className="category-update-btn"
-                  to={`/category/all/edit-category/${ct.categoryId}`}
-                >
-                  Update
-                </Link>
-                <button
-                  className="category-delete-btn"
-                  onClick={() => deleteCategories(ct.categoryId)}
-                >
-                  Delete
-                </button>
-              </td>
+              <td>{index + 1}</td>
+              <td>{category.categoryName}</td>
+              <td>{category.description}</td>
+              {valid === "true" && isLoggedIn === "true" ? (
+                <td className="category-actions">
+                  <Link
+                    className="category-update-btn"
+                    to={`/category/all/edit-category/${category.categoryId}`}
+                  >
+                    Update
+                  </Link>
+                  <button
+                    className="category-delete-btn"
+                    onClick={() =>
+                      Swal.fire({
+                        title: "Warning",
+                        text: "Delete Category",
+                        icon: "warning",
+                        confirmButtonText: "Delete",
+                        confirmButtonColor: "red",
+                        showCancelButton: true
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          deleteCategory(category.categoryId);
+                        }
+                      })
+                    }
+                  >
+                    Delete
+                  </button>
+                </td>
+              ) : (
+                <td>
+                  <button className="category-update-btn">View</button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
+      )}
       <div className="category-button-group">
-        <Link className="category-add-btn" to="/category/all/addCategory" >Add Category</Link>
-        {(role==="user") ? (
-        <Link className="category-add-btn" to="/userDashboard" >Cancel</Link> ):
-        (
-        <Link className="category-add-btn" to="/adminDashboard" >Cancel</Link> )}
-
-      </div> 
+        {role === "user" ? (
+          <Link className="category-add-btn" to="/userDashboard">
+            Cancel
+          </Link>
+        ) : (
+          <>
+            <Link className="category-add-btn" to="/category/all/addCategory">
+              Add Category
+            </Link>
+            <Link className="category-add-btn" to="/adminDashboard">
+              Cancel
+            </Link>
+          </>
+        )}
+      </div>
+  
     </div>
   );
 };

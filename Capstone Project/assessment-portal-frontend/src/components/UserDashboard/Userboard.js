@@ -2,9 +2,17 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import DashboardCard from "./DashboardCard";
 import "./UserDashboard.css";
+import Error from "../Error";
 // import {} from "react-router-dom";
 
 const UserDashboard = () => {
+
+  const role = localStorage.getItem('role');
+      if (role !== 'user') {
+        return (
+          <Error/>
+        );
+      }
   return (
     <div className="user-dashboard">
       <Sidebar />

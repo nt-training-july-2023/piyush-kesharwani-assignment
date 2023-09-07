@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams,Link } from 'react-router-dom';
 import categoryService from '../../Services/categoryService';
 import './styles.css';
+import Error from '../Error';
 
 const AddAndUpdate = () => {
   // const [categoryId, setCategoryId] = useState();
@@ -55,7 +56,13 @@ const AddAndUpdate = () => {
       return <h2 className='title'>Add Category</h2>;
     }
   };
-
+  
+  const role = localStorage.getItem('role');
+  if (role !== 'user') {
+    return (
+      <Error/>
+    );
+  }
   return (
     <div className='container'>
       <div className='card'>
