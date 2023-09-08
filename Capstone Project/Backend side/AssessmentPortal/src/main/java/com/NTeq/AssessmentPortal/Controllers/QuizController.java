@@ -31,17 +31,15 @@ public class QuizController {
      */
     @Autowired
     private QuizServiceImpl quizService;
-    
     /**
      * End point to add a new quiz.
-     * @param quizDto The Quiz DTO containing quiz details.
+     * @param qzDto The Quiz DTO containing quiz details.
      * @return A message indicating the addition status.
      */
     @PostMapping("/addQuiz")
     public final String saveQuiz(final @RequestBody QuizDto qzDto) {
         return quizService.addQuiz(qzDto);
     }
-    
     /**
      * End point to retrieve a Quiz by ID.
      * @param id The ID of the Quiz to retrieve.
@@ -57,7 +55,6 @@ public class QuizController {
         }
         return ResponseEntity.of(Optional.of(qz));
     }
-    
     /**
      * End point to retrieve a list of all Quizzes.
      * @return A list of Quiz DTOs.
@@ -65,13 +62,12 @@ public class QuizController {
     @GetMapping("/all")
     public final List<QuizDto> getAll() {
         return quizService.getAllQuiz();
-
     }
     /**
-     * End point to update a category by ID.
-     * @param id    The ID of the category to update.
-     * @param cgDto The updated category DTO.
-     * @return The ResponseEntity containing the updated category DTO if
+     * End point to update a quiz by ID.
+     * @param id    The ID of the quiz to update.
+     * @param qzDto The updated quiz DTO.
+     * @return The ResponseEntity containing the updated quiz DTO if
      *      successful,or INTERNAL_SERVER_ERROR status if an exception occurs.
      */
     @PutMapping("/update/{id}")
@@ -87,8 +83,8 @@ public class QuizController {
         }
     }
     /**
-     * End point to delete a category by ID.
-     * @param id The ID of the category to delete.
+     * End point to delete a quiz by ID.
+     * @param id The ID of the quiz to delete.
      * @return The ResponseEntity indicating success with NO_CONTENT status
      *         INTERNAL_SERVER_ERROR status if an exception occurs.
      */

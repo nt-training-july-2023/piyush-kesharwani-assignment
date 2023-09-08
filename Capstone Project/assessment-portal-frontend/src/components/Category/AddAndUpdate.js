@@ -57,12 +57,12 @@ const AddAndUpdate = () => {
     }
   };
   
-  const role = localStorage.getItem('role');
-  if (role !== 'user') {
-    return (
-      <Error/>
-    );
-  }
+  // const role = localStorage.getItem('role');
+  // if (role !== 'user') {
+  //   return (
+  //     <Error/>
+  //   );
+  // }
   return (
     <div className='container'>
       <div className='card'>

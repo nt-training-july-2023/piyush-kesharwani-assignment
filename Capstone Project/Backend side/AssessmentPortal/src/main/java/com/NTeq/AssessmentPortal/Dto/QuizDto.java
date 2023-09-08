@@ -1,6 +1,6 @@
 package com.NTeq.AssessmentPortal.Dto;
 
-import com.NTeq.AssessmentPortal.Entity.Category;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +30,7 @@ public class QuizDto {
     /**
      * The object of the category.
      */
-    private Category category;
+    private CategoryDto category;
     /**
      * The time of the Quiz.
      */

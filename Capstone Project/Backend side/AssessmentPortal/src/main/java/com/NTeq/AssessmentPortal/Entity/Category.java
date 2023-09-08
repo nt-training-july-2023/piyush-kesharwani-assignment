@@ -40,36 +40,42 @@ public class Category {
      */
     @Column(nullable = false)
     private String description;
-    
+    /**
+     * A list of quizzes associated with this category.
+     * This field represents a one-to-many relationship with the Quiz entities.
+     * The '@JsonIgnore' annotation prevents the JSON serialization of this
+     * field to avoid circular references and potential infinite loops
+     * when serializing to JSON.
+     */
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Quiz> quiz = new ArrayList<>();
     /**
-     * get quiz.
-     * @return quiz
+     * Get the list of quizzes associated with this category.
+     * @return A list of quizzes.
      */
-    public List<Quiz> getQuiz() {
+    public final List<Quiz> getQuiz() {
         return new ArrayList<>(quiz);
     }
     /**
-     * set quiz.
-     * @param Quiz quiz.
+     * Set the list of quizzes associated with this category.
+     * @param qz The new list of quizzes.
      */
-    public void setQuiz(final List<Quiz> quiz) {
-        this.quiz = new ArrayList<>(quiz);
+    public final void setQuiz(final List<Quiz> qz) {
+        this.quiz = new ArrayList<>(qz);
     }
     /**
      * parameter constructor for category.
-     * @param categoryid categoryId.
-     * @param categoryname categoryName.
-     * @param categorydescription description.
+     * @param catId categoryId.
+     * @param catName categoryName.
+     * @param catdescription description.
      */
-    public Category(final long categoryId,
-            final String categoryName,
-            final String description) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-        this.description = description;
+    public Category(final long catId,
+            final String catName,
+            final String catdescription) {
+        this.categoryId = catId;
+        this.categoryName = catName;
+        this.description = catdescription;
     }
 
 }

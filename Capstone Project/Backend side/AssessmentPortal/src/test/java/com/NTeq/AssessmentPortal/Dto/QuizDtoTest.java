@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.NTeq.AssessmentPortal.Entity.Category;
 
 class QuizDtoTest {
 
@@ -39,7 +38,7 @@ class QuizDtoTest {
     
     @Test
     void testAllArgConstructor() {
-        Category catDto = new Category();
+        CategoryDto catDto = new CategoryDto();
         QuizDto q = new QuizDto(12,"Science","Science Mcqs",catDto,60);
         assertEquals(12, q.getQuizId());
         assertEquals("Science", q.getQuizName());

@@ -12,60 +12,73 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entity class representing a quiz in the application.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 
 @Entity
 public class Quiz {
-    
-   @Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
-   private long quizId;
-   
-   @Column(nullable = false)
-   private String quizName;
-   
-   @Column(nullable = false)
-   private String quizDescription;
-   
-   @ManyToOne(fetch = FetchType.EAGER)
-   @JoinColumn(name = "categoryId")
-   private Category category;
-  
-   private int time;
-   
-   /**
-    * get category.
-    * @return category
-    */
-   public Category getCategory() {
-       return category;
-   }
-   /**
-    * set Category.
-    * @param category category
-    */
-   public void setCategory(final Category cate) {
-       this.category = new Category(cate.getCategoryId(),
-               cate.getCategoryName(),
-               cate.getDescription());
-   }
-   
-   /**
-    * parameter constructor for Quiz.
-    * @param quizId quizId.
-    * @param quizName quizName.
-    * @param quizDescription quizDescription.
-    * @param time time.
-    */
-   public Quiz(final long quizId,
-           final String quizName,
-           final String quizDescription,
-           final int time) {
-       this.quizId = quizId;
-       this.quizName = quizName;
-       this.quizDescription = quizDescription;
-       this.time = time;
-   }
+    /**
+     * The unique ID of the quiz.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long quizId;
+    /**
+     * The name of the quiz.
+     */
+    @Column(nullable = false)
+    private String quizName;
+    /**
+     * The description of the quiz.
+     */
+    @Column(nullable = false)
+    private String quizDescription;
+    /**
+     * The category associated with this entity.
+     * This field represents a many-to-one relationship with Category entity.
+     * It uses eager fetching to load the associated category when this entity
+     * is retrieved. The 'categoryId' column in the database is used as the
+     * foreign key to link to the Category entity.
+     * @see Category
+     */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoryId")
+    private Category category;
+    /**
+     * The time of the quiz.
+     */
+    private int time;
+     /**
+     * get category.
+     * @return category.
+     */
+    public final Category getCategory() {
+        return category;
+    }
+     /**
+     * set Category.
+     * @param cate cate.
+     */
+    public final void setCategory(final Category cate) {
+        this.category = new Category(cate.getCategoryId(),
+                cate.getCategoryName(), cate.getDescription());
+    }
+    /**
+     * parameter constructor for Quiz.
+     * @param qId          quizId.
+     * @param qName        quizName.
+     * @param qDescription quizDescription.
+     * @param qtime            time.
+     */
+    public Quiz(final long qId, final String qName,
+            final String qDescription, final int qtime) {
+        this.quizId = qId;
+        this.quizName = qName;
+        this.quizDescription = qDescription;
+        this.time = qtime;
+    }
 }

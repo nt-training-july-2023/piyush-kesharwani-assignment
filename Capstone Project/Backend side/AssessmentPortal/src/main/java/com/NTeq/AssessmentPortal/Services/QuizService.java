@@ -2,43 +2,37 @@ package com.NTeq.AssessmentPortal.Services;
 
 import java.util.List;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
-
+/**
+ * Service interface for managing Quiz-related operations.
+ */
 public interface QuizService {
     /**
-     * Adds a new category to the system.
-     * @param cgDto The DTO containing category details.
+     * Adds a new quiz to the system.
+     * @param quizDto The DTO containing quiz details.
      * @return A message indicating the result of the operation.
      */
     String addQuiz(QuizDto quizDto);
-
     /**
-     * Retrieves a list of all categories.
-     * 
-     * @return A list of category DTOs.
+     * Retrieves a list of all quizzes.
+     * @return A list of quiz DTOs.
      */
     List<QuizDto> getAllQuiz();
-
     /**
-     * Retrieves a category by its unique identifier.
-     * 
-     * @param categoryId The ID of the category to retrieve.
+     * Retrieves a quiz by its unique identifier.
+     * @param quizId The ID of the quiz to retrieve.
      * @return The DTO representing the retrieved category.
      */
-    QuizDto getQuizById(long QuizId);
-
+    QuizDto getQuizById(long quizId);
     /**
-     * Updates a category's information.
-     * 
-     * @param categoryId The ID of the category to update.
-     * @param cgDto      The DTO containing updated category details.
+     * Updates a quizzes's information.
+     * @param quizId The ID of the quiz to update.
+     * @param quizDto      The DTO containing updated quiz details.
      * @return A message indicating the result of the operation.
      */
     String updateQuiz(long quizId, QuizDto quizDto);
-
     /**
-     * Deletes a category by its unique identifier.
-     * 
-     * @param categoryId The ID of the category to delete.
+     * Deletes a quiz by its unique identifier.
+     * @param quizId The ID of the quiz to delete.
      */
     void deleteQuiz(long quizId);
 }
