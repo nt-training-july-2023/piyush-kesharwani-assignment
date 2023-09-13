@@ -79,14 +79,8 @@ public class CategoryController {
     @PutMapping("/update/{id}")
     public final ResponseEntity<CategoryDto> updateCategory(final
         @PathVariable("id") Long id, final @RequestBody CategoryDto cgDto) {
-        try {
             categoryService.updateCategory(id, cgDto);
             return ResponseEntity.ok().body(cgDto);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
-                    .build();
-        }
     }
 
     /**

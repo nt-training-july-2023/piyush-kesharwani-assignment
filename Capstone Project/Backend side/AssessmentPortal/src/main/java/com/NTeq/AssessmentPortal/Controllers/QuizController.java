@@ -21,7 +21,7 @@ import com.NTeq.AssessmentPortal.Services.impl.QuizServiceImpl;
 /**
  * Controller class that handles HTTP requests related to Quiz operations.
  */
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/quiz")
 public class QuizController {

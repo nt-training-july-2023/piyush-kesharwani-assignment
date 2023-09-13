@@ -30,7 +30,7 @@ const AdminDashboard = () => {
       <Sidebar />
       <div className="dashboard-content">
         <DashboardCard title="Categories" link="/category/all" />
-        <DashboardCard title="Quizzes" link="/admin/quizzes" />
+        <DashboardCard title="Quizzes" link="/quiz/all" />
         <DashboardCard title="Results" link="/admin/results" />
       </div>
     </div>) : (navigate("/error-page"))}

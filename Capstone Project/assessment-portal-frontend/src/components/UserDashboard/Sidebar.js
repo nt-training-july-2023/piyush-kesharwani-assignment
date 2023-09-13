@@ -12,7 +12,7 @@ const Sidebar = () => {
   }
   return (
     <div className="sidebar">
-      <h2>User Dashboard</h2>
+      <h1>User Dashboard</h1>
       <ul className="nav-links">
         <li>
           <Link to="/category/all">Categories</Link>

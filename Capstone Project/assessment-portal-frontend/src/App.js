@@ -9,6 +9,8 @@ import AddAndUpdate from "./components/Category/AddAndUpdate";
 import UserDashboard from "./components/UserDashboard/Userboard";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import Error from "./components/Error";
+import QuizList from "./components/Quiz/QuizList";
+import AddUpdateQuiz from "./components/Quiz/AddUpdateQuiz";
 
 
 function App() {
@@ -24,6 +26,9 @@ function App() {
         <Route exact path="/category/all/edit-category/:id" element={<PrivateRoute Component={AddAndUpdate} isLoggedIn={localStorage.getItem('IsLoggedIn')} />}></Route>
         <Route exact path="/category/all/addCategory" element={<PrivateRoute Component={AddAndUpdate} isLoggedIn={localStorage.getItem('IsLoggedIn')} />}></Route>
         <Route exact path="/error-page" Component={Error}></Route>
+        <Route exact path="/quiz/all" Component={QuizList}></Route>
+        <Route exact path="/quiz/all/addQuiz" Component={AddUpdateQuiz}></Route>
+        <Route exact path="/quiz/all/edit-quiz/:id" Component={AddUpdateQuiz}></Route>
       </Routes>
     </Router>
   );

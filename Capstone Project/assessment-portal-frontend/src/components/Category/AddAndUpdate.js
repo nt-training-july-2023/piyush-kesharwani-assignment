@@ -3,6 +3,7 @@ import { useNavigate, useParams,Link } from 'react-router-dom';
 import categoryService from '../../Services/categoryService';
 import './styles.css';
 import Error from '../Error';
+import Swal from 'sweetalert2';
 
 const AddAndUpdate = () => {
   // const [categoryId, setCategoryId] = useState();
@@ -18,9 +19,24 @@ const AddAndUpdate = () => {
     if(id){
       categoryService.updateCategory(id,category).then((response)=>{
         console.log(response.data);
+        Swal.fire({
+          title: "Success",
+          text: "Category Updated successfully",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        })
         navigate('/category/all');
       }).catch(error=>{
-        console.log(error);
+        console.log(error.response);
+        const submitError =error.response.data.message
+            Swal.fire({
+              title: "Error",
+              text: `${submitError}`,
+              icon: "error",
+              confirmButtonText:"Retry",
+              confirmButtonColor:"red"
+            });
       });
     }
     else{
@@ -57,12 +73,12 @@ const AddAndUpdate = () => {
     }
   };
   
-  // const role = localStorage.getItem('role');
-  // if (role !== 'user') {
-  //   return (
-  //     <Error/>
-  //   );
-  // }
+  const role = localStorage.getItem('role');
+  if (role !== 'admin') {
+    return (
+      <Error/>
+    );
+  }
   return (
     <div className='container'>
       <div className='card'>

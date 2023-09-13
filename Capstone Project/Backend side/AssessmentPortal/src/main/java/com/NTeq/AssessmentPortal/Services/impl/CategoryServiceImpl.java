@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
+import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
+import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
 import com.NTeq.AssessmentPortal.Services.CategoryService;
 
@@ -95,6 +97,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public final String updateCategory(final Long categoryId,
         final CategoryDto cgDto) {
+        Category existCg = categoryRepository.findById(categoryId)
+                .orElseThrow(()->new ResourceNotFound("Doesn't exists"));
+        if(!cgDto.getCategoryName().equals(existCg.getCategoryName())){
+            Optional<Category> checkExisting = categoryRepository
+                    .findByCategoryName(cgDto.getCategoryName());
+            if(checkExisting.isPresent()) {
+                throw new AlreadyExistException(
+                      "Category with same name already exists");
+            }
+        }
         Category cg = this.dtoToCategory(cgDto);
         cg.setCategoryId(categoryId);
         categoryRepository.save(cg);

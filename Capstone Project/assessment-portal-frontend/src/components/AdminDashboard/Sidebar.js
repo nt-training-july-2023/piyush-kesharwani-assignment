@@ -11,13 +11,13 @@ const Sidebar = () => {
   }
   return (
     <div className="sidebar">
-      <h2>Admin Dashboard</h2>
+      <h1>Admin Dashboard</h1>
       <ul className="nav-links">
         <li>
           <Link to="/category/all">Categories</Link>
         </li>
         <li>
-          <Link to="/admin/quizzes">Quizzes</Link>
+          <Link to="/quiz/all">Quizzes</Link>
         </li>
         <li>
           <Link to="/admin/results">Results</Link>

@@ -46,7 +46,7 @@ public class Quiz {
      * @see Category
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "categoryId",nullable=false)
     private Category category;
     /**
      * The time of the quiz.

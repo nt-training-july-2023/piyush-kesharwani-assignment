@@ -129,7 +129,7 @@ public class CandidateServiceImpl implements CandidateService {
                 }
             } else {
                 throw new WrongCredentialException(
-                        "Login Failed!! Password doesnt match");
+                        "Login Failed!! Wrong Credentials");
             }
         } else {
             throw new ResourceNotFound("User doesn't exits");
