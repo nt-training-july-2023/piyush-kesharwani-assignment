@@ -22,6 +22,9 @@ class categoryService{
     deleteCategory(id){
         return axios.delete(Category_BASE_API_URL + "/delete/" + id);
     }
+    getQuizzesByCategory(id){
+        return axios.get(Category_BASE_API_URL + "/" + id + "/quizzes");
+    }
     
 }
 export default new categoryService();

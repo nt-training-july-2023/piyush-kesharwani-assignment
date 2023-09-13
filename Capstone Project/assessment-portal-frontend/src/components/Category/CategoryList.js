@@ -82,6 +82,7 @@ const CategoryList = () => {
               <td>{category.description}</td>
               {valid === "true" && isLoggedIn === "true" ? (
                 <td className="category-actions">
+                  <Link className="category-update-btn" to={`/category/${category.categoryId}/quizzes`}>Quizzes</Link>
                   <Link
                     className="category-update-btn"
                     to={`/category/all/edit-category/${category.categoryId}`}

@@ -1,5 +1,11 @@
 package com.NTeq.AssessmentPortal.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -52,6 +59,11 @@ public class Quiz {
      * The time of the quiz.
      */
     private int time;
+    
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Question> question;
+    
      /**
      * get category.
      * @return category.
@@ -80,5 +92,21 @@ public class Quiz {
         this.quizName = qName;
         this.quizDescription = qDescription;
         this.time = qtime;
+    }
+    /**
+     * Get the list of questions associated with this entity.
+     * @return A new ArrayList containing the questions.
+     */
+    public List<Question> getQuestion() {
+        return new ArrayList<>(question);
+    }
+    /**
+     * Set the list of questions associated with this entity.
+     * Note: This method creates a new ArrayList based on the provided list
+     * to avoid modifying the original list directly.
+     * @param question The list of questions to associate with this entity.
+     */
+    public void setQuestion(List<Question> question) {
+        this.question = new ArrayList<>(question);
     }
 }

@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
+import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
+import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
@@ -121,6 +123,20 @@ public class CategoryServiceImpl implements CategoryService {
     public final void deleteCategory(final long categoryId) {
         categoryRepository.deleteById(categoryId);
     }
+    
+    /**
+     * Retrieves a list of Quizzes of a category.
+     * @param id The ID of the category.
+     * @return List of QuizDTO objects.
+     */
+    public final List<QuizDto> getQuizzesByCategory(final long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFound(
+                        "*category doesn't exist with id: " + id));
+        List<Quiz> quizzes = category.getQuiz();
+        return quizzes.stream().map(this::quizToDto)
+        .collect(Collectors.toList());
+    }
 
     /**
      * Converts a Category entity to its corresponding DTO.
@@ -140,5 +156,14 @@ public class CategoryServiceImpl implements CategoryService {
     public final Category dtoToCategory(final CategoryDto cgDto) {
         Category cg = this.modelMapper.map(cgDto, Category.class);
         return cg;
+    }
+    /**
+     * Converts a quiz entity to its corresponding DTO.
+     * @param quiz The Quiz entity.
+     * @return The corresponding QuizDto.
+     */
+    public final QuizDto quizToDto(final Quiz quiz) {
+        QuizDto quizDto = modelMapper.map(quiz, QuizDto.class);
+        return quizDto;
     }
 }

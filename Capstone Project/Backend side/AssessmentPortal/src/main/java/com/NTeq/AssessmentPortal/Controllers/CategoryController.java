@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
+import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Services.impl.CategoryServiceImpl;
 
 /**
@@ -100,5 +101,10 @@ public class CategoryController {
             return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
                     .build();
         }
+    }
+    @GetMapping("/{id}/quizzes")
+    public final ResponseEntity<List<QuizDto>> getQuizzesByCategory(
+            @PathVariable final long id) {
+        return ResponseEntity.ok(categoryService.getQuizzesByCategory(id));
     }
 }

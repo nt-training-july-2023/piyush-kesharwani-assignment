@@ -4,11 +4,12 @@ import quizService from "../../Services/quizService";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './AddUpdateQuiz.css';
+import Error from "../Error";
 
 const AddUpdateQuiz = () => {
   const [quizName, setQuizName] = useState("");
   const [quizDescription, setQuizDescription] = useState("");
-  const [Time, setTime] = useState(0);
+  const [time, setTime] = useState();
   const [selectedCategory, setSelectedCategory] = useState();    
   const [category, setCategory] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -52,7 +53,7 @@ const validateForm =() =>{
 const saveQuiz=(e)=>{
     e.preventDefault();
     if(!validateForm()){
-      const quiz = {quizName, quizDescription, category, Time};
+      const quiz = {quizName, quizDescription, category, time};
       if(id){
         quizService.updateQuiz(id, quiz).then((response)=>{
           console.log(response.data);
@@ -123,6 +124,13 @@ const saveQuiz=(e)=>{
       return <h2 style={{textAlign:'center'}}>ADD QUIZ</h2>
     }
   }
+  
+  const role = localStorage.getItem('role');
+  if (role !== 'admin') {
+    return (
+      <Error/>
+    );
+  }
 
   return (
     <div className="quiz-form-container">
@@ -165,7 +173,7 @@ const saveQuiz=(e)=>{
                 placeholder="Set Time"
                 id="Time"
                 className="form-control"
-                value={Time}
+                value={time}
                 onChange={(e) => {setTime(e.target.value); setErrors('');}}
               />
             </div>

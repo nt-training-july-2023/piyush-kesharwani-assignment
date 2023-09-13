@@ -1,7 +1,5 @@
 package com.NTeq.AssessmentPortal.Dto;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
