@@ -20,21 +20,23 @@ public class QuestionDto {
      */
     @Column(nullable = false)
     private String questionName;
-    
-    @Column(nullable = false)
-    private String optionOne;
     /**
      * The first option of the question.
      */
     @Column(nullable = false)
-    private String optionTwo;
+    private String optionOne;
     /**
      * The second option of the question.
      */
     @Column(nullable = false)
-    private String optionThree;
+    private String optionTwo;
     /**
      * The third option of the question.
+     */
+    @Column(nullable = false)
+    private String optionThree;
+    /**
+     * The fourth option of the question.
      */
     @Column(nullable = false)
     private String optionFour;
@@ -78,7 +80,7 @@ public class QuestionDto {
      */
     public final QuizDto getQuiz() {
         return new QuizDto(quiz.getQuizId(), quiz.getQuizName(),
-                quiz.getQuizDescription(), 
+                quiz.getQuizDescription(),
                 quiz.getCategory(),quiz.getTime());
     }
     /**
@@ -86,7 +88,7 @@ public class QuestionDto {
      * @param paramQuiz The QuizDto to associate with this question.
      * 
      */
-    public final void setQuiz(QuizDto paramQuiz) {
+    public final void setQuiz(final QuizDto paramQuiz) {
         this.quiz = new QuizDto(paramQuiz.getQuizId(), paramQuiz.getQuizName(),
                 paramQuiz.getQuizDescription(),
                 paramQuiz.getCategory(),paramQuiz.getTime());

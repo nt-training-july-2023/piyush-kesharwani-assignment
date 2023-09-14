@@ -53,17 +53,7 @@ class QuizControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
     }
-
-    @Test
-    void testGetCategory_QuizNotFound() {
-        long quizId = 1L;
-        when(quizService.getQuizById(quizId)).thenReturn(null);
-
-        ResponseEntity<QuizDto> responseEntity = quizController.getCategory(quizId);
-
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-    }
-
+    
     @Test
     void testGetAll() {
         List<QuizDto> quizDtoList = Arrays.asList(new QuizDto(), new QuizDto());

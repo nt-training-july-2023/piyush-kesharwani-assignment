@@ -50,9 +50,6 @@ public class QuizController {
     public final ResponseEntity<QuizDto> getCategory(
            final @PathVariable("id") long id) {
         QuizDto qz = quizService.getQuizById(id);
-        if (qz == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         return ResponseEntity.of(Optional.of(qz));
     }
     /**

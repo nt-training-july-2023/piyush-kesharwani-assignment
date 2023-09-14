@@ -25,7 +25,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-
 @Entity
 public class Quiz {
     /**
@@ -53,31 +52,40 @@ public class Quiz {
      * @see Category
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId",nullable=false)
+    @JoinColumn(name = "categoryId", nullable=false)
     private Category category;
     /**
      * The time of the quiz.
      */
     private int time;
-    
+    /**
+     * Represents a list of questions associated with a Quiz.
+     */
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Question> question;
-    
      /**
      * get category.
      * @return category.
      */
     public final Category getCategory() {
-        return category;
+      if(category != null) {
+       return new Category(category.getCategoryId(), category.getCategoryName()
+                , category.getDescription());
+        }
+        return null;
     }
      /**
      * set Category.
      * @param cate cate.
      */
     public final void setCategory(final Category cate) {
+        if(cate != null) {
         this.category = new Category(cate.getCategoryId(),
                 cate.getCategoryName(), cate.getDescription());
+        } else {
+            this.category = null;
+        }
     }
     /**
      * parameter constructor for Quiz.
@@ -87,10 +95,12 @@ public class Quiz {
      * @param qtime            time.
      */
     public Quiz(final long qId, final String qName,
-            final String qDescription, final int qtime) {
+            final String qDescription, final Category cat, final int qtime) {
         this.quizId = qId;
         this.quizName = qName;
         this.quizDescription = qDescription;
+        this.category = new Category(cat.getCategoryId(),cat.getCategoryName(),
+                cat.getDescription());
         this.time = qtime;
     }
     /**

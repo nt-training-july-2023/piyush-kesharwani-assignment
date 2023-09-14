@@ -30,21 +30,23 @@ public class Question {
      */
     @Column(nullable = false)
     private String questionName;
-    
-    @Column(nullable = false)
-    private String optionOne;
     /**
      * The first option of the question.
      */
     @Column(nullable = false)
-    private String optionTwo;
+    private String optionOne;
     /**
      * The second option of the question.
      */
     @Column(nullable = false)
-    private String optionThree;
+    private String optionTwo;
     /**
      * The third option of the question.
+     */
+    @Column(nullable = false)
+    private String optionThree;
+    /**
+     * The fourth option of the question.
      */
     @Column(nullable = false)
     private String optionFour;
@@ -58,14 +60,15 @@ public class Question {
      * This relationship is fetched eagerly from the database.
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "quizId",nullable=false)
+    @JoinColumn(name = "quizId", nullable=false)
     private Quiz quiz;
     /**
      * Get the associated Quiz for this question.
      * @return The Quiz to which this question belongs.
      */
     public Quiz getQuiz() {
-        return quiz;
+        return new Quiz(quiz.getQuizId(), quiz.getQuizName(), 
+              quiz.getQuizDescription(), quiz.getCategory(), quiz.getTime());
     }
     /**
      * Set the associated Quiz for this question.
@@ -73,9 +76,9 @@ public class Question {
      *       to avoid modifying the original quiz object directly.
      * @param quiz The Quiz to associate with this question.
      */
-    public void setQuiz(Quiz quiz) {
+    public void setQuiz(final Quiz quiz) {
         this.quiz = new Quiz(quiz.getQuizId(),quiz.getQuizName()
-                ,quiz.getQuizDescription(),quiz.getTime());
+                ,quiz.getQuizDescription(),quiz.getCategory(),quiz.getTime());
     }
     /**
      * Constructor to initialize a Question with its attributes.
@@ -86,17 +89,22 @@ public class Question {
      * @param optionThree    The third option for answering the question.
      * @param optionFour     The fourth option for answering the question.
      * @param answer         The correct answer to the question.
+     * @param quiz
      */
-    public Question(long questionId, String questionName, String optionOne,
-            String optionTwo, String optionThree, String optionFour,
-            String answer) {
+    public Question(final long qId, final String qName,
+            final String optionI, final String optionII,
+            final String optionIII, final String optionIV,
+               final String answer, final Quiz qz) {
         super();
-        this.questionId = questionId;
-        this.questionName = questionName;
-        this.optionOne = optionOne;
-        this.optionTwo = optionTwo;
-        this.optionThree = optionThree;
-        this.optionFour = optionFour;
+        this.questionId = qId;
+        this.questionName = qName;
+        this.optionOne = optionI;
+        this.optionTwo = optionII;
+        this.optionThree = optionIII;
+        this.optionFour = optionIV;
         this.answer = answer;
+        this.quiz = new Quiz(qz.getQuizId(),
+                qz.getQuizName(),qz.getQuizDescription(),qz.getCategory(),
+                qz.getTime());
     }
 }

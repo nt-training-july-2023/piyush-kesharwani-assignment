@@ -15,7 +15,9 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
+import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
+import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
 
 class CategoryServiceImplTest {
@@ -132,6 +134,32 @@ class CategoryServiceImplTest {
         String resultDto = categoryService.updateCategory(5L,categoryDto);
         assertEquals("Updated successfully..", resultDto);
     }
-
-
+    @Test
+    public void testGetQuizzesByCategory() {
+        CategoryDto category = new CategoryDto();
+        category.setCategoryId(1);
+        category.setCategoryName("Test Category");
+        category.setDescription("Test Description");
+        Category categoryEntity = new Category();
+        categoryEntity.setCategoryId(1);
+        categoryEntity.setCategoryName("Test Category");
+        categoryEntity.setDescription("Test Description");
+        List<Quiz> quizzes = new ArrayList<Quiz>();
+        Quiz quiz = new Quiz(1, "Title", "Description",categoryEntity, 20);
+        quiz.setCategory(categoryEntity);
+        QuizDto quizDTO = new QuizDto(1, "Title", "Description",category, 20);
+        quizDTO.setCategory(category);
+        quizzes.add(quiz);
+        categoryEntity.setQuiz(quizzes);
+        when(modelMapper.map(categoryEntity, CategoryDto.class))
+                .thenReturn(category);
+        when(modelMapper.map(category, Category.class))
+                .thenReturn(categoryEntity);
+        when(categoryService.quizToDto(quiz)).thenReturn(quizDTO);
+        when(categoryRepository.findById(category.getCategoryId()))
+                .thenReturn(Optional.of(categoryEntity));
+        List<QuizDto> result = categoryService
+                .getQuizzesByCategory(category.getCategoryId());
+        assertEquals(1, result.size());
+    }
 }

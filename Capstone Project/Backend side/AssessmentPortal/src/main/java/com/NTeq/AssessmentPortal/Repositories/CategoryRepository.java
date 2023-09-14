@@ -12,7 +12,7 @@ import com.NTeq.AssessmentPortal.Entity.Category;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     /**
      * Retrieves a category by its title.
-     * @param categoryTitle The title of the category to retrieve.
+     * @param categoryName The Name of the category to retrieve.
      * @return An Optional containing the retrieved Category entity, if found.
      */
     Optional<Category> findByCategoryName(String categoryName);

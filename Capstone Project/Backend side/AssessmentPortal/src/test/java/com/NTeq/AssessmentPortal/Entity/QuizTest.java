@@ -43,10 +43,15 @@ class QuizTest {
     
     @Test
     void testAllArgConstructor() {
-        Quiz q = new Quiz(12,"Science","Science Mcqs",60);
+        Category c = new Category(1,"Science","Description");
+        Quiz q = new Quiz(12,"Science","Science Mcqs",c,60);
         assertEquals(12, q.getQuizId());
         assertEquals("Science", q.getQuizName());
         assertEquals("Science Mcqs", q.getQuizDescription());
+        Category newCat = q.getCategory();
+        assertEquals(1,newCat.getCategoryId());
+        assertEquals("Science",newCat.getCategoryName());
+        assertEquals("Description",newCat.getDescription());
         assertEquals(60, q.getTime());
     }
 

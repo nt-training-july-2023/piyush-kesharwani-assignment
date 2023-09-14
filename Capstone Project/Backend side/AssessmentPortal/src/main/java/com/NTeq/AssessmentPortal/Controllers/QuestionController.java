@@ -1,5 +1,7 @@
 package com.NTeq.AssessmentPortal.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +17,43 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Services.impl.QuestionServiceImpl;
-
+/**
+ * Controller class for managing questions-related operations.
+ */
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
-
-
+    /**
+     * The QuestionService implementation that handles quiz operations.
+     * This field is automatically injected by the @Autowired annotation.
+     */
     @Autowired
     private QuestionServiceImpl questionService;
-
+    /**
+     * Adds a new question using the provided QuestionDto.
+     * @param questionDto The QuestionDto containing question information.
+     * @return A ResponseEntity indicating the success of the operation.
+     */
     @PostMapping("/add")
     public ResponseEntity<String> addQuestion(@RequestBody QuestionDto questionDto) {
         String result = questionService.addQuestion(questionDto);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
-
+    /**
+     * Retrieves a list of all questions as QuestionDto objects.
+     * @return A List of QuestionDto objects representing all questions.
+     */
+    @GetMapping("/all")
+    public final List<QuestionDto> getAll(){
+        return questionService.getAllQuestion();
+    }
+    /**
+     * Retrieves a question by its unique identifier.
+     * @param questionId The ID of the question to retrieve.
+     * @return A ResponseEntity containing the QuestionDto representing 
+     *    the requested question.
+     */
     @GetMapping("/{questionId}")
     public ResponseEntity<QuestionDto> getQuestionById(@PathVariable long questionId) {
         QuestionDto question = questionService.getQuestionById(questionId);
@@ -39,6 +62,12 @@ public class QuestionController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    /**
+     * Updates an existing question using the provided QuestionDto,question ID.
+     * @param questionId The ID of the question to update.
+     * @param questionDto The QuestionDto containing updated question.
+     * @return A ResponseEntity indicating the success of the update operation.
+     */
 
     @PutMapping("/update/{questionId}")
     public ResponseEntity<QuestionDto> updateQuestion(
@@ -52,8 +81,11 @@ public class QuestionController {
                     .build();
         }
     }
-
-
+    /**
+     * Deletes a question by its unique identifier.
+     * @param questionId The ID of the question to delete.
+     * @return A ResponseEntity indicating the success of the delete operation.
+     */
     @DeleteMapping("/{questionId}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable long questionId) {
         questionService.deleteQuestion(questionId);

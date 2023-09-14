@@ -102,6 +102,11 @@ public class CategoryController {
                     .build();
         }
     }
+    /**
+     * Retrieves quizzes associated with a specific category.
+     * @param id The category's unique identifier.
+     * @return A list of QuizDto objects representing quizzes in the category.
+     */
     @GetMapping("/{id}/quizzes")
     public final ResponseEntity<List<QuizDto>> getQuizzesByCategory(
             @PathVariable final long id) {

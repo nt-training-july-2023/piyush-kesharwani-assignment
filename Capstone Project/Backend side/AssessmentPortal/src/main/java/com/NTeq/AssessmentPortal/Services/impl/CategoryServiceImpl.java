@@ -23,7 +23,7 @@ import com.NTeq.AssessmentPortal.Services.CategoryService;
 @Service
 public class CategoryServiceImpl implements CategoryService {
     /**
-     * Repository for candidate data. Injected by Spring using @Autowired.
+     * Repository for category data. Injected by Spring using @Autowired.
      */
     @Autowired
     private CategoryRepository categoryRepository;
@@ -32,7 +32,6 @@ public class CategoryServiceImpl implements CategoryService {
    */
     @Autowired
     private ModelMapper modelMapper;
-
     /**
      * Adds a new category to the system.
      * @param cgDto The DTO containing category details.
@@ -100,8 +99,8 @@ public class CategoryServiceImpl implements CategoryService {
     public final String updateCategory(final Long categoryId,
         final CategoryDto cgDto) {
         Category existCg = categoryRepository.findById(categoryId)
-                .orElseThrow(()->new ResourceNotFound("Doesn't exists"));
-        if(!cgDto.getCategoryName().equals(existCg.getCategoryName())){
+                .orElseThrow(() -> new ResourceNotFound("Doesn't exists"));
+        if(!cgDto.getCategoryName().equals(existCg.getCategoryName())) {
             Optional<Category> checkExisting = categoryRepository
                     .findByCategoryName(cgDto.getCategoryName());
             if(checkExisting.isPresent()) {
@@ -114,7 +113,6 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(cg);
         return "Updated successfully..";
     }
-
     /**
      * Deletes a category by its unique identifier.
      * @param categoryId The ID of the category to delete.
@@ -123,7 +121,6 @@ public class CategoryServiceImpl implements CategoryService {
     public final void deleteCategory(final long categoryId) {
         categoryRepository.deleteById(categoryId);
     }
-    
     /**
      * Retrieves a list of Quizzes of a category.
      * @param id The ID of the category.
@@ -137,7 +134,6 @@ public class CategoryServiceImpl implements CategoryService {
         return quizzes.stream().map(this::quizToDto)
         .collect(Collectors.toList());
     }
-
     /**
      * Converts a Category entity to its corresponding DTO.
      * @param cg The Category entity.
@@ -147,7 +143,6 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryDto cdDto = modelMapper.map(cg, CategoryDto.class);
         return cdDto;
     }
-
     /**
      * Converts a CategoryDto to its corresponding entity.
      * @param cgDto The CategoryDto.
@@ -165,5 +160,5 @@ public class CategoryServiceImpl implements CategoryService {
     public final QuizDto quizToDto(final Quiz quiz) {
         QuizDto quizDto = modelMapper.map(quiz, QuizDto.class);
         return quizDto;
-    }
+    }    
 }

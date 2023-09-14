@@ -107,7 +107,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<configLocation>C:\Users\Piyush\eclipse-workspace\Capstone Project\Backend side\AssessmentPortal\checkstyle.xml</configLocation>
+					<!--<configLocation>C:\Users\Piyush\eclipse-workspace\Capstone Project\Backend side\AssessmentPortal\checkstyle.xml</configLocation>-->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -145,25 +145,9 @@
 				    <effort>Max</effort>
 				    <threshold>Low</threshold>
 				    <xmlOutput>true</xmlOutput>
-				    <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
+				    <!--<excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>-->
 				</configuration>
 			</plugin>
-
-			<!--<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.4</version>
-				<configuration>
-					<effort>Max</effort>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>-->
 		</plugins>
 	</build>
 

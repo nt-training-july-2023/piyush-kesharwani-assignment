@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
+import com.NTeq.AssessmentPortal.Entity.Category;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
@@ -103,6 +105,11 @@ public class QuizServiceImpl implements QuizService {
      */
     public final QuizDto quizToDto(final Quiz quiz) {
         QuizDto quizDto = modelMapper.map(quiz, QuizDto.class);
+        if(quiz.getCategory() != null) {
+            CategoryDto categoryDto = modelMapper.map(quiz.getCategory(),
+                    CategoryDto.class);
+            quizDto.setCategory(categoryDto);
+        }
         return quizDto;
     }
     /**
@@ -112,6 +119,11 @@ public class QuizServiceImpl implements QuizService {
      */
     public final Quiz dtoToQuiz(final QuizDto quizDto) {
         Quiz quiz = this.modelMapper.map(quizDto, Quiz.class);
+        if(quizDto.getCategory()!=null) {
+            Category category = modelMapper.map(quizDto.getCategory(),
+                    Category.class);
+            quiz.setCategory(category);
+        }
         return quiz;
     }
 }

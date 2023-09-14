@@ -38,12 +38,15 @@ class QuizDtoTest {
     
     @Test
     void testAllArgConstructor() {
-        CategoryDto catDto = new CategoryDto();
+        CategoryDto catDto = new CategoryDto(1,"Science","Description");
         QuizDto q = new QuizDto(12,"Science","Science Mcqs",catDto,60);
         assertEquals(12, q.getQuizId());
         assertEquals("Science", q.getQuizName());
         assertEquals("Science Mcqs", q.getQuizDescription());
-        assertEquals(catDto, q.getCategory());
+        CategoryDto testcategory = q.getCategory();
+        assertEquals(1,testcategory.getCategoryId());
+        assertEquals("Science",testcategory.getCategoryName());
+        assertEquals("Description",testcategory.getDescription());
         assertEquals(60, q.getTime());
     }
 

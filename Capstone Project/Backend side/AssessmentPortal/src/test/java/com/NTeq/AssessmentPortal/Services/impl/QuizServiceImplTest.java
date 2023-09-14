@@ -50,10 +50,11 @@ class QuizServiceImplTest {
         quizDTO.setQuizName("Sample Quiz");
         quizDTO.setQuizDescription("this is description");
         quizDTO.setTime(60);
+        quizDTO.setCategory(null);
 
         Quiz quiz = new Quiz();
-        when(quizRepository.save(any(Quiz.class))).thenReturn(quiz);
         when(modelMapper.map(quizDTO, Quiz.class)).thenReturn(quiz);
+        when(quizRepository.save(any(Quiz.class))).thenReturn(quiz);
         String result = quizService.addQuiz(quizDTO);
         
         assertEquals(result, "Quiz added successfully");

@@ -1,7 +1,8 @@
 package com.NTeq.AssessmentPortal.Services;
 
+import java.util.List;
+
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
-import com.NTeq.AssessmentPortal.Dto.QuizDto;
 
 /**
  * Service interface for managing Question-related operations.
@@ -19,6 +20,11 @@ public interface QuestionService {
      * @return The DTO representing the retrieved Question.
      */
     QuestionDto getQuestionById(long questionId);
+    /**
+     * Retrieves a list of all quizzes.
+     * @return A list of quiz DTOs.
+     */
+    List<QuestionDto> getAllQuestion();
     /**
      * Updates a question's information.
      * @param questionId The ID of the question to update.

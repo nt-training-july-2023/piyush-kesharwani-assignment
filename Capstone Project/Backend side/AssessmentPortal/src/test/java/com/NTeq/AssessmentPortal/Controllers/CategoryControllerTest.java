@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
+import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Services.impl.CategoryServiceImpl;
 @ExtendWith(MockitoExtension.class)
 class CategoryControllerTest {
@@ -74,28 +75,37 @@ class CategoryControllerTest {
 
     @Test
     public void testUpdateCategory_Success() {
-        long categoryId = 1L;
+        // Arrange
+        Long categoryId = 1L;
         CategoryDto categoryDto = new CategoryDto();
         // Set up categoryDto with appropriate data
 
+        // Mock the CategoryService's behavior
+        when(categoryService.updateCategory(categoryId, categoryDto)).thenReturn("Updated successfully..");
+
+        // Act
         ResponseEntity<CategoryDto> responseEntity = categoryController.updateCategory(categoryId, categoryDto);
 
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(categoryDto, responseEntity.getBody());
     }
 
     @Test
     public void testUpdateCategory_Error() {
-        long categoryId = 1L;
+        Long categoryId = 1L;
         CategoryDto categoryDto = new CategoryDto();
-        // Set up categoryDto with appropriate data
+        when(categoryService.updateCategory(categoryId, categoryDto))
+            .thenThrow(new AlreadyExistException("Category with same name already exists"));
 
-        doThrow(new RuntimeException("Category update failed")).when(categoryService).updateCategory(categoryId, categoryDto);
-
-        ResponseEntity<CategoryDto> responseEntity = categoryController.updateCategory(categoryId, categoryDto);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        try {
+            ResponseEntity<CategoryDto> responseEntity = categoryController.updateCategory(categoryId, categoryDto);
+            fail("Expected AlreadyExistException, but no exception was thrown.");
+        } catch (AlreadyExistException e) {
+            assertEquals("Category with same name already exists", e.getMessage());
+        }
     }
+
 
     @Test
     public void testDeleteCategory_Success() {
