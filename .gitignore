@@ -4,6 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
+checkstyle.xml
+checkstyle_suppressions.xml
+spotbugs-filter.xml
+spotbugs-filter.xml
+mvn/wrapper
 
 # testing
 /coverage
