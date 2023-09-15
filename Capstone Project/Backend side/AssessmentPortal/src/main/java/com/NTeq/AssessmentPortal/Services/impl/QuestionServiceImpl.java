@@ -10,6 +10,7 @@ import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
+import com.NTeq.AssessmentPortal.Entity.Options;
 import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Repositories.QuestionRepository;
@@ -23,14 +24,14 @@ public class QuestionServiceImpl implements QuestionService {
      * Repository for question data. Injected by Spring using @Autowired.
      */
     @Autowired
-    QuestionRepository questionRepository;
+    private QuestionRepository questionRepository;
     /**
      * Adds a new question using the provided QuestionDto.
      * @param questionDto The QuestionDto containing question information.
      * @return A message indicating the success of the operation.
      */
     @Override
-    public String addQuestion(final QuestionDto questionDto) {
+    public final String addQuestion(final QuestionDto questionDto) {
         Question question = this.dtoToQuestion(questionDto);
         questionRepository.save(question);
         return "Question added successfully";
@@ -40,7 +41,7 @@ public class QuestionServiceImpl implements QuestionService {
      * @return A List of QuestionDto objects representing all questions.
      */
     @Override
-    public List<QuestionDto> getAllQuestion() {
+    public final List<QuestionDto> getAllQuestion() {
         List<Question> question = questionRepository.findAll();
         return question.stream()
                 .map(this::questionToDto)
@@ -53,8 +54,9 @@ public class QuestionServiceImpl implements QuestionService {
      *  or null if not found.
      */
     @Override
-    public QuestionDto getQuestionById(final long questionId) {
-        Question question = questionRepository.findById(questionId).orElse(null);
+    public final QuestionDto getQuestionById(final long questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElse(null);
         if (question != null) {
             return questionToDto(question);
         }
@@ -63,12 +65,12 @@ public class QuestionServiceImpl implements QuestionService {
     /**
      * Updates an existing question using the QuestionDto and question ID.
      * @param questionId  The ID of the question to update.
-     * @param questionDto The QuestionDto containing updated question information.
+     * @param questionDto The QuestionDto containing updated question info.
      * @return A message indicating the success of the update operation or
      *  "Question not found" if the question doesn't exist.
      */
     @Override
-    public String updateQuestion(final long questionId, 
+    public final String updateQuestion(final long questionId,
             final QuestionDto questionDto) {
         Question existingQuestion = questionRepository.findById(questionId)
                 .orElse(null);
@@ -85,7 +87,7 @@ public class QuestionServiceImpl implements QuestionService {
      * @param questionId The ID of the question to delete.
      */
     @Override
-    public void deleteQuestion(final long questionId) {
+    public final void deleteQuestion(final long questionId) {
         questionRepository.deleteById(questionId);
       }
     /**
@@ -93,19 +95,20 @@ public class QuestionServiceImpl implements QuestionService {
      * @param questionDto The QuestionDto object to be converted.
      * @return The corresponding Question entity.
      */
-    private Question dtoToQuestion(final QuestionDto questionDto) {
+    public Question dtoToQuestion(final QuestionDto questionDto) {
         Question question = new Question();
         question.setQuestionId(questionDto.getQuestionId());
         question.setQuestionName(questionDto.getQuestionName());
-        question.setOptionOne(questionDto.getOptionOne());
-        question.setOptionTwo(questionDto.getOptionTwo());
-        question.setOptionThree(questionDto.getOptionThree());
-        question.setOptionFour(questionDto.getOptionFour());
+        question.setOptionOne(questionDto.getOptions().getOptionOne());
+        question.setOptionTwo(questionDto.getOptions().getOptionTwo());
+        question.setOptionThree(questionDto.getOptions().getOptionThree());
+        question.setOptionFour(questionDto.getOptions().getOptionFour());
         question.setAnswer(questionDto.getAnswer());
         Category category = new Category();
         category.setCategoryId(
                 questionDto.getQuiz().getCategory().getCategoryId());
-        category.setCategoryName(questionDto.getQuiz().getCategory().getCategoryName());
+        category.setCategoryName(questionDto.getQuiz().
+                getCategory().getCategoryName());
         category.setDescription(
                 questionDto.getQuiz().getCategory().getDescription());
         Quiz quiz = new Quiz(questionDto.getQuiz().getQuizId(),
@@ -116,21 +119,20 @@ public class QuestionServiceImpl implements QuestionService {
         quiz.setCategory(category);
         question.setQuiz(quiz);
         return question;
-       
-    }
+      }
     /**
      * Converts a Question entity to a QuestionDto object.
      * @param question The Question entity to be converted.
      * @return The corresponding QuestionDto object.
      */
-    private QuestionDto questionToDto(final Question question) {
+    public QuestionDto questionToDto(final Question question) {
        QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionId(question.getQuestionId());
         questionDto.setQuestionName(question.getQuestionName());
-        questionDto.setOptionOne(question.getOptionOne());
-        questionDto.setOptionTwo(question.getOptionTwo());
-        questionDto.setOptionThree(question.getOptionThree());
-        questionDto.setOptionFour(question.getOptionFour());
+        Options options = new Options(question.getOptionOne(),
+                question.getOptionTwo(), question.getOptionThree(),
+                question.getOptionFour());
+        questionDto.setOptions(options);
         questionDto.setAnswer(question.getAnswer());
         CategoryDto categoryDto = new CategoryDto(
                 question.getQuiz().getCategory().getCategoryId(),

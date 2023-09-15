@@ -100,10 +100,10 @@ public class CategoryServiceImpl implements CategoryService {
         final CategoryDto cgDto) {
         Category existCg = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFound("Doesn't exists"));
-        if(!cgDto.getCategoryName().equals(existCg.getCategoryName())) {
+        if (!cgDto.getCategoryName().equals(existCg.getCategoryName())) {
             Optional<Category> checkExisting = categoryRepository
                     .findByCategoryName(cgDto.getCategoryName());
-            if(checkExisting.isPresent()) {
+            if (checkExisting.isPresent()) {
                 throw new AlreadyExistException(
                       "Category with same name already exists");
             }
@@ -160,5 +160,5 @@ public class CategoryServiceImpl implements CategoryService {
     public final QuizDto quizToDto(final Quiz quiz) {
         QuizDto quizDto = modelMapper.map(quiz, QuizDto.class);
         return quizDto;
-    }    
+    }
 }

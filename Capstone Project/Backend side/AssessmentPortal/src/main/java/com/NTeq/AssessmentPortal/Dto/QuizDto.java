@@ -33,35 +33,34 @@ public class QuizDto {
     private int time;
     /**
      * Constructs a new QuizDto object with the specified parameters.
-     * @param quizId          The unique identifier for the quiz.
-     * @param quizName        The name of the quiz.
-     * @param quizDescription A description of the quiz.
+     * @param quizzId          The unique identifier for the quiz.
+     * @param quizzName        The name of the quiz.
+     * @param quizzDescription A description of the quiz.
      * @param cat             The CategoryDto associated with the quiz.
-     * @param time            The duration of the quiz in minutes.
+     * @param qtime            The duration of the quiz in minutes.
      */
-    public QuizDto(final long quizId, final String quizName, 
-            final String quizDescription, final CategoryDto cat, 
-            final int time) {
+    public QuizDto(final long quizzId, final String quizzName,
+            final String quizzDescription, final CategoryDto cat,
+            final int qtime) {
         super();
-        this.quizId = quizId;
-        this.quizName = quizName;
-        this.quizDescription = quizDescription;
-        if(cat != null) {
+        this.quizId = quizzId;
+        this.quizName = quizzName;
+        this.quizDescription = quizzDescription;
+        if (cat != null) {
             this.category = new CategoryDto(cat.getCategoryId(),
                     cat.getCategoryName(), cat.getDescription());
             } else {
-                this.category=null;
+                this.category = null;
             }
-        this.time = time;
+        this.time = qtime;
     }
-    
     /**
      * Getter for getting category.
      * @return CategoryDTO object.
      */
-    public CategoryDto getCategory() {
-        if(category!=null) {
-        return new CategoryDto(category.getCategoryId(), 
+    public final CategoryDto getCategory() {
+        if (category != null) {
+        return new CategoryDto(category.getCategoryId(),
                 category.getCategoryName(),
                 category.getDescription());
         }
@@ -71,12 +70,12 @@ public class QuizDto {
      * Setting category.
      * @param paramCategory CategoryDTO object.
      */
-    public void setCategory(final CategoryDto paramCategory) {
-        if(paramCategory!=null) {
+    public final void setCategory(final CategoryDto paramCategory) {
+        if (paramCategory != null) {
         this.category = new CategoryDto(paramCategory.getCategoryId(),
              paramCategory.getCategoryName(), paramCategory.getDescription());
         } else {
-            this.category=null;
+            this.category = null;
         }
     }
 }

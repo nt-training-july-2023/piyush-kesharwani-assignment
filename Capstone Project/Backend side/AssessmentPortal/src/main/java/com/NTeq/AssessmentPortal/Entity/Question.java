@@ -60,41 +60,41 @@ public class Question {
      * This relationship is fetched eagerly from the database.
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "quizId", nullable=false)
+    @JoinColumn(name = "quizId", nullable = false)
     private Quiz quiz;
     /**
      * Get the associated Quiz for this question.
      * @return The Quiz to which this question belongs.
      */
-    public Quiz getQuiz() {
-        return new Quiz(quiz.getQuizId(), quiz.getQuizName(), 
+    public final Quiz getQuiz() {
+        return new Quiz(quiz.getQuizId(), quiz.getQuizName(),
               quiz.getQuizDescription(), quiz.getCategory(), quiz.getTime());
     }
     /**
      * Set the associated Quiz for this question.
      * Note: This method creates a new Quiz instance based on the provided quiz
      *       to avoid modifying the original quiz object directly.
-     * @param quiz The Quiz to associate with this question.
+     * @param quizz The Quiz to associate with this question.
      */
-    public void setQuiz(final Quiz quiz) {
-        this.quiz = new Quiz(quiz.getQuizId(),quiz.getQuizName()
-                ,quiz.getQuizDescription(),quiz.getCategory(),quiz.getTime());
+    public final void setQuiz(final Quiz quizz) {
+        this.quiz = new Quiz(quizz.getQuizId(), quizz.getQuizName(),
+          quizz.getQuizDescription(), quizz.getCategory(), quizz.getTime());
     }
     /**
      * Constructor to initialize a Question with its attributes.
-     * @param questionId     The unique identifier for this question.
-     * @param questionName   The name or text of the question.
-     * @param optionOne      The first option for answering the question.
-     * @param optionTwo      The second option for answering the question.
-     * @param optionThree    The third option for answering the question.
-     * @param optionFour     The fourth option for answering the question.
-     * @param answer         The correct answer to the question.
-     * @param quiz
+     * @param qId     The unique identifier for this question.
+     * @param qName   The name or text of the question.
+     * @param optionI      The first option for answering the question.
+     * @param optionII      The second option for answering the question.
+     * @param optionIII    The third option for answering the question.
+     * @param optionIV     The fourth option for answering the question.
+     * @param answers         The correct answer to the question.
+     * @param qz         The quiz object for the question.
      */
     public Question(final long qId, final String qName,
-            final String optionI, final String optionII,
-            final String optionIII, final String optionIV,
-               final String answer, final Quiz qz) {
+             final String optionI, final String optionII,
+             final String optionIII, final String optionIV,
+               final String answers, final Quiz qz) {
         super();
         this.questionId = qId;
         this.questionName = qName;
@@ -102,9 +102,9 @@ public class Question {
         this.optionTwo = optionII;
         this.optionThree = optionIII;
         this.optionFour = optionIV;
-        this.answer = answer;
+        this.answer = answers;
         this.quiz = new Quiz(qz.getQuizId(),
-                qz.getQuizName(),qz.getQuizDescription(),qz.getCategory(),
+                qz.getQuizName(), qz.getQuizDescription(), qz.getCategory(),
                 qz.getTime());
     }
 }
