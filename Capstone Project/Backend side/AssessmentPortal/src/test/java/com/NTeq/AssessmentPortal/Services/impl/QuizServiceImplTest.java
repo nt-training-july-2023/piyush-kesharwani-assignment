@@ -62,18 +62,11 @@ class QuizServiceImplTest {
     
     @Test
     public void testGetAllQuiz() {
-        // Mocking data
         List<Quiz> quizzes = new ArrayList<>();
         quizzes.add(new Quiz());
         quizzes.add(new Quiz());
-
-        // Mocking repository behavior
         when(quizRepository.findAll()).thenReturn(quizzes);
-
-        // Test the method
         List<QuizDto> result = quizService.getAllQuiz();
-
-        // Assertions
         assertEquals(quizzes.size(), result.size());
     }
     

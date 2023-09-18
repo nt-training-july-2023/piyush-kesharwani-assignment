@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Services.impl.QuizServiceImpl;
 
@@ -96,5 +98,15 @@ public class QuizController {
             return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
                     .build();
         }
+    }
+    /**
+     * Retrieves a category by its ID.
+     * @param quizId The ID of the category to retrieve.
+     * @return The list of questions entity.
+     */
+    @GetMapping("questions/{quizId}")
+    public final List<QuestionDto> getAllQuestionByQuiz(
+            @PathVariable final int quizId) {
+        return quizService.getAllQuestionByQuiz(quizId);
     }
 }

@@ -7,13 +7,12 @@ const DashboardCard = ({ title , link}) => {
   
   const handleCard = () => {
     if(link){
-    navigate("/category/all");
-    console.log("Card clicked!");
+    navigate(link);
     }
   };
 
   return (
-    <div className="dashboard-card" onClick={handleCard}>
+    <div className="User-dashboard-card" onClick={handleCard}>
       <h3>{title}</h3>
       {/* Add content specific to each card */}
     </div>

@@ -24,5 +24,9 @@ class quizService{
         return axios.delete(quiz_BASE_API_URL + "/delete/" + id);
     }
 
+    getAllQuestionByQuiz(id){
+        return axios.get(quiz_BASE_API_URL + "/questions/" + id);
+    }
+
 }
 export default new quizService();

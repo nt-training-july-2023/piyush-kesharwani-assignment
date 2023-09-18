@@ -3,6 +3,10 @@
 .user-dashboard {
   display: flex;
   height: 100vh;
+  background-image: url(examinationImage.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .sidebar {
@@ -43,21 +47,25 @@
 
 }
 
-.dashboard-card {
+.User-dashboard-card {
   background-color: #fff;
   padding: 30px;
   margin-right: 20px;
   margin-bottom: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
-  height: 50%;
-  width: 40vh;
+  height: 40%;
+  width: 30vh;
+  background-color: darkslategrey;
+  align-items: center;
+  color:#fff
   
 }
 
 .dashboard-card h3 {
   font-size: 20px;
   margin-bottom: 10px;
+
 }
 
 @media (max-width: 768px) {

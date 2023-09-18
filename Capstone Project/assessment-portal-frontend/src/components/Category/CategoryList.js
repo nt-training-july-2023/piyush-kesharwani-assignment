@@ -111,7 +111,7 @@ const CategoryList = () => {
                 </td>
               ) : (
                 <td>
-                  <button className="category-update-btn">View</button>
+                  <button className="category-update-btn" onClick={()=>navigate(`/category/${category.categoryId}/quizzes`)}>View Quizzes</button>
                 </td>
               )}
             </tr>

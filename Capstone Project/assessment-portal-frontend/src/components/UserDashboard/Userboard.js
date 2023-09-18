@@ -18,7 +18,7 @@ const UserDashboard = () => {
       <Sidebar />
       <div className="dashboard-content">
         <DashboardCard title="Categories" link="/category/all" />
-        <DashboardCard title="Quizzes" />
+        <DashboardCard title="Quizzes" link="/quiz/all"/>
         <DashboardCard title="Results" />
       </div>
     </div>

@@ -7,5 +7,4 @@ import com.NTeq.AssessmentPortal.Entity.Question;
  * Repository interface for managing Question entities in the database.
  */
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-
 }

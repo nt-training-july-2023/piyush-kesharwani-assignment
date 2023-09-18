@@ -52,7 +52,7 @@ public class Quiz {
      * @see Category
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId", nullable=false)
+    @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
     /**
      * The time of the quiz.
@@ -69,9 +69,10 @@ public class Quiz {
      * @return category.
      */
     public final Category getCategory() {
-      if(category != null) {
-       return new Category(category.getCategoryId(), category.getCategoryName()
-                , category.getDescription());
+      if (category != null) {
+       return new Category(category.getCategoryId(),
+                category.getCategoryName(),
+                category.getDescription());
         }
         return null;
     }
@@ -80,7 +81,7 @@ public class Quiz {
      * @param cate cate.
      */
     public final void setCategory(final Category cate) {
-        if(cate != null) {
+        if (cate != null) {
         this.category = new Category(cate.getCategoryId(),
                 cate.getCategoryName(), cate.getDescription());
         } else {
@@ -92,6 +93,7 @@ public class Quiz {
      * @param qId          quizId.
      * @param qName        quizName.
      * @param qDescription quizDescription.
+     * @param cat       Category Object.
      * @param qtime            time.
      */
     public Quiz(final long qId, final String qName,
@@ -99,7 +101,8 @@ public class Quiz {
         this.quizId = qId;
         this.quizName = qName;
         this.quizDescription = qDescription;
-        this.category = new Category(cat.getCategoryId(),cat.getCategoryName(),
+        this.category = new Category(cat.getCategoryId(),
+                cat.getCategoryName(),
                 cat.getDescription());
         this.time = qtime;
     }
@@ -107,16 +110,16 @@ public class Quiz {
      * Get the list of questions associated with this entity.
      * @return A new ArrayList containing the questions.
      */
-    public List<Question> getQuestion() {
+    public final List<Question> getQuestion() {
         return new ArrayList<>(question);
     }
     /**
      * Set the list of questions associated with this entity.
      * Note: This method creates a new ArrayList based on the provided list
      * to avoid modifying the original list directly.
-     * @param question The list of questions to associate with this entity.
+     * @param questions The list of questions to associate with this entity.
      */
-    public void setQuestion(List<Question> question) {
-        this.question = new ArrayList<>(question);
+    public final void setQuestion(final List<Question> questions) {
+        this.question = new ArrayList<>(questions);
     }
 }
