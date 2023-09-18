@@ -12,18 +12,19 @@
   padding-top: 10px;
   padding-bottom: 10px;
   margin-bottom: 20px;
-  background-color: lavender;
+  background-color:lavender
 }
 
 .btn-add {
-  display: block;
-  margin: 20px auto;
+  display: inline-block;
+  margin: 10px 10px;
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  
 }
 
 .quiz-card-container {
@@ -34,8 +35,9 @@
 
 .card {
   width: 300px;
+  background-color:white;
   padding: 20px;
- margin-right: 10px;
+  margin-right: 10px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;

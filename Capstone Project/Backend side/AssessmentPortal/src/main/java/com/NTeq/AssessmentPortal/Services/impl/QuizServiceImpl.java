@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
+import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
+import com.NTeq.AssessmentPortal.Entity.Options;
+import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
@@ -125,5 +128,54 @@ public class QuizServiceImpl implements QuizService {
             quiz.setCategory(category);
         }
         return quiz;
+    }
+    /**
+     * Converts a quizDTO to a quiz entity.
+     * @param quizId To find the questions.
+     * @return The list of question entity.
+     */
+    @Override
+    public List<QuestionDto> getAllQuestionByQuiz(long quizId) {
+
+        Quiz quiz = new Quiz();
+        quiz.setQuizId(quizId);
+
+        Optional<Quiz> optionalQuiz = quizRepository.findById(quizId);
+        List<Question> questions = optionalQuiz.get().getQuestion();
+        return questions.stream().map(this::convertEntityToDto)
+                .collect(Collectors.toList());
+    }
+    /**
+     * @param question The object to be converted.
+     * @return the converted into QuestionDto entity.
+     */
+    private QuestionDto convertEntityToDto(final Question question) {
+
+        QuestionDto questionDto = new QuestionDto();
+        questionDto.setQuestionId(question.getQuestionId());
+        questionDto.setQuestionName(question.getQuestionName());
+        Options options = new Options(question.getOptionOne(),
+                question.getOptionTwo(), question.getOptionThree(),
+                question.getOptionFour());
+        questionDto.setOptions(options);
+        questionDto.setAnswer(question.getAnswer());
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(
+                question.getQuiz().getCategory().getCategoryId());
+        categoryDto.setCategoryName(
+                question.getQuiz().getCategory().getCategoryName());
+        categoryDto.setDescription(
+                question.getQuiz().getCategory().getDescription());
+
+        QuizDto quizDto = new QuizDto();
+        quizDto.setQuizId(question.getQuiz().getQuizId());
+        quizDto.setQuizName(question.getQuiz().getQuizName());
+        quizDto.setQuizDescription(question.getQuiz().getQuizDescription());
+        quizDto.setTime(question.getQuiz().getTime());
+        quizDto.setCategory(categoryDto);
+
+        questionDto.setQuiz(quizDto);
+
+        return questionDto;
     }
 }

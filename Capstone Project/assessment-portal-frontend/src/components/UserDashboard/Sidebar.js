@@ -18,7 +18,7 @@ const Sidebar = () => {
           <Link to="/category/all">Categories</Link>
         </li>
         <li>
-          <Link to="/dashboard/quizzes">Quizzes</Link>
+          <Link to="/quiz/all">Quizzes</Link>
         </li>
         <li>
           <Link to="/dashboard/results">Results</Link>

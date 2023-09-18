@@ -1,6 +1,8 @@
 package com.NTeq.AssessmentPortal.Services;
 
 import java.util.List;
+
+import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 /**
  * Service interface for managing Quiz-related operations.
@@ -35,4 +37,5 @@ public interface QuizService {
      * @param quizId The ID of the quiz to delete.
      */
     void deleteQuiz(long quizId);
+    List<QuestionDto> getAllQuestionByQuiz(long quizId);
 }

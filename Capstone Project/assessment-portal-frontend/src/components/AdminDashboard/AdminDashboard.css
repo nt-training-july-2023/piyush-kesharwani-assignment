@@ -1,4 +1,4 @@
-/* UserDashboard.css */
+
 
 .admin-dashboard {
     display: flex;
@@ -7,7 +7,7 @@
   
   .sidebar {
     width: 250px;
-    background-color: #333;
+    background-color: #07131c;
     color: #fff;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -30,12 +30,14 @@
   .nav-links a {
     text-decoration: none;
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
     display: block;
+    padding: 10px 0; 
+    transition: color 0.3s;
   }
 
   .nav-links a:hover {
-    color: #fff; /* Change the link color on hover */
+    color: #9A3B3B; /* Change the link color on hover */
   }
   
   .dashboard-content {
@@ -48,7 +50,7 @@
   }
   
   .dashboard-card {
-    background-color: #fff;
+    background: linear-gradient(45deg, #000428, #004e92); 
     padding: 30px;
     margin-right: 20px;
     margin-bottom: 20px;
@@ -56,17 +58,26 @@
     position: relative;
     height: 50%;
     width: 40vh;
-    
+    display: flex;
+    flex-direction: column; /* Make the card content stack vertically */
+    align-items: center; /* Center the card content horizontally */
+    text-align: center;
+    color: #fff;
   }
 
   .dashboard-card:hover {
-    background-color: #df8332; /* Change the background color on hover */
-    color: #fff; /* Change the text color on hover */
+    transform: scale(1.05);
   }
   
   .dashboard-card h3 {
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 10px;
+    font-weight: bold; 
+  }
+
+  .dashboard-card p {
+    font-size: 18px;
+    margin-top: 70px; /* Add margin at the top of the description */
   }
   
   @media (max-width: 768px) {

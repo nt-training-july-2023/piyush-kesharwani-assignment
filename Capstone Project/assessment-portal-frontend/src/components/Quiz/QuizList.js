@@ -2,14 +2,30 @@ import React, { useEffect, useState } from "react";
 import quizService from "../../Services/quizService";
 import "./QuizList.css";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const QuizList = () => {
   const [quiz, setQuiz] = useState([]);
+  const [valid, setValid] = useState("")
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("IsLoggedIn");
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
-    getQuiz();
-  }, []);
+    if (role === "admin") {
+      setValid("true");
+    } else {
+      setValid("false");
+    }
+  }, [role]);
+
+  useEffect(() => {
+    if (isLoggedIn !== null) {
+      getQuiz();
+    } else {
+      navigate("/"); 
+    }
+  }, [isLoggedIn, navigate]);
 
   const getQuiz = () => {
     quizService
@@ -46,7 +62,14 @@ const QuizList = () => {
       <div className="quiz-title">
         <h2>List of Quizzes</h2>
       </div>
-      <Link to="/quiz/all/addQuiz"><button className="btn-add">Add Quiz</button></Link>
+      {(isLoggedIn === "true") && (
+        <>
+      {role === "admin" && (
+            <>
+              <button className="btn-add" onClick={() => navigate("/adminDashboard")}>Dashboard</button>
+              <button className="btn-add" onClick={() => navigate("/quiz/all/addQuiz")}>Add Quiz</button>
+            </>
+          )}
       <div className="quiz-card-container">
         {quiz.map((qz) => (
           <div key={qz.quizId} className="card">
@@ -64,15 +87,25 @@ const QuizList = () => {
                   <p>No category available</p>
                 )}
               </div>
+              {valid === "true" && isLoggedIn === "true" ? (
               <div className="button-container">
                 <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><button className="btn-update" >Update</button></Link>
                 <button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)}>Delete</button>
               </div>
+              ) : (
+                <div className="button-container">
+                <button className="btn-update" onClick={"/"}>Take Test</button>
+                <button className="btn-delete" onClick={()=>navigate("/category/all")}>Cancel</button>
+              </div>
+              )}
             </div>
           </div>
         ))}
       </div>
+      </>
+      )}
     </div>
+      
   );
 };
 
