@@ -85,7 +85,11 @@
   color: #fff;
 }
 
-/* Add additional styles as needed */
+.view-btn{
+  background-color:blue;
+  color:#fff;
+  padding:10px 10px ;
+}
 
 @media (max-width: 768px) {
   .card {

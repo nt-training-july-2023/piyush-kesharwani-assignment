@@ -90,6 +90,7 @@ const QuizList = () => {
               {valid === "true" && isLoggedIn === "true" ? (
               <div className="button-container">
                 <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><button className="btn-update" >Update</button></Link>
+                <Link to={`/quiz/${qz.quizId}/question`}><button className="view-btn" >View Question</button></Link>
                 <button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)}>Delete</button>
               </div>
               ) : (

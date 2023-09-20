@@ -20,6 +20,9 @@ const Sidebar = () => {
           <Link to="/quiz/all">Quizzes</Link>
         </li>
         <li>
+          <Link to="/question/all">Questions</Link>
+        </li>
+        <li>
           <Link to="/admin/results">Results</Link>
         </li>
         <li>

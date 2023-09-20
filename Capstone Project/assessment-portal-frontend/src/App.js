@@ -13,6 +13,8 @@ import QuizList from "./components/Quiz/QuizList";
 import AddUpdateQuiz from "./components/Quiz/AddUpdateQuiz";
 import QuizzesByCategory from "./components/Category/QuizzesByCategory";
 import QuestionList from "./components/Question/QuestionList";
+import AddUpdateQuestion from "./components/Question/AddUpdateQuestion";
+
 
 
 function App() {
@@ -33,6 +35,11 @@ function App() {
         <Route exact path="/quiz/all/addQuiz" Component={AddUpdateQuiz}></Route>
         <Route exact path="/quiz/all/edit-quiz/:id" Component={AddUpdateQuiz}></Route>
         <Route exact path="/question/all" Component={QuestionList}></Route>
+        <Route exact path="/quiz/:id/question" Component={QuestionList}></Route>
+        <Route exact path="/question/all/addQuestion" Component={AddUpdateQuestion}></Route>
+        <Route exact path="/quiz/:id/addQuestion" Component={AddUpdateQuestion}></Route>
+        <Route exact path="/question/all/edit-question/:id" Component={AddUpdateQuestion}></Route>
+        <Route exact path="/quiz/:quizId/edit-question/:questionId" Component={AddUpdateQuestion}></Route>
       </Routes>
     </Router>
   );

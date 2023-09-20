@@ -37,5 +37,6 @@ public interface QuizService {
      * @param quizId The ID of the quiz to delete.
      */
     void deleteQuiz(long quizId);
+    
     List<QuestionDto> getAllQuestionByQuiz(long quizId);
 }
