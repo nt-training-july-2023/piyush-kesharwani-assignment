@@ -20,7 +20,7 @@ const AddUpdateQuestion = () => {
   const [errors, setErrors] = useState('');
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams();  //quiz id
   const {quizId, questionId} = useParams();
 
   useEffect(() => {
@@ -118,6 +118,7 @@ const AddUpdateQuestion = () => {
       },
       answer: answer,
     };
+    
 
     if (quizId) {
       questionService
@@ -133,7 +134,23 @@ const AddUpdateQuestion = () => {
         .catch((error) => {
           console.log(error);
         });
-    } else {
+    }
+    else if (questionId) {
+      questionService
+        .updateQuestion(questionId, payload)
+        .then((response) => {
+          Swal.fire({
+            icon: "success",
+            title: "Question Updated",
+            text: "The question has been updated successfully!",
+          });
+          navigate("/question/all");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } 
+    else {
       questionService
         .addQuestion(payload)
         .then(() => {
@@ -153,9 +170,9 @@ const AddUpdateQuestion = () => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (questionId) {
       questionService
-        .getQuestionById(id)
+        .getQuestionById(questionId)
         .then((response) => {
           setSelectedQuiz(response.data.quiz.quizId);
           setquestionName(response.data.questionName);
@@ -171,6 +188,7 @@ const AddUpdateQuestion = () => {
             (options) => options.trim() !== ""
           );
           setAllFieldsFilled(areOptionsFilled);
+          console.log(questionId);
         })
         .catch((error) => {
           console.log(error);
@@ -181,7 +199,7 @@ const AddUpdateQuestion = () => {
   return (
     <div className="question-form-container">
       <h2 className="question-form-header">
-        {id ? "Edit Question" : "Add Question"}
+        {questionId ? "Edit Question" : "Add Question"}
       </h2>
       <form onSubmit={saveQuestion}>
         <div className="question-form-group">

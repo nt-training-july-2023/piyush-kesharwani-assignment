@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #a05b5b;
     overflow: hidden;
   }
   
@@ -38,6 +38,7 @@
     border: none;
     border-radius: 4px;
     text-decoration: none;
+    margin-right: 20px;
   }
   
   .add-question-button:hover {

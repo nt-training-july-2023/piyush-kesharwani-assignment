@@ -38,7 +38,7 @@ function App() {
         <Route exact path="/quiz/:id/question" Component={QuestionList}></Route>
         <Route exact path="/question/all/addQuestion" Component={AddUpdateQuestion}></Route>
         <Route exact path="/quiz/:id/addQuestion" Component={AddUpdateQuestion}></Route>
-        <Route exact path="/question/all/edit-question/:id" Component={AddUpdateQuestion}></Route>
+        <Route exact path="/question/all/edit-question/:questionId" Component={AddUpdateQuestion}></Route>
         <Route exact path="/quiz/:quizId/edit-question/:questionId" Component={AddUpdateQuestion}></Route>
       </Routes>
     </Router>

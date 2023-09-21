@@ -9,16 +9,25 @@ import quizService from "../../Services/quizService";
 const QuestionList = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const [quizName, setQuizName] = useState([]);
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
     if (id) {
       getQuestionByQuiz();
+      getQuizById();
     } else {
       getAllQuestion();
     }
   }, [id]);
+
+  const getQuizById=() =>{
+    quizService.getQuizById(id).then(reponse =>{
+        setQuizName(reponse.data.quizName);
+    }).catch((error) => {
+        console.log(error);
+    })
+}
 
   const getQuestionByQuiz = () => {
     quizService
@@ -80,7 +89,7 @@ const QuestionList = () => {
         <div className="question-column">
           <div className="question-main-card">
             <div className="question-card-header-main">
-              <h2>List Of Question</h2>
+              {id ? (<h2>QUIZ : {quizName}</h2>): (<h2>List Of Question</h2>)}
               <center>
                 <button
                   className="add-question-button"
