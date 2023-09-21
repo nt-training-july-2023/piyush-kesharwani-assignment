@@ -53,5 +53,4 @@ public class Candidate {
      * The phone number of the candidate.
      */
     private String phoneNumber;
-
 }

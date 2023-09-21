@@ -72,10 +72,8 @@ const AddUpdateQuestion = () => {
     );
   
     if (isDuplicate) {
-      // Handle duplicate value error here, for example, display an error message
       setErrors("Each option must have a unique value.");
     } else {
-      // Clear the error message if there are no duplicates
       setErrors("");
     }
     setOptions((prevOptions) => ({

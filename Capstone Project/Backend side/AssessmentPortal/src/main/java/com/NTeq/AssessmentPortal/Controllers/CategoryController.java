@@ -67,7 +67,6 @@ public class CategoryController {
     @GetMapping("/all")
     public final List<CategoryDto> getAll() {
         return categoryService.getAllCategory();
-
     }
 
     /**

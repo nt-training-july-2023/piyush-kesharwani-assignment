@@ -22,8 +22,8 @@ const QuestionList = () => {
   }, [id]);
 
   const getQuizById=() =>{
-    quizService.getQuizById(id).then(reponse =>{
-        setQuizName(reponse.data.quizName);
+    quizService.getQuizById(id).then(response =>{
+        setQuizName(response.data.quizName);
     }).catch((error) => {
         console.log(error);
     })
@@ -125,7 +125,7 @@ const QuestionList = () => {
                         </div>
                         <div className="question-card-body">
                           <form>
-                            <h4>{question.questionName}</h4>
+                            <h4>{++index + ". "}{question.questionName}</h4>
                             <label>
                               <input
                                 type="radio"
