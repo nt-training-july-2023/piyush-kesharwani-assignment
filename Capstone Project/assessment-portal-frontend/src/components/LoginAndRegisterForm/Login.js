@@ -39,6 +39,7 @@ const Login = () => {
           timer:2000,
           showConfirmButton:false
         });
+        console.log(response.data);
         if (response.data && response.data.status === "true") {
           if (response.data.role === "admin") {
             navigate("/AdminDashboard");
@@ -48,8 +49,12 @@ const Login = () => {
         } else {
           setErrorMessage("Login failed. " + response.data.message);
         }
-        localStorage.setItem("IsLoggedIn",response.data.status)
+        localStorage.setItem("IsLoggedIn",true);
         localStorage.setItem("role",response.data.role)
+        localStorage.setItem('email' , response.data.email);
+        localStorage.setItem('userName' , response.data.userName);
+
+
       } catch (error) {
         setErrorMessage("Wrong Credentials");
         const submitError = error.response.data.message;

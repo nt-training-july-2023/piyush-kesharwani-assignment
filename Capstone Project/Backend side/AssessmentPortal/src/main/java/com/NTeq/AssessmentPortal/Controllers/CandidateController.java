@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.NTeq.AssessmentPortal.Dto.CandidateDto;
+import com.NTeq.AssessmentPortal.Dto.CandidateDto; 
 import com.NTeq.AssessmentPortal.Services.impl.CandidateServiceImpl;
 
 /**
@@ -57,5 +57,4 @@ public class CandidateController {
     public final List<CandidateDto> allCandidate() {
         return candidateService.getAllCandidate();
     }
-
 }

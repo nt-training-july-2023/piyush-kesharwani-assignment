@@ -122,6 +122,9 @@ public class CandidateServiceImpl implements CandidateService {
                 if (candidateRegistration.isPresent()) {
                     response.put("message", "Login Successfully");
                     response.put("status", "true");
+                    response.put("email", foundCandidate.getEmail());
+                    response.put("userName", foundCandidate.getFirstName()+
+                            " " + foundCandidate.getLastName() );
                     response.put("role", foundCandidate.getUserRole());
                 } else {
                     throw new WrongCredentialException(

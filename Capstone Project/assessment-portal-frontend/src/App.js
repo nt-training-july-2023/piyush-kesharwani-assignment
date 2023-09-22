@@ -15,6 +15,7 @@ import QuizzesByCategory from "./components/Category/QuizzesByCategory";
 import QuestionList from "./components/Question/QuestionList";
 import AddUpdateQuestion from "./components/Question/AddUpdateQuestion";
 import UserTest from "./components/Question/UserTest";
+import Result from "./components/Result/Result";
 
 
 
@@ -42,6 +43,7 @@ function App() {
         <Route exact path="/question/all/edit-question/:questionId" Component={AddUpdateQuestion}></Route>
         <Route exact path="/quiz/:quizId/edit-question/:questionId" Component={AddUpdateQuestion}></Route>
         <Route exact path="/quiz/:quizId/test" Component={UserTest}></Route>
+        <Route exact path="/results" Component={Result}></Route>
       </Routes>
     </Router>
   );

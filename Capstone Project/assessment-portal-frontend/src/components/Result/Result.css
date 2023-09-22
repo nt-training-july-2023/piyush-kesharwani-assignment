@@ -1,0 +1,57 @@
+/* ResultTable.css */
+
+/* Container styles */
+
+.result-container {
+    /* margin: 20px; */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ccc;
+  }
+  
+  /* Header styles */
+  .result-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Table styles */
+  .result-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse; /* Merge table borders */
+    background-color: #fff; /* Set the background color to white */
+  }
+  
+  /* Header row styles */
+  .result-header {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Add border to header row */
+  }
+  
+  /* Table row styles */
+  .result-table tr {
+    border-bottom: 1px solid #ccc; /* Add border to all rows */
+  }
+  
+  /* Data cell styles */
+  .result-data {
+    padding: 10px;
+  }
+  
+  /* Responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    .result-table {
+      font-size: 14px;
+    }
+  
+    .result-data,
+    .result-header {
+      padding: 8px;
+    }
+  }
+  

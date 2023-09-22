@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background : linear-gradient(#183D3D ,#93B1A6) /* Add your desired background color */
+    background : linear-gradient(#183D3D ,#93B1A6) ;
   }
   
 .register-container {
@@ -20,6 +20,7 @@ body {
     justify-content: center;
     align-items: center;
    min-height: 100vh;
+   /* background : linear-gradient(#183D3D ,#93B1A6) ; */
     /* background-color: #f5f5f5; */
     
   }

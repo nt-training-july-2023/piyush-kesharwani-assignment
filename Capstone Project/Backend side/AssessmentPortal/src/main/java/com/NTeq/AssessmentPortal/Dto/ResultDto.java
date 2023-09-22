@@ -19,4 +19,6 @@ public class ResultDto {
     private String dateTime;
     private String quizName;
     private String categoryName;
+    private int attemptedQuestion;
+    private int totalQuestion;
 }

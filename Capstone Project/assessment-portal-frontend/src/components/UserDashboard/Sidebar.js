@@ -29,6 +29,8 @@ const Sidebar = () => {
     });
     localStorage.removeItem("IsLoggedIn");
     localStorage.removeItem("role");
+    localStorage.removeItem('email');
+    localStorage.removeItem('userName');
     navigate('/');
   }
   return (

@@ -26,4 +26,6 @@ public class Result {
     private String dateTime;
     private String quizName;
     private String categoryName;
+    private int attemptedQuestion;
+    private int totalQuestion;
 }
