@@ -95,7 +95,7 @@ public class QuestionServiceImpl implements QuestionService {
      * @param questionDto The QuestionDto object to be converted.
      * @return The corresponding Question entity.
      */
-    public Question dtoToQuestion(final QuestionDto questionDto) {
+    public final Question dtoToQuestion(final QuestionDto questionDto) {
         Question question = new Question();
         question.setQuestionId(questionDto.getQuestionId());
         question.setQuestionName(questionDto.getQuestionName());
@@ -125,7 +125,7 @@ public class QuestionServiceImpl implements QuestionService {
      * @param question The Question entity to be converted.
      * @return The corresponding QuestionDto object.
      */
-    public QuestionDto questionToDto(final Question question) {
+    public final QuestionDto questionToDto(final Question question) {
        QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionId(question.getQuestionId());
         questionDto.setQuestionName(question.getQuestionName());

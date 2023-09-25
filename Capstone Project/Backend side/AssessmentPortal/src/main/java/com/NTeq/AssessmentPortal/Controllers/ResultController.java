@@ -41,16 +41,18 @@ public class ResultController {
      * @return A list of result DTOs.
      */
     @GetMapping("/all")
-    public ResponseEntity<List<ResultDto>> getAll() {
+    public final ResponseEntity<List<ResultDto>> getAll() {
         List<ResultDto> reportDtos = resultService.getAllResult();
         return ResponseEntity.ok(reportDtos);
     }
     /**
      * End point to retrieve a list of all result.
+     * @param email   the email of the candidate.
      * @return A list of result DTOs.
      */
     @GetMapping("/{email}")
-    public ResponseEntity<List<ResultDto>> findByEmailId(@PathVariable String email) {
+    public final ResponseEntity<List<ResultDto>> findByEmailId(
+           final @PathVariable String email) {
         List<ResultDto> resultDto = resultService.getresultByEmail(email);
         if (resultDto != null) {
             return ResponseEntity.ok(resultDto);

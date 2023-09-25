@@ -1,16 +1,21 @@
-/* QuizzesByCategory.css */
+
 
 .quizCat-card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin: 20px; 
+   
+  }
+
+  .quiz-cat-title{
+    text-align: center;
   }
   
   .card {
     width: 300px;
     padding: 20px;
-    margin: 10px; /* Add margin around each card */
+    margin: 10px; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     overflow: hidden;
@@ -37,7 +42,7 @@
   .button-container {
     display: flex;
     align-items: center;
-    margin-top: 10px; /* Add margin at the top of button container */
+    margin-top: 10px;
   }
   
   .btn-update,
@@ -57,8 +62,6 @@
     background-color: #dc3545;
     color: #fff;
   }
-  
-  /* Add additional styles as needed */
   
   @media (max-width: 768px) {
     .card {

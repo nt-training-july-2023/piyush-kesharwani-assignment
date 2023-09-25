@@ -8,6 +8,7 @@ import './QuizzesByCategory.css';
 const QuizzesByCategory = () => {
 
  const [quizzes, setquizzes] = useState([]);
+ const [categoryName, setCategoryName] = useState('');
  const [valid, setValid] = useState("")
  const navigate = useNavigate();
  const { id } = useParams();
@@ -35,6 +36,7 @@ const QuizzesByCategory = () => {
  const getAllQuiz = ()=>{
     categoryService.getQuizzesByCategory(id).then((response)=>{
         setquizzes(response.data)
+        setCategoryName(response.data[0].category.categoryName)
     }).catch((error) => {
         console.log(error);
       });
@@ -60,7 +62,7 @@ const QuizzesByCategory = () => {
 
   return (
     <div>
-      <h1>List of Quizzes By Category</h1>
+      <h1 className="quiz-cat-title">{categoryName} Quizzes </h1>
          <div className="quizCat-card-container">
          {(isLoggedIn === "true") && (
         <>

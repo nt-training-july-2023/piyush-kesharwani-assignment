@@ -11,8 +11,11 @@ import com.NTeq.AssessmentPortal.Dto.ResultDto;
 import com.NTeq.AssessmentPortal.Entity.Result;
 import com.NTeq.AssessmentPortal.Repositories.ResultRepository;
 import com.NTeq.AssessmentPortal.Services.ResultService;
+/**
+ * Service implementation for managing Result-related operations.
+ */
 @Service
-public class ResultServiceImpl implements ResultService{
+public class ResultServiceImpl implements ResultService {
     /**
      * Repository for result data. Injected by Spring using @Autowired.
      */
@@ -25,14 +28,14 @@ public class ResultServiceImpl implements ResultService{
     private ModelMapper modelMapper;
 
     @Override
-    public String addResult(ResultDto resultDto) {
+    public final String addResult(final ResultDto resultDto) {
         Result result = this.dtoToResult(resultDto);
         resultRepository.save(result);
         return "Result created successfully";
     }
 
     @Override
-    public List<ResultDto> getAllResult() {
+    public final List<ResultDto> getAllResult() {
         List<Result> result = this.resultRepository.findAll();
         List<ResultDto> resultDtos = result.stream()
                 .map(rs -> this.resultToDto(rs))
@@ -40,7 +43,7 @@ public class ResultServiceImpl implements ResultService{
         return resultDtos;
     }
     @Override
-    public List<ResultDto> getresultByEmail(final String userEmail) {
+    public final List<ResultDto> getresultByEmail(final String userEmail) {
         List<Result> result = this.resultRepository.findByUserEmail(userEmail);
         List<ResultDto> resultDtos = result.stream()
                 .map(rs -> this.resultToDto(rs))

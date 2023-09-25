@@ -1,4 +1,3 @@
-/* UserDashboard.css */
 
 .user-dashboard {
   display: flex;
@@ -48,7 +47,7 @@
 }
 
 .User-dashboard-card {
-  background-color: #fff;
+  background: linear-gradient(45deg, #2b5876,#4e4376); 
   padding: 30px;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -58,6 +57,7 @@
   width: 30vh;
   background-color: darkslategrey;
   align-items: center;
+  text-align: center;
   color:#fff
   
 }
@@ -66,6 +66,9 @@
   font-size: 20px;
   margin-bottom: 10px;
 
+}
+.User-dashboard-card:hover {
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {

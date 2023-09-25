@@ -2,6 +2,7 @@
 
 .quiz-container {
   /* width: 80%; */
+  background: linear-gradient(#9796f0,#fbc7d4);
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -9,8 +10,8 @@
 
 .quiz-title {
   text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   margin-bottom: 20px;
   background-color:lavender
 }
@@ -86,7 +87,7 @@
 }
 
 .view-btn{
-  background-color:blue;
+  background-color:#007bff;
   color:#fff;
   padding:10px 10px ;
 }

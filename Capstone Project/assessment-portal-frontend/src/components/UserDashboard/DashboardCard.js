@@ -2,7 +2,7 @@ import React from "react";
 import "./UserDashboard.css";
 import { useNavigate } from "react-router-dom";
 
-const DashboardCard = ({ title , link}) => {
+const DashboardCard = ({ title , link , description}) => {
   const navigate = useNavigate();
   
   const handleCard = () => {
@@ -14,7 +14,7 @@ const DashboardCard = ({ title , link}) => {
   return (
     <div className="User-dashboard-card" onClick={handleCard}>
       <h3>{title}</h3>
-      {/* Add content specific to each card */}
+      {description && <p className="card-description">{description}</p>}
     </div>
   );
 };

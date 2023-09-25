@@ -37,6 +37,10 @@ public interface QuizService {
      * @param quizId The ID of the quiz to delete.
      */
     void deleteQuiz(long quizId);
-    
+    /**
+     * Retrieves a list of question associated with a specific Quiz.
+     * @param quizId The quizId from questions are to be retrieved.
+     * @return A list of question objects associated with the specified quiz.
+     */
     List<QuestionDto> getAllQuestionByQuiz(long quizId);
 }

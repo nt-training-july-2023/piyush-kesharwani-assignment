@@ -7,7 +7,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.2</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath /> 
 	</parent>
 	<groupId>com.NTeq</groupId>
 	<artifactId>AssessmentPortal</artifactId>
@@ -38,7 +38,6 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
@@ -54,13 +53,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
 			<dependency>
 		    <groupId>org.mockito</groupId>
 		    <artifactId>mockito-core</artifactId>
@@ -71,21 +68,17 @@
 	        <artifactId>junit-platform-runner</artifactId>
 	        <scope>test</scope>
 	    </dependency>
-	    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
 		    <artifactId>junit-jupiter-api</artifactId>
 		    <scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
 		    <artifactId>junit-jupiter-engine</artifactId>
 		    <scope>test</scope>
 		</dependency>
 		
-
-
 
 	</dependencies>
 
@@ -98,7 +91,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.0.0</version>
+				<!--<version>3.0.0</version>-->
 				<executions>
 					<execution>
 						<goals>
@@ -141,11 +134,10 @@
 					</execution>
 				</executions>
 				<configuration>
-				    <!-- Define SpotBugs configuration here -->
 				    <effort>Max</effort>
 				    <threshold>Low</threshold>
 				    <xmlOutput>true</xmlOutput>
-				    <!--<excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>-->
+				    <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
 				</configuration>
 			</plugin>
 		</plugins>

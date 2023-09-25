@@ -121,7 +121,7 @@ const CategoryList = () => {
       )}
       <div className="category-button-group">
         {role === "user" ? (
-          <Link className="category-add-btn" to="/userDashboard">
+          <Link className="category-delete-btn" to="/userDashboard">
             Cancel
           </Link>
         ) : (

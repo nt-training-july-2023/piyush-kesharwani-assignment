@@ -21,6 +21,7 @@ public interface ResultService {
     List<ResultDto> getAllResult();
     /**
      * Retrieves a list of all results.
+     * @param userEmail   the email of users, whom result should be generated.
      * @return A list of result DTOs.
      */
     List<ResultDto> getresultByEmail(String userEmail);

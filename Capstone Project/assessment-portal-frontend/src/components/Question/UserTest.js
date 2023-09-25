@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import questionService from "../../Services/questionService";
+import { useNavigate, useParams } from "react-router-dom";
 import quizService from "../../Services/quizService";
 import resultService from "../../Services/resultService";
 
 const UserTest = () => {
   const [questions, setQuestions] = useState([]);
   const [totalMarks, setTotalMarks] = useState(0);
-  const [totalQuestion , setTotalQuestion] = useState(0);
+  const [totalQuestion, setTotalQuestion] = useState(0);
   const [obtainedMarks, setObtainedMarks] = useState(0);
   const [quizName, setQuizName] = useState();
-  const [time, setTime] = useState(0);
-  const [remainingTime , setRemainingTime] = useState(0);
+  const [timeinSeconds, setTimeinSeconds] = useState(0);
   const [attemptedQuestion, setAttemptedQuestion] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [categoryName, setCategoryName] = useState();
-  const dateTime = "12/07/23";
+  const currentDate = new Date();
+  const dateTime = `${currentDate.getDate()}-${
+    currentDate.getMonth() + 1
+  }-${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
   const userName = localStorage.getItem("userName");
   const userEmail = localStorage.getItem("email");
   const { quizId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getQuestionByQuiz();
@@ -27,31 +29,31 @@ const UserTest = () => {
     console.log(obtainedMarks);
     console.log(attemptedQuestion);
   }, [obtainedMarks, attemptedQuestion]);
- 
-  useEffect(() => {       
-    setRemainingTime(time*60);
-    const timer = setInterval(() => {
-        setRemainingTime((prevTime) => {
-            if (prevTime > 0) {
-                return prevTime - 1;
-            } else {
-                
-                handleSubmit();
-                clearInterval(timer);
-                return 0;
-            }
-        });
-    }, 1000); 
 
-    return () => clearInterval(timer); 
-}, [time]);
+  useEffect(() => {
+    const handleCountdown = () => {
+      if (timeinSeconds > 0) {
+        setTimeinSeconds((prevTime) => prevTime - 1);
+      } else {
+        handleSubmit();
+      }
+    };
+    const countdownInterval = setInterval(handleCountdown, 1000);
+    return () => clearInterval(countdownInterval);
+  }, [timeinSeconds]);
+
+  const formattedTime = new Date(timeinSeconds * 1000)
+    .toISOString()
+    .substr(11, 8);
 
   const getQuizById = () => {
     quizService
       .getQuizById(quizId)
       .then((response) => {
         setQuizName(response.data.quizName);
-        setTime(response.data.time);
+        const timer = response.data.time;
+        const timerinSecond = timer * 60;
+        setTimeinSeconds(timerinSecond);
         setCategoryName(response.data.category.categoryName);
       })
       .catch((error) => {
@@ -66,8 +68,6 @@ const UserTest = () => {
         setQuestions(response.data);
         setTotalMarks(response.data.length);
         setTotalQuestion(response.data.length);
-        console.log(response.data);
-        console.log("Length",response.data.length);
       })
       .catch((error) => {
         console.log(error);
@@ -83,7 +83,9 @@ const UserTest = () => {
     }
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     setSubmitted(true);
     let score = 0;
     for (const question of questions) {
@@ -96,12 +98,20 @@ const UserTest = () => {
     setAttemptedQuestion(Object.keys(selectedAnswers).length);
 
     const result = {
-      totalMarks ,obtainedMarks:score , userEmail, userName ,dateTime , quizName, categoryName,
-      attemptedQuestion :Object.keys(selectedAnswers).length , totalQuestion
-    }
-    resultService.saveResult(result).then((response)=>{
+      totalMarks,
+      obtainedMarks: score,
+      userEmail,
+      userName,
+      dateTime,
+      quizName,
+      categoryName,
+      attemptedQuestion: Object.keys(selectedAnswers).length,
+      totalQuestion,
+    };
+    resultService.saveResult(result).then((response) => {
       console.log(response.data);
-    })
+      navigate("/userDashboard");
+    });
   };
 
   return (
@@ -112,7 +122,7 @@ const UserTest = () => {
           <div className="question-main-card">
             <div className="question-card-header-main">
               <h2>Test : {quizName}</h2>
-              <h2>Time Remaining: {Math.floor(remainingTime / 60)}:{remainingTime % 60}</h2>
+              <h2>Time Remaining: {formattedTime}</h2>
             </div>
             <div className="question-card-body">
               <div className="question-table-wrapper">
@@ -178,45 +188,6 @@ const UserTest = () => {
         </div>
       </div>
     </div>
-
-    // <div>
-    //   <h2>Test: {quizName}</h2>
-    //   {showResults ? (
-    //     <div>
-    //       <h3>Results:</h3>
-    //       <p>Total Questions: {calculateTotalMarks()}</p>
-    //       <p>Attempted Questions: {calculateObtainedMarks().attemptedQuestions}</p>
-    //       <p>Obtained Marks: {calculateObtainedMarks().obtainedMarks}</p>
-    //     </div>
-    //   ) : (
-    //     <div>
-    //       <ul>
-    //         {questions.map((question) => (
-    //           <li key={question.questionId}>
-    //             <h4>{question.questionName}</h4>
-    //             <form>
-    //               {Object.keys(question.options).map((optionKey) => (
-    //                 <label key={optionKey}>
-    //                   <input
-    //                     type="radio"
-    //                     name={`question_${question.questionId}`}
-    //                     value={optionKey}
-    //                     onChange={() =>
-    //                       handleAnswerSelect(question.questionId, optionKey)
-    //                     }
-    //                     checked={userAnswers[question.questionId] === optionKey}
-    //                   />
-    //                   {question.options[optionKey]}
-    //                 </label>
-    //               ))}
-    //             </form>
-    //           </li>
-    //         ))}
-    //       </ul>
-    //       <button onClick={handleSubmit}>Submit</button>
-    //     </div>
-    //   )}
-    // </div>
   );
 };
 

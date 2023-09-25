@@ -135,11 +135,7 @@ public class QuizServiceImpl implements QuizService {
      * @return The list of question entity.
      */
     @Override
-    public List<QuestionDto> getAllQuestionByQuiz(long quizId) {
-
-        Quiz quiz = new Quiz();
-        quiz.setQuizId(quizId);
-
+    public final List<QuestionDto> getAllQuestionByQuiz(final long quizId) {
         Optional<Quiz> optionalQuiz = quizRepository.findById(quizId);
         List<Question> questions = optionalQuiz.get().getQuestion();
         return questions.stream().map(this::convertEntityToDto)

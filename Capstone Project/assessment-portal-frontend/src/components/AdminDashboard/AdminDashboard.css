@@ -3,6 +3,10 @@
 .admin-dashboard {
     display: flex;
     height: 100vh;
+    background-image: url(adminDashboard.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
   
   .sidebar {

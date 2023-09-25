@@ -47,7 +47,7 @@ const Sidebar = () => {
           <Link to="/question/all">Questions</Link>
         </li>
         <li>
-          <Link to="/admin/results">Results</Link>
+          <Link to="/results">Results</Link>
         </li>
         <li>
         <button onClick={handleLogoutConfirmation}>Logout</button>
