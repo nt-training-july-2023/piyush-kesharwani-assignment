@@ -24,7 +24,7 @@ const AddUpdateQuiz = () => {
   const getAllCategories =()=>{
     categoryService.getAll().then((response)=>{
       setCategories(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     }).catch((error)=>{
       console.log(error);
     })
@@ -33,7 +33,7 @@ const AddUpdateQuiz = () => {
     const categoryId = event.target.value;
     categoryService.getCategoryById(categoryId).then(
       response => {
-        console.log(response.data)
+        // console.log(response.data)
         const catObject = response.data;
         setCategory(catObject);
       }

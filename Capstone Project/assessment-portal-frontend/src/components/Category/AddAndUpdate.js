@@ -9,12 +9,21 @@ const AddAndUpdate = () => {
   // const [categoryId, setCategoryId] = useState();
   const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('');
+  const [error, setError] = useState('')
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const validateForm = () =>{
+    if(categoryName===''||description==='') {
+      setError("*All fields are required.");
+      return false;
+    }
+    return true;
+  }
+
   const saveCategory = (e) => {
     e.preventDefault();
-
+    if(validateForm()){
     const category = { categoryName, description };
     if(id){
       categoryService.updateCategory(id,category).then((response)=>{
@@ -28,7 +37,7 @@ const AddAndUpdate = () => {
         })
         navigate('/category/all');
       }).catch(error=>{
-        console.log(error.response);
+        // console.log(error.response);
         const submitError =error.response.data.message
             Swal.fire({
               title: "Error",
@@ -50,6 +59,7 @@ const AddAndUpdate = () => {
         console.log(error);
       });
     }
+  }
   };
 
   useEffect(() => {
@@ -124,6 +134,7 @@ const AddAndUpdate = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
+            <span style={{color: "red"}}>{error}</span>
             <button className='btn-primary' onClick={(e) => saveCategory(e)}>
               Submit
             </button>

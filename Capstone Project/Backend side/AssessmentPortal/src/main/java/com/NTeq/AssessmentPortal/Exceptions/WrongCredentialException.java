@@ -1,7 +1,12 @@
 package com.NTeq.AssessmentPortal.Exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 /**
  * Exception indicating wrong credentials provided.
  */
+@ResponseStatus(HttpStatus.FORBIDDEN)
 public class WrongCredentialException extends RuntimeException {
 
     /**

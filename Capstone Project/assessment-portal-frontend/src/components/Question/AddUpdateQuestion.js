@@ -44,7 +44,7 @@ const AddUpdateQuestion = () => {
       .getAllQuiz()
       .then((response) => {
         setQuizzes(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -186,7 +186,7 @@ const AddUpdateQuestion = () => {
             (options) => options.trim() !== ""
           );
           setAllFieldsFilled(areOptionsFilled);
-          console.log(questionId);
+          // console.log(questionId);
         })
         .catch((error) => {
           console.log(error);

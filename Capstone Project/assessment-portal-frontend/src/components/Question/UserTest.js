@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import quizService from "../../Services/quizService";
 import resultService from "../../Services/resultService";
+import Swal from "sweetalert2";
 
 const UserTest = () => {
   const [questions, setQuestions] = useState([]);
@@ -26,8 +27,8 @@ const UserTest = () => {
   useEffect(() => {
     getQuestionByQuiz();
     getQuizById();
-    console.log(obtainedMarks);
-    console.log(attemptedQuestion);
+    // console.log(obtainedMarks);
+    // console.log(attemptedQuestion);
   }, [obtainedMarks, attemptedQuestion]);
 
   useEffect(() => {
@@ -110,6 +111,14 @@ const UserTest = () => {
     };
     resultService.saveResult(result).then((response) => {
       console.log(response.data);
+
+      Swal.fire({
+        title: "Success",
+        text: "Test Submitted successfully",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false
+      })
       navigate("/userDashboard");
     });
   };

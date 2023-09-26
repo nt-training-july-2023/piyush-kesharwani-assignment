@@ -17,14 +17,14 @@ const Result = () => {
       const getResults = () =>{
         if (role==='user') {
         resultService.findByEmailId(userEmail).then((response)=>{
-            console.log(response.data);
+            // console.log(response.data);
             setResults(response.data);
         }).catch((error) => {
             console.log(error);
           })
         } else{
             resultService.getAll().then((response)=>{
-                console.log(response.data);
+                // console.log(response.data);
                 setResults(response.data);
             })
         }

@@ -1,7 +1,12 @@
 package com.NTeq.AssessmentPortal.Exceptions;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 /**
  * Exception indicating an Resource not found.
  */
+@ResponseStatus(HttpStatus.NOT_FOUND)
 public class ResourceNotFound extends RuntimeException {
     /**
     * Serial version UID for serialization/deserialization compatibility.
