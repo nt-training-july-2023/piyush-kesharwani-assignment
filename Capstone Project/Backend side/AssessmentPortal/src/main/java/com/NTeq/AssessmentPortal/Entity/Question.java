@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,31 +31,37 @@ public class Question {
      * The name of the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Question Name is required")
     private String questionName;
     /**
      * The first option of the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option one is required")
     private String optionOne;
     /**
      * The second option of the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option Two is required")
     private String optionTwo;
     /**
      * The third option of the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option Three is required")
     private String optionThree;
     /**
      * The fourth option of the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Option Four is required")
     private String optionFour;
     /**
      * The correct option of the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Answer is required")
     private String answer;
     /**
      * The associated Quiz to which this question belongs.
@@ -61,6 +69,7 @@ public class Question {
      */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quizId", nullable = false)
+    @NotNull(message = "Quiz is required")
     private Quiz quiz;
     /**
      * Get the associated Quiz for this question.

@@ -20,6 +20,8 @@ import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Services.impl.CategoryServiceImpl;
 
+import jakarta.validation.Valid;
+
 /**
  * Controller class that handles HTTP requests related to category operations.
  */
@@ -40,7 +42,7 @@ public class CategoryController {
      * @return A message indicating the addition status.
      */
     @PostMapping("/addCategory")
-    public final String saveCategory(final @RequestBody CategoryDto cgDto) {
+    public final String saveCategory(@Valid @RequestBody CategoryDto cgDto) {
         return categoryService.addCategory(cgDto);
     }
 
@@ -78,7 +80,8 @@ public class CategoryController {
      */
     @PutMapping("/update/{id}")
     public final ResponseEntity<CategoryDto> updateCategory(final
-        @PathVariable("id") Long id, final @RequestBody CategoryDto cgDto) {
+        @PathVariable("id") Long id, @Valid final @RequestBody 
+        CategoryDto cgDto) {
             categoryService.updateCategory(id, cgDto);
             return ResponseEntity.ok().body(cgDto);
     }

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Services.impl.QuestionServiceImpl;
+
+import jakarta.validation.Valid;
 /**
  * Controller class for managing questions-related operations.
  */
@@ -37,7 +39,7 @@ public class QuestionController {
      */
     @PostMapping("/add")
     public final ResponseEntity<String> addQuestion(
-           final @RequestBody QuestionDto questionDto) {
+           @Valid final @RequestBody QuestionDto questionDto) {
         String result = questionService.addQuestion(questionDto);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
@@ -73,7 +75,7 @@ public class QuestionController {
     @PutMapping("/update/{questionId}")
     public final ResponseEntity<QuestionDto> updateQuestion(
            final @PathVariable long questionId,
-           final @RequestBody QuestionDto questionDto) {
+          @Valid final @RequestBody QuestionDto questionDto) {
         try {
             questionService.updateQuestion(questionId, questionDto);
             return ResponseEntity.ok().body(questionDto);

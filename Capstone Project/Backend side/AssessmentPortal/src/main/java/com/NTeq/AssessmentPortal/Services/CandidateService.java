@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
+import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
 
 /**
  * Service interface for managing candidate-related operations.
@@ -21,7 +22,7 @@ public interface CandidateService {
      * @param inCandidateDto The DTO containing candidate login credentials.
      * @return A map with login response status and message.
      */
-    Map<String, String> loginCandidate(CandidateDto inCandidateDto);
+    Map<String, String> loginCandidate(LoginRequestDto loginRequestDto);
 
     /**
      * Retrieves a list of all candidates.

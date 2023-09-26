@@ -12,10 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
+import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
 import com.NTeq.AssessmentPortal.Entity.Candidate;
 import com.NTeq.AssessmentPortal.Exceptions.DuplicateEmail;
 import com.NTeq.AssessmentPortal.Exceptions.FieldsRequiredException;
-import com.NTeq.AssessmentPortal.Exceptions.InvalidEmailDomainException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Exceptions.WrongCredentialException;
 import com.NTeq.AssessmentPortal.Repositories.CandidateRepository;
@@ -53,14 +53,14 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public final String addCandidate(final CandidateDto cdDto) {
         Candidate cd = this.dtoToCandidate(cdDto);
-        if (cd.getFirstName() == null || cd.getLastName() == null
-                || cd.getEmail() == null || cd.getPassword() == null) {
-            throw new FieldsRequiredException("All fields are required");
-        } else {
-            if (!cd.getEmail().endsWith("@nucleusTeq.com")) {
-                throw new InvalidEmailDomainException(
-                        "Email domain should be @nucleusTeq.com");
-            }
+//        if (cd.getFirstName() == null || cd.getLastName() == null
+//                || cd.getEmail() == null || cd.getPassword() == null) {
+//            throw new FieldsRequiredException("All fields are required");
+//        } else {
+//            if (!cd.getEmail().endsWith("@nucleusTeq.com")) {
+//                throw new InvalidEmailDomainException(
+//                        "Email domain should be @nucleusTeq.com");
+//            }
             Optional<Candidate> existingCdByEmail = candidateRepository
                     .findByEmail(cd.getEmail());
             if (existingCdByEmail.isPresent()) {
@@ -70,13 +70,13 @@ public class CandidateServiceImpl implements CandidateService {
                     cd.getLastName(), cd.getEmail(),
                     this.passwordEncoder.encode(cd.getPassword()), "user",
                     cd.getPhoneNumber());
-            try {
+//            try {
                 candidateRepository.save(newCd);
-            } catch (Exception e) {
-                throw e;
-            }
+//            } catch (Exception e) {
+//                throw e;
+//            }
             return newCd.getEmail() + " registered successfully";
-        }
+        
     }
 
     /**
@@ -101,14 +101,13 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Override
     public final Map<String, String> loginCandidate(final
-        CandidateDto inCandidateDto) {
-        Candidate inCandidate = this.dtoToCandidate(inCandidateDto);
+        LoginRequestDto loginRequestDto) {
         Map<String, String> response = new HashMap<>();
         Candidate foundCandidate = candidateRepository
-                .getByEmail(inCandidate.getEmail());
+                .getByEmail(loginRequestDto.getEmail());
 
         if (foundCandidate != null) {
-            String password = inCandidate.getPassword();
+            String password = loginRequestDto.getPassword();
             String encodedPassword = foundCandidate.getPassword();
 
             Boolean isCorrect = passwordEncoder.matches(password,
@@ -116,7 +115,7 @@ public class CandidateServiceImpl implements CandidateService {
 
             if (isCorrect) {
                 Optional<Candidate> candidateRegistration = candidateRepository
-                        .findByEmailAndPassword(inCandidate.getEmail(),
+                        .findByEmailAndPassword(loginRequestDto.getEmail(),
                                 encodedPassword);
 
                 if (candidateRegistration.isPresent()) {

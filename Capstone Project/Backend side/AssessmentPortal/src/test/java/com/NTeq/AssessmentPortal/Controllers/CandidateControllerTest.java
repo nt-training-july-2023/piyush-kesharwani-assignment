@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
+import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
 import com.NTeq.AssessmentPortal.Services.impl.CandidateServiceImpl;
 @ExtendWith(MockitoExtension.class)
 class CandidateControllerTest {
@@ -39,16 +40,16 @@ class CandidateControllerTest {
     
     @Test
     public void testLoginCandidate() {
-        CandidateDto candidateDto = new CandidateDto();
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
         // Set up candidateDto with appropriate data
 
         Map<String, String> loginResponse = new HashMap<>();
         loginResponse.put("status", "Success");
         loginResponse.put("message", "Login successfully");
 
-        when(candidateService.loginCandidate(candidateDto)).thenReturn(loginResponse);
+        when(candidateService.loginCandidate(loginRequestDto)).thenReturn(loginResponse);
 
-        Map<String, String> response = candidateController.loginCandidate(candidateDto);
+        Map<String, String> response = candidateController.loginCandidate(loginRequestDto);
 
         assertEquals("Success", response.get("status"));
         assertEquals("Login successfully", response.get("message"));

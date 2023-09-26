@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,11 +35,13 @@ public class Category {
      * The name of the category.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Category name are required")
     private String categoryName;
     /**
      * The description of the category.
      */
     @Column(nullable = false)
+    @NotBlank(message = "description are required")
     private String description;
     /**
      * A list of quizzes associated with this category.

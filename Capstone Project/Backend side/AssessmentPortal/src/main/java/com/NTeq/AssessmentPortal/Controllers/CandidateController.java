@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
+import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
 import com.NTeq.AssessmentPortal.Services.impl.CandidateServiceImpl;
+
+import jakarta.validation.Valid;
 
 /**
  * Controller class that handles HTTP requests related to candidate operations.
@@ -34,8 +37,8 @@ public class CandidateController {
      */
 
     @PostMapping(path = "/register")
-    public final String saveUser(final @RequestBody CandidateDto cdDto) {
-
+    public final String saveUser(@Valid final @RequestBody
+            CandidateDto cdDto) {
         return candidateService.addCandidate(cdDto);
     }
     /**
@@ -45,8 +48,8 @@ public class CandidateController {
      */
     @PostMapping(path = "/login")
     public final Map<String, String> loginCandidate(
-            final @RequestBody CandidateDto cdDto) {
-        Map<String, String> response = candidateService.loginCandidate(cdDto);
+            @Valid final @RequestBody LoginRequestDto loginRequestDto) {
+        Map<String, String> response = candidateService.loginCandidate(loginRequestDto);
         return response;
     }
     /**

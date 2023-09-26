@@ -1,8 +1,13 @@
 package com.NTeq.AssessmentPortal.Dto;
 
+import org.springframework.validation.annotation.Validated;
+
 import com.NTeq.AssessmentPortal.Entity.Options;
 
 import jakarta.persistence.Column;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Validated
 public class QuestionDto {
     /**
      * The unique ID of the question.
@@ -21,19 +27,25 @@ public class QuestionDto {
      * The name of the question.
      */
     @Column(nullable = false)
+    @NotBlank(message = "Question Name is required")
     private String questionName;
     /**
      * The options of the question.
      */
+    @NotNull(message = "Options one is required")
+    @Valid
     private Options options;
     /**
      * The correct option of the question.
      */
+    @NotBlank(message = "Answer is required")
     @Column(nullable = false)
     private String answer;
     /**
      * The associated QuizDto to which this question belongs.
      */
+    @NotNull(message = "Quiz is required")
+    @Valid
     private QuizDto quiz;
     /**
      * Constructor to initialize a QuestionDto with its attributes.

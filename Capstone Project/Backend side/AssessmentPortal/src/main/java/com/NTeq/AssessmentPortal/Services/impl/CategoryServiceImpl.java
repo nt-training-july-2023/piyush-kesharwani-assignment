@@ -16,7 +16,6 @@ import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
 import com.NTeq.AssessmentPortal.Services.CategoryService;
-
 /**
  * Service implementation for managing category-related operations.
  */
@@ -54,7 +53,6 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return "Error!!!! Category not added..";
     }
-
     /**
      * Retrieves a list of all categories.
      * @return A list of category DTOs.

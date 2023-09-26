@@ -1,5 +1,11 @@
 package com.NTeq.AssessmentPortal.Dto;
 
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Validated
 public class QuizDto {
     /**
      * The ID of the Quiz.
@@ -18,18 +25,23 @@ public class QuizDto {
     /**
      * The name of the quiz.
      */
+    @NotBlank(message = "Quiz Name is required")
     private String quizName;
     /**
      * The description of the Quiz.
      */
+    @NotBlank(message = "Quiz description is required")
     private String quizDescription;
     /**
      * The object of the category.
      */
+    @NotNull(message = "Category is required")
+    @Valid
     private CategoryDto category;
     /**
      * The time of the Quiz.
      */
+    @Min(value = 1 , message = "Minimun time should be of 1 min")
     private int time;
     /**
      * Constructs a new QuizDto object with the specified parameters.

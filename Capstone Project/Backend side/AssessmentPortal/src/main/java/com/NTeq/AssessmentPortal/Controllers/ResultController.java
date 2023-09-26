@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.NTeq.AssessmentPortal.Dto.ResultDto;
 import com.NTeq.AssessmentPortal.Services.impl.ResultServiceImpl;
 
+import jakarta.validation.Valid;
+
 /**
  * Controller class that handles HTTP requests related to result operations.
  */
@@ -33,7 +35,8 @@ public class ResultController {
      * @return A message indicating the addition status.
      */
     @PostMapping("/addResult")
-    public final String saveResult(final @RequestBody ResultDto resultDto) {
+    public final String saveResult(@Valid final @RequestBody
+            ResultDto resultDto) {
         return resultService.addResult(resultDto);
     }
     /**

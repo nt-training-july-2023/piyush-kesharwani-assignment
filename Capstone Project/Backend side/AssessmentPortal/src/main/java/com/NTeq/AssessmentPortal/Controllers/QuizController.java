@@ -20,6 +20,8 @@ import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Services.impl.QuizServiceImpl;
 
+import jakarta.validation.Valid;
+
 /**
  * Controller class that handles HTTP requests related to Quiz operations.
  */
@@ -39,7 +41,7 @@ public class QuizController {
      * @return A message indicating the addition status.
      */
     @PostMapping("/addQuiz")
-    public final String saveQuiz(final @RequestBody QuizDto qzDto) {
+    public final String saveQuiz(@Valid final @RequestBody QuizDto qzDto) {
         return quizService.addQuiz(qzDto);
     }
     /**
@@ -71,7 +73,7 @@ public class QuizController {
      */
     @PutMapping("/update/{id}")
     public final ResponseEntity<QuizDto> updateQuiz(final
-        @PathVariable("id") long id, final @RequestBody QuizDto qzDto) {
+       @PathVariable("id") long id, @Valid final @RequestBody QuizDto qzDto) {
         try {
             quizService.updateQuiz(id, qzDto);
             return ResponseEntity.ok().body(qzDto);
