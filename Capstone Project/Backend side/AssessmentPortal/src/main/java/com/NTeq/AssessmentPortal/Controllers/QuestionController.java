@@ -28,6 +28,9 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
+    /**
+     * This class represents a logger for the QuestionController.
+     */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(QuestionController.class);
     /**
@@ -69,9 +72,9 @@ public class QuestionController {
     @GetMapping("/{questionId}")
     public final ResponseEntity<QuestionDto> getQuestionById(
             final @PathVariable long questionId) {
-       LOGGER.info("Getting question with ID: {}",questionId);
+       LOGGER.info("Getting question with ID: {}", questionId);
         QuestionDto question = questionService.getQuestionById(questionId);
-        LOGGER.info("successfully fetched Quiz with ID {}",questionId);
+        LOGGER.info("successfully fetched Quiz with ID {}", questionId);
           return new ResponseEntity<>(question, HttpStatus.OK);
     }
     /**
@@ -84,7 +87,7 @@ public class QuestionController {
     public final ResponseEntity<QuestionDto> updateQuestion(
            final @PathVariable long questionId,
           @Valid final @RequestBody QuestionDto questionDto) {
-          LOGGER.info("Updating question with ID: {}", questionId);  
+          LOGGER.info("Updating question with ID: {}", questionId);
             questionService.updateQuestion(questionId, questionDto);
             LOGGER.info("Question updated successfully");
             return ResponseEntity.ok().body(questionDto);

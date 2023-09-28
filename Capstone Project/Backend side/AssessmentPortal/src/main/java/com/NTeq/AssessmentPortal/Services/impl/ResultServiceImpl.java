@@ -18,6 +18,9 @@ import com.NTeq.AssessmentPortal.Services.ResultService;
  */
 @Service
 public class ResultServiceImpl implements ResultService {
+    /**
+     * This class represents a logger for the ResultServiceImpl.
+     */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ResultServiceImpl.class);
     /**
@@ -57,8 +60,8 @@ public class ResultServiceImpl implements ResultService {
         List<ResultDto> resultDtos = result.stream()
                 .map(rs -> this.resultToDto(rs))
                 .collect(Collectors.toList());
-        LOGGER.info("Retrieved {} results for email: {}", resultDtos.size()
-                , userEmail);
+        LOGGER.info("Retrieved {} results for email: {}", resultDtos.size(),
+                userEmail);
         return resultDtos;
     }
     /**

@@ -26,7 +26,7 @@ const CategoryList = () => {
     if (isLoggedIn !== null) {
       getCategory();
     } else {
-      navigate("/"); // Redirect to the login page if not logged in
+      navigate("/"); 
     }
   }, [isLoggedIn, navigate]);
 

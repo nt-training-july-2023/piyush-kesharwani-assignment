@@ -15,7 +15,6 @@ import com.NTeq.AssessmentPortal.Dto.CandidateDto;
 import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
 import com.NTeq.AssessmentPortal.Entity.Candidate;
 import com.NTeq.AssessmentPortal.Exceptions.DuplicateEmail;
-import com.NTeq.AssessmentPortal.Exceptions.FieldsRequiredException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Exceptions.WrongCredentialException;
 import com.NTeq.AssessmentPortal.Repositories.CandidateRepository;
@@ -53,10 +52,6 @@ public class CandidateServiceImpl implements CandidateService {
     @Override
     public final String addCandidate(final CandidateDto cdDto) {
         Candidate cd = this.dtoToCandidate(cdDto);
-//        if (cd.getFirstName() == null || cd.getLastName() == null
-//                || cd.getEmail() == null || cd.getPassword() == null) {
-//            throw new FieldsRequiredException("All fields are required");
-//        } else {
 //            if (!cd.getEmail().endsWith("@nucleusTeq.com")) {
 //                throw new InvalidEmailDomainException(
 //                        "Email domain should be @nucleusTeq.com");
@@ -70,13 +65,8 @@ public class CandidateServiceImpl implements CandidateService {
                     cd.getLastName(), cd.getEmail(),
                     this.passwordEncoder.encode(cd.getPassword()), "user",
                     cd.getPhoneNumber());
-//            try {
                 candidateRepository.save(newCd);
-//            } catch (Exception e) {
-//                throw e;
-//            }
             return newCd.getEmail() + " registered successfully";
-        
     }
 
     /**
@@ -94,7 +84,7 @@ public class CandidateServiceImpl implements CandidateService {
 
     /**
      * Logs in a candidate using provided credentials.
-     * @param inCandidateDto The DTO containing candidate login credentials.
+     * @param loginRequestDto The DTO containing candidate login credentials.
      * @return A map with login response status and message.
      * @throws WrongCredentialException If login credentials are incorrect.
      * @throws ResourceNotFound         If the user does not exist.

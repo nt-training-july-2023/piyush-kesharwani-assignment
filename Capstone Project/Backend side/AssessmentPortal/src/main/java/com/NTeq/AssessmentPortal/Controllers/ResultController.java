@@ -25,6 +25,9 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/result")
 public class ResultController {
+    /**
+     * This class represents a logger for the ResultController.
+     */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ResultController.class);
     /**
@@ -65,10 +68,9 @@ public class ResultController {
     @GetMapping("/{email}")
     public final ResponseEntity<List<ResultDto>> findByEmailId(
            final @PathVariable String email) {
-        LOGGER.info("Getting result by email: {}",email);
+        LOGGER.info("Getting result by email: {}", email);
         List<ResultDto> resultDto = resultService.getresultByEmail(email);
-        LOGGER.info("Successfully fetched result with email {}",email);
+        LOGGER.info("Successfully fetched result with email {}", email);
            return ResponseEntity.ok(resultDto);
-        
     }
 }

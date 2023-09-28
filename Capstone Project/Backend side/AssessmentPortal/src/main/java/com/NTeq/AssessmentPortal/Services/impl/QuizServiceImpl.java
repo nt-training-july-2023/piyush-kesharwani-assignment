@@ -27,7 +27,10 @@ import com.NTeq.AssessmentPortal.Services.QuizService;
  */
 @Service
 public class QuizServiceImpl implements QuizService {
-    private final Logger LOGGER = LoggerFactory
+    /**
+     * This class represents a logger for the QuizServiceImpl.
+     */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(QuizServiceImpl.class);
     /**
      * Repository for Quiz data. Injected by Spring using @Autowired.
@@ -59,9 +62,10 @@ public class QuizServiceImpl implements QuizService {
             throw new AlreadyExistException("Quiz already exists");
         }
         Quiz quiz = this.dtoToQuiz(quizDto);
-        Category category = categoryRepository.findById(quiz.getCategory().getCategoryId())
-                .orElseGet(()->{
-                    LOGGER.error("Category doesn't exist with id: {}", quiz.getCategory().getCategoryId());
+        Category category = categoryRepository.findById(quiz.getCategory()
+                .getCategoryId()).orElseGet(() -> {
+                    LOGGER.error("Category doesn't exist with id: {}",
+                            quiz.getCategory().getCategoryId());
                     throw new ResourceNotFound("Category doesn't exist with "
                             + "id :" + quiz.getCategory().getCategoryId());
                 });
@@ -177,7 +181,8 @@ public class QuizServiceImpl implements QuizService {
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
 
-        LOGGER.info("Retrieved {} questions for quiz with ID: {}", questionDtos.size(), quizId);
+        LOGGER.info("Retrieved {} questions for quiz with ID: {}",
+                questionDtos.size(), quizId);
         return questionDtos;
     }
     /**

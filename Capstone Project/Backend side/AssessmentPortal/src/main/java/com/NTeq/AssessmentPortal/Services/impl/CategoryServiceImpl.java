@@ -23,7 +23,10 @@ import com.NTeq.AssessmentPortal.Services.CategoryService;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    private final Logger LOGGER = LoggerFactory
+    /**
+     * This class represents a logger for the CategoryServiceImpl.
+     */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(CategoryServiceImpl.class);
     /**
      * Repository for category data. Injected by Spring using @Autowired.
@@ -48,7 +51,8 @@ public class CategoryServiceImpl implements CategoryService {
                     cg.getDescription());
 
                 categoryRepository.save(newOne);
-                LOGGER.info("Category added successfully: {}", newOne.getCategoryName());
+                LOGGER.info("Category added successfully: {}",
+                        newOne.getCategoryName());
                 return "Category added successfully";
     }
     /**
@@ -107,8 +111,8 @@ public class CategoryServiceImpl implements CategoryService {
             Optional<Category> checkExisting = categoryRepository
                     .findByCategoryName(cgDto.getCategoryName());
             if (checkExisting.isPresent()) {
-                LOGGER.error("Category with the same name already exists: {}"
-                        , cgDto.getCategoryName());
+                LOGGER.error("Category with the same name already exists: {}",
+                       cgDto.getCategoryName());
                 throw new AlreadyExistException(
                       "Category with same name already exists");
             }
@@ -148,9 +152,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new ResourceNotFound(
                         "*category doesn't exist with id: " + id));
         List<Quiz> quizzes = category.getQuiz();
-        List<QuizDto> quizDtos = quizzes.stream().map(this::quizToDto).collect(Collectors.toList());
+        List<QuizDto> quizDtos = quizzes.stream().map(this::quizToDto)
+                .collect(Collectors.toList());
 
-        LOGGER.info("Retrieved {} quizzes for category with ID: {}", quizDtos.size(), id);
+        LOGGER.info("Retrieved {} quizzes for category with ID: {}",
+                 quizDtos.size(), id);
         return quizDtos;
     }
     /**

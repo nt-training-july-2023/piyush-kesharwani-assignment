@@ -56,12 +56,12 @@ public class Candidate {
     /**
      * The Role of the candidate.
      */
-    
+
     private String userRole;
     /**
      * The phone number of the candidate.
      */
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^\\d{10}$" , message="phone number is invalid")
+    @Pattern(regexp = "^\\d{10}$", message = "phone number is invalid")
     private String phoneNumber;
 }

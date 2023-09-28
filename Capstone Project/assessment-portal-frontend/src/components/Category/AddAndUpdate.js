@@ -6,7 +6,6 @@ import Error from '../Error';
 import Swal from 'sweetalert2';
 
 const AddAndUpdate = () => {
-  // const [categoryId, setCategoryId] = useState();
   const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('')
@@ -37,7 +36,6 @@ const AddAndUpdate = () => {
         })
         navigate('/category/all');
       }).catch(error=>{
-        // console.log(error.response);
         const submitError =error.response.data.message
             Swal.fire({
               title: "Error",
@@ -66,7 +64,6 @@ const AddAndUpdate = () => {
     categoryService
       .getCategoryById(id)
       .then((response) => {
-        // setCategoryId(response.data.categoryId);
         setCategoryName(response.data.categoryName);
         setDescription(response.data.description);
       })
@@ -95,19 +92,6 @@ const AddAndUpdate = () => {
         {title()}
         <div className='card-body'>
           <form>
-            {/* <div className='form-group'>
-              <label className='form-label' htmlFor='categoryId'>
-                Category ID:
-              </label>
-              <input
-                type='number'
-                placeholder='Enter category Id'
-                id='categoryId'
-                className='form-control'
-                value={categoryId || ''}
-                onChange={(e) => setCategoryId(e.target.value)}
-              />
-            </div> */}
             <div className='form-group'>
               <label className='form-label' htmlFor='categoryName'>
                 Name:

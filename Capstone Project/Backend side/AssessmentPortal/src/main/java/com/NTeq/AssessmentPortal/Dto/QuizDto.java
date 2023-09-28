@@ -41,7 +41,7 @@ public class QuizDto {
     /**
      * The time of the Quiz.
      */
-    @Min(value = 1 , message = "Minimun time should be of 1 min")
+    @Min(value = 1, message = "Minimun time should be of 1 min")
     private int time;
     /**
      * Constructs a new QuizDto object with the specified parameters.

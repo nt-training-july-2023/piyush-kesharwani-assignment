@@ -23,7 +23,10 @@ import com.NTeq.AssessmentPortal.Services.QuestionService;
  */
 @Service
 public class QuestionServiceImpl implements QuestionService {
-    private final Logger LOGGER = LoggerFactory
+    /**
+     * This class represents a logger for the QuestionServiceImpl.
+     */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(QuestionServiceImpl.class);
     /**
      * Repository for question data. Injected by Spring using @Autowired.
@@ -40,11 +43,10 @@ public class QuestionServiceImpl implements QuestionService {
         LOGGER.info("Adding a new question");
         Question question = this.dtoToQuestion(questionDto);
         String correctOption = question.getAnswer();
-        if(!(correctOption.equalsIgnoreCase(question.getOptionOne())
+        if (!(correctOption.equalsIgnoreCase(question.getOptionOne())
              || correctOption.equalsIgnoreCase(question.getOptionTwo())
              || correctOption.equalsIgnoreCase(question.getOptionThree())
-             || correctOption.equalsIgnoreCase(question.getOptionFour())))
-        {
+             || correctOption.equalsIgnoreCase(question.getOptionFour()))) {
             LOGGER.error("Answer doesn't match with options for question ");
             throw new ResourceNotFound("Answer doesn't match with options");
         }
@@ -82,7 +84,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (question != null) {
             QuestionDto questionDto = this.questionToDto(question);
 
-            LOGGER.info("Retrieved question: {}", questionDto.getQuestionName());
+        LOGGER.info("Retrieved question: {}", questionDto.getQuestionName());
             return questionDto;
         }
         LOGGER.warn("Question not found for ID: {}", questionId);

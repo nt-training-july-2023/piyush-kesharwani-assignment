@@ -34,6 +34,7 @@ public interface CategoryService {
     /**
      * Deletes a category by its unique identifier.
      * @param categoryId The ID of the category to delete.
+     * @return A message indicating the delete operation.
      */
      String deleteCategory(long categoryId);
 }

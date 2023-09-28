@@ -31,7 +31,10 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/quiz")
 public class QuizController {
-    private final Logger LOGGER = LoggerFactory
+    /**
+     * This class represents a logger for the QuizController.
+     */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(QuizController.class);
     /**
      * The QuizService implementation that handles quiz operations.
@@ -62,7 +65,7 @@ public class QuizController {
            final @PathVariable("id") long id) {
         LOGGER.info("Getting quiz by ID: {}", id);
         QuizDto qz = quizService.getQuizById(id);
-        LOGGER.info("successfully fetched Quiz with ID {}",id);
+        LOGGER.info("successfully fetched Quiz with ID {}", id);
         return ResponseEntity.of(Optional.of(qz));
     }
     /**
@@ -86,7 +89,7 @@ public class QuizController {
     @PutMapping("/update/{id}")
     public final ResponseEntity<QuizDto> updateQuiz(final
        @PathVariable("id") long id, @Valid final @RequestBody QuizDto qzDto) {
-        LOGGER.info("Updating quiz with ID: {}", id);   
+        LOGGER.info("Updating quiz with ID: {}", id);
         quizService.updateQuiz(id, qzDto);
         LOGGER.info("Quiz updated successfully");
             return ResponseEntity.ok().body(qzDto);
@@ -102,7 +105,7 @@ public class QuizController {
             long id) {
            LOGGER.info("Deleting quiz by ID: {}", id);
             quizService.deleteQuiz(id);
-            LOGGER.info("Quiz deleted successfully");   
+            LOGGER.info("Quiz deleted successfully");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     /**
@@ -114,8 +117,9 @@ public class QuizController {
     public final List<QuestionDto> getAllQuestionByQuiz(
             @PathVariable final int quizId) {
         LOGGER.info("Getting questions for quiz with ID: {}", quizId);
-        List<QuestionDto> questionByQuiz = quizService.getAllQuestionByQuiz(quizId);
-        LOGGER.info("Retrieved all questions for quiz with ID :{}",quizId);
+        List<QuestionDto> questionByQuiz = quizService
+                .getAllQuestionByQuiz(quizId);
+        LOGGER.info("Retrieved all questions for quiz with ID :{}", quizId);
         return questionByQuiz;
     }
 }

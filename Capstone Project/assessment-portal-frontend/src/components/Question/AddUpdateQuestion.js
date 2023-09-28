@@ -87,24 +87,25 @@ const AddUpdateQuestion = () => {
   };
 
 
-  // const validateForm = () => {
-  //   if (
-  //     questionName === "" ||
-  //     options.optionOne === "" ||
-  //     options.optionTwo === "" ||
-  //     options.optionThree === "" ||
-  //     options.optionFour === "" ||
-  //     answer === ""
-  //   ) {
-  //     setErrors("*All the fields are mandatory");
-  //     return true;
-  //   }
-  //   setErrors("");
-  //   return false;
-  // };
+  const validateForm = () => {
+    if (
+      questionName === "" ||
+      options.optionOne === "" ||
+      options.optionTwo === "" ||
+      options.optionThree === "" ||
+      options.optionFour === "" ||
+      answer === ""
+    ) {
+      setErrors("*All the fields are mandatory");
+      return true;
+    }
+    setErrors("");
+    return false;
+  };
 
   const saveQuestion = (e) => {
     e.preventDefault();
+    if(!validateForm()){
     const payload = {
       quiz: quiz,
       questionName: questionName,
@@ -115,6 +116,7 @@ const AddUpdateQuestion = () => {
         optionFour: options.optionFour,
       },
       answer: answer,
+    
     };
     
 
@@ -163,7 +165,7 @@ const AddUpdateQuestion = () => {
           console.log(error);
         });
     }
-  
+    }
 
   };
 

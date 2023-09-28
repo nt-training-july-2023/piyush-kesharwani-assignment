@@ -14,7 +14,8 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9.]+@nucleusTeq\.com$/;
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
   const phoneRegex = /^[0-9]{10}$/;
@@ -25,8 +26,8 @@ const Register = () => {
       return false;
     }
 
-    if (!emailRegex.test(email) && !email.endsWith("@nucleusTeq.com")) {
-      setErrorMessage("email domain should be end with @nucleusTeq.com");
+    if (!emailRegex.test(email)) {
+      setErrorMessage("enter a valid email");
       return false;
     }
     
@@ -42,7 +43,7 @@ const Register = () => {
       setErrorMessage("Enter a valid phone number.");
       return false;
     }
-    setErrorMessage(""); // Clear error message if all validations pass
+    setErrorMessage(""); 
     return true;
   };
 
@@ -74,10 +75,7 @@ const Register = () => {
         setSuccessMessage("Registration successful. Please log in.");
         setErrorMessage("");
       } catch (error) {
-        // console.error(
-        //   error.response ? error.response.data : "An error occurred"
-        // );
-        const submitError=error.response.data.message
+        const submitError=error.response.data.message;
             Swal.fire({
               title: "Error",
               text: `${submitError}`,
@@ -87,7 +85,7 @@ const Register = () => {
             });
         console.error(error);
         if (error.response) {
-          setErrorMessage("Registration failed. " + error.response.data.message);
+          setErrorMessage("Registration failed. " + error.response.data.email);
         } else {
           setErrorMessage("An error occurred during registration.");
         }
@@ -176,7 +174,7 @@ const Register = () => {
               )}
               {errorMessage && email && !emailRegex.test(email) && (
                 <div className="custom-error">
-                  Please provide a valid email address.
+                  email should be end with @nucleusTeq.com.
                 </div>
               )}
             </div>

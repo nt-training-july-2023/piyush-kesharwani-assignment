@@ -110,10 +110,8 @@ const UserTest = () => {
       totalQuestion,
     };
     resultService.saveResult(result).then((response) => {
-      console.log(response.data);
-
       Swal.fire({
-        title: "Success",
+        title: "Test Submitted",
         text: "Test Submitted successfully",
         icon: "success",
         timer: 2000,

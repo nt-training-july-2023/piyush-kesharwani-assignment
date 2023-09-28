@@ -31,6 +31,9 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
+    /**
+     * This class represents a logger for the CategoryController.
+     */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(CategoryController.class);
     /**
@@ -46,7 +49,8 @@ public class CategoryController {
      * @return A message indicating the addition status.
      */
     @PostMapping("/addCategory")
-    public final String saveCategory(@Valid @RequestBody CategoryDto cgDto) {
+    public final String saveCategory(@Valid @RequestBody
+            final CategoryDto cgDto) {
         LOGGER.info("Add category method invoke");
         String response =  categoryService.addCategory(cgDto);
         LOGGER.info("Category Added successfully");
@@ -61,9 +65,9 @@ public class CategoryController {
     @GetMapping("/getCategory/{id}")
     public final ResponseEntity<CategoryDto> getCategory(
            final @PathVariable("id") long id) {
-        LOGGER.info("Received a request to get category with ID :{}",id);
+        LOGGER.info("Received a request to get category with ID :{}", id);
         CategoryDto cg = categoryService.getCategoryById(id);
-        LOGGER.info("successfully fetched category with ID {}",id);
+        LOGGER.info("successfully fetched category with ID {}", id);
         return ResponseEntity.of(Optional.of(cg));
     }
 
@@ -84,13 +88,13 @@ public class CategoryController {
      * @param id    The ID of the category to update.
      * @param cgDto The updated category DTO.
      * @return The ResponseEntity containing the updated category DTO if
-     *      successful,or INTERNAL_SERVER_ERROR status if an exception occurs.
+     * successful,or INTERNAL_SERVER_ERROR status if an exception occurs.
      */
     @PutMapping("/update/{id}")
     public final ResponseEntity<CategoryDto> updateCategory(final
-        @PathVariable("id") Long id, @Valid final @RequestBody 
+        @PathVariable("id") Long id, @Valid final @RequestBody
         CategoryDto cgDto) {
-        LOGGER.info("Received a request to update category with ID :{}",id);
+        LOGGER.info("Received a request to update category with ID :{}", id);
         categoryService.updateCategory(id, cgDto);
         LOGGER.info("Category Updated successfully");
             return ResponseEntity.ok().body(cgDto);
@@ -104,16 +108,8 @@ public class CategoryController {
      */
     @DeleteMapping("/delete/{id}")
     public final ResponseEntity<String> deleteCategory(final @PathVariable("id")
-                                                       Long id) {
-//        try {
-//            categoryService.deleteCategory(id);
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
-//                    .build();
-//        }
-        LOGGER.info("Received a request to delete category with ID :{}",id);
+           Long id) {
+        LOGGER.info("Received a request to delete category with ID :{}", id);
         categoryService.deleteCategory(id);
         LOGGER.info("Deleted successfully");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -126,10 +122,10 @@ public class CategoryController {
     @GetMapping("/{id}/quizzes")
     public final ResponseEntity<List<QuizDto>> getQuizzesByCategory(
             @PathVariable final long id) {
-//        return ResponseEntity.ok(categoryService.getQuizzesByCategory(id));
         LOGGER.info("Getting quizzes for category with ID: {}", id);
         List<QuizDto> quizzes = categoryService.getQuizzesByCategory(id);
-        LOGGER.info("Quizzes retrieved successfully for category with ID: {}", id);
+        LOGGER.info("Quizzes retrieved successfully for category with ID: {}",
+               id);
         return ResponseEntity.ok(quizzes);
     }
 }

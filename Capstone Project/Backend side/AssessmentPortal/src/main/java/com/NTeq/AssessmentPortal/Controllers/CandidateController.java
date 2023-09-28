@@ -25,6 +25,9 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/candidate")
 public class CandidateController {
+    /**
+     * This class represents a logger for the CandidateController.
+     */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(CandidateController.class);
     /**
@@ -38,7 +41,6 @@ public class CandidateController {
      * @param cdDto The candidate DTO containing registration details.
      * @return A message indicating the registration status.
      */
-
     @PostMapping(path = "/register")
     public final String saveUser(@Valid final @RequestBody
             CandidateDto cdDto) {
@@ -49,7 +51,7 @@ public class CandidateController {
     }
     /**
      * End point for candidate login.
-     * @param cdDto The candidate DTO containing login credentials.
+     * @param loginRequestDto The LoginRequest DTO containing login credentials.
      * @return A map containing login response status and message.
      */
     @PostMapping(path = "/login")

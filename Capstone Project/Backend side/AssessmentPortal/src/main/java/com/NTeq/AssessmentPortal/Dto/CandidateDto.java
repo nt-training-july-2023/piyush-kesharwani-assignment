@@ -60,7 +60,7 @@ public class CandidateDto {
      * The phone number of the candidate.
      */
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^\\d{10}$" , message="phone number is invalid")
+    @Pattern(regexp = "^\\d{10}$", message = "phone number is invalid")
     private String phoneNumber;
 
 }

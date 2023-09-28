@@ -63,7 +63,7 @@ public class Quiz {
     /**
      * The time of the quiz.
      */
-    @Min(value = 1 , message = "Minimun time should be of 1 min")
+    @Min(value = 1, message = "Minimun time should be of 1 min")
     private int time;
     /**
      * Represents a list of questions associated with a Quiz.

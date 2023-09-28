@@ -17,7 +17,7 @@ const Login = () => {
       setErrorMessage("Please enter both email and password.");
       return false;
     }
-    setErrorMessage(""); // Clear error message if validation passes
+    setErrorMessage(""); 
     return true;
   };
 
@@ -57,7 +57,7 @@ const Login = () => {
 
       } catch (error) {
         setErrorMessage("Wrong Credentials");
-        const submitError = error.response.data.message;
+        const submitError = error.response.data;
         Swal.fire({
           title: "Error",
           text: `${submitError}`,

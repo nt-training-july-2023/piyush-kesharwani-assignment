@@ -19,7 +19,7 @@ public interface CandidateService {
 
     /**
      * Logs in a candidate using provided credentials.
-     * @param inCandidateDto The DTO containing candidate login credentials.
+     * @param loginRequestDto The DTO containing candidate login credentials.
      * @return A map with login response status and message.
      */
     Map<String, String> loginCandidate(LoginRequestDto loginRequestDto);
