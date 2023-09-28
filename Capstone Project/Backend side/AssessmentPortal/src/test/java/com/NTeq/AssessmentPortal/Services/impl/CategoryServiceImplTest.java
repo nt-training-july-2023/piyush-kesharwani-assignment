@@ -50,13 +50,6 @@ class CategoryServiceImplTest {
         String resultMessage = categoryService.addCategory(categoryDto);
         assertEquals("Category added successfully", resultMessage);
     }
-    
-    @Test
-    public void testAddCategory_NullCategoryDto() {
-        String resultMessage = categoryService.addCategory(null);
-        assertEquals("Error!!!! Category not added..", resultMessage);
-    }
-    
     @Test
     public void testGetCategoryById_Success() {
         int categoryId = 1;

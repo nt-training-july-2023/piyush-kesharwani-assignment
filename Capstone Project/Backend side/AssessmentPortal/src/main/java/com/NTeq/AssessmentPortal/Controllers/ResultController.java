@@ -2,6 +2,8 @@ package com.NTeq.AssessmentPortal.Controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +25,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/result")
 public class ResultController {
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(ResultController.class);
     /**
      * The ResultService implementation that handles result operations.
      * This field is automatically injected by the @Autowired annotation.
@@ -37,7 +41,10 @@ public class ResultController {
     @PostMapping("/addResult")
     public final String saveResult(@Valid final @RequestBody
             ResultDto resultDto) {
-        return resultService.addResult(resultDto);
+        LOGGER.info("Add Result method invoked");
+        String result = resultService.addResult(resultDto);
+        LOGGER.info("Result created succesfully");
+        return result;
     }
     /**
      * End point to retrieve a list of all result.
@@ -45,7 +52,9 @@ public class ResultController {
      */
     @GetMapping("/all")
     public final ResponseEntity<List<ResultDto>> getAll() {
+        LOGGER.info("Get results method invoked");
         List<ResultDto> reportDtos = resultService.getAllResult();
+        LOGGER.info("Retrieved Results Successfully");
         return ResponseEntity.ok(reportDtos);
     }
     /**
@@ -56,11 +65,10 @@ public class ResultController {
     @GetMapping("/{email}")
     public final ResponseEntity<List<ResultDto>> findByEmailId(
            final @PathVariable String email) {
+        LOGGER.info("Getting result by email: {}",email);
         List<ResultDto> resultDto = resultService.getresultByEmail(email);
-        if (resultDto != null) {
-            return ResponseEntity.ok(resultDto);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        LOGGER.info("Successfully fetched result with email {}",email);
+           return ResponseEntity.ok(resultDto);
+        
     }
 }

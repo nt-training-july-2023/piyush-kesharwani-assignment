@@ -1,5 +1,6 @@
 package com.NTeq.AssessmentPortal.Dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class ResultDto {
      * The total marks available for the assessment.
      */
     @NotNull(message = "Total marks is required")
+    @Min(value=1, message = "Minimun value should be 1")
     private int totalMarks;
     /**
      * The marks obtained by the user in the assessment.
@@ -62,5 +64,6 @@ public class ResultDto {
      * The total number of questions in the assessment.
      */
     @NotNull(message = "Total marks is required")
+    @Min(value=1, message = "Minimun value should be 1")
     private int totalQuestion;
 }

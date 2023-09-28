@@ -2,7 +2,6 @@ package com.NTeq.AssessmentPortal.Controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -41,18 +40,6 @@ class QuizControllerTest {
 
         assertEquals("Quiz added successfully", result);
     }
-
-    @Test
-    void testGetCategory_QuizFound() {
-        long quizId = 1L;
-        QuizDto quizDto = new QuizDto();
-        when(quizService.getQuizById(quizId)).thenReturn(quizDto);
-
-        ResponseEntity<QuizDto> responseEntity = quizController.getCategory(quizId);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody());
-    }
     
     @Test
     void testGetAll() {
@@ -75,17 +62,6 @@ class QuizControllerTest {
     }
 
     @Test
-    void testUpdateQuiz_Exception() {
-        long quizId = 1L;
-        QuizDto quizDto = new QuizDto();
-        doThrow(new RuntimeException("Update failed")).when(quizService).updateQuiz(quizId, quizDto);
-
-        ResponseEntity<QuizDto> responseEntity = quizController.updateQuiz(quizId, quizDto);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
-    }
-
-    @Test
     void testDeleteQuiz_Success() {
         long quizId = 1L;
         doNothing().when(quizService).deleteQuiz(quizId);
@@ -93,15 +69,5 @@ class QuizControllerTest {
         ResponseEntity<Void> responseEntity = quizController.deleteQuiz(quizId);
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-    }
-
-    @Test
-    void testDeleteQuiz_Exception() {
-        long quizId = 1L;
-        doThrow(new RuntimeException("Delete failed")).when(quizService).deleteQuiz(quizId);
-
-        ResponseEntity<Void> responseEntity = quizController.deleteQuiz(quizId);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
     }
 }

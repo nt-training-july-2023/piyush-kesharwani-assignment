@@ -3,6 +3,8 @@ package com.NTeq.AssessmentPortal.Controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(CategoryController.class);
     /**
      * The CategoryService implementation that handles category operations.
      * This field is automatically injected by the @Autowired annotation.
@@ -43,9 +47,11 @@ public class CategoryController {
      */
     @PostMapping("/addCategory")
     public final String saveCategory(@Valid @RequestBody CategoryDto cgDto) {
-        return categoryService.addCategory(cgDto);
+        LOGGER.info("Add category method invoke");
+        String response =  categoryService.addCategory(cgDto);
+        LOGGER.info("Category Added successfully");
+        return response;
     }
-
     /**
      * End point to retrieve a category by ID.
      * @param id The ID of the category to retrieve.
@@ -55,10 +61,9 @@ public class CategoryController {
     @GetMapping("/getCategory/{id}")
     public final ResponseEntity<CategoryDto> getCategory(
            final @PathVariable("id") long id) {
+        LOGGER.info("Received a request to get category with ID :{}",id);
         CategoryDto cg = categoryService.getCategoryById(id);
-        if (cg == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        LOGGER.info("successfully fetched category with ID {}",id);
         return ResponseEntity.of(Optional.of(cg));
     }
 
@@ -68,7 +73,10 @@ public class CategoryController {
      */
     @GetMapping("/all")
     public final List<CategoryDto> getAll() {
-        return categoryService.getAllCategory();
+        LOGGER.info("Get Categories method invoke");
+        List<CategoryDto> categories = categoryService.getAllCategory();
+        LOGGER.info("Retrieved categories");
+        return categories;
     }
 
     /**
@@ -82,7 +90,9 @@ public class CategoryController {
     public final ResponseEntity<CategoryDto> updateCategory(final
         @PathVariable("id") Long id, @Valid final @RequestBody 
         CategoryDto cgDto) {
-            categoryService.updateCategory(id, cgDto);
+        LOGGER.info("Received a request to update category with ID :{}",id);
+        categoryService.updateCategory(id, cgDto);
+        LOGGER.info("Category Updated successfully");
             return ResponseEntity.ok().body(cgDto);
     }
 
@@ -93,16 +103,20 @@ public class CategoryController {
      *         INTERNAL_SERVER_ERROR status if an exception occurs.
      */
     @DeleteMapping("/delete/{id}")
-    public final ResponseEntity<Void> deleteCategory(final @PathVariable("id")
+    public final ResponseEntity<String> deleteCategory(final @PathVariable("id")
                                                        Long id) {
-        try {
-            categoryService.deleteCategory(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
-                    .build();
-        }
+//        try {
+//            categoryService.deleteCategory(id);
+//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
+//                    .build();
+//        }
+        LOGGER.info("Received a request to delete category with ID :{}",id);
+        categoryService.deleteCategory(id);
+        LOGGER.info("Deleted successfully");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     /**
      * Retrieves quizzes associated with a specific category.
@@ -112,6 +126,10 @@ public class CategoryController {
     @GetMapping("/{id}/quizzes")
     public final ResponseEntity<List<QuizDto>> getQuizzesByCategory(
             @PathVariable final long id) {
-        return ResponseEntity.ok(categoryService.getQuizzesByCategory(id));
+//        return ResponseEntity.ok(categoryService.getQuizzesByCategory(id));
+        LOGGER.info("Getting quizzes for category with ID: {}", id);
+        List<QuizDto> quizzes = categoryService.getQuizzesByCategory(id);
+        LOGGER.info("Quizzes retrieved successfully for category with ID: {}", id);
+        return ResponseEntity.ok(quizzes);
     }
 }

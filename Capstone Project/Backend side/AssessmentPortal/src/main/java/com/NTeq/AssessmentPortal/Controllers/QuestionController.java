@@ -2,6 +2,8 @@ package com.NTeq.AssessmentPortal.Controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(QuestionController.class);
     /**
      * The QuestionService implementation that handles quiz operations.
      * This field is automatically injected by the @Autowired annotation.
@@ -40,7 +44,9 @@ public class QuestionController {
     @PostMapping("/add")
     public final ResponseEntity<String> addQuestion(
            @Valid final @RequestBody QuestionDto questionDto) {
+        LOGGER.info("Add Question Method invoked");
         String result = questionService.addQuestion(questionDto);
+        LOGGER.info("Question added Successfully");
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
     /**
@@ -49,7 +55,10 @@ public class QuestionController {
      */
     @GetMapping("/all")
     public final List<QuestionDto> getAll() {
-        return questionService.getAllQuestion();
+        LOGGER.info("Get Questions method invoke");
+        List<QuestionDto> questions = questionService.getAllQuestion();
+        LOGGER.info("Retrieved Questions successfully");
+        return questions;
     }
     /**
      * Retrieves a question by its unique identifier.
@@ -60,11 +69,10 @@ public class QuestionController {
     @GetMapping("/{questionId}")
     public final ResponseEntity<QuestionDto> getQuestionById(
             final @PathVariable long questionId) {
+       LOGGER.info("Getting question with ID: {}",questionId);
         QuestionDto question = questionService.getQuestionById(questionId);
-        if (question != null) {
-            return new ResponseEntity<>(question, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        LOGGER.info("successfully fetched Quiz with ID {}",questionId);
+          return new ResponseEntity<>(question, HttpStatus.OK);
     }
     /**
      * Updates an existing question using the provided QuestionDto,question ID.
@@ -76,14 +84,10 @@ public class QuestionController {
     public final ResponseEntity<QuestionDto> updateQuestion(
            final @PathVariable long questionId,
           @Valid final @RequestBody QuestionDto questionDto) {
-        try {
+          LOGGER.info("Updating question with ID: {}", questionId);  
             questionService.updateQuestion(questionId, questionDto);
+            LOGGER.info("Question updated successfully");
             return ResponseEntity.ok().body(questionDto);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
-                    .build();
-        }
     }
     /**
      * Deletes a question by its unique identifier.
@@ -93,7 +97,9 @@ public class QuestionController {
     @DeleteMapping("/{questionId}")
     public final ResponseEntity<Void> deleteQuestion(
             final @PathVariable long questionId) {
+        LOGGER.info("Deleting question by ID: {}", questionId);
         questionService.deleteQuestion(questionId);
+        LOGGER.info("Quiz deleted successfully");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

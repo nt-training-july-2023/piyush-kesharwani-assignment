@@ -3,6 +3,8 @@ package com.NTeq.AssessmentPortal.Services.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import com.NTeq.AssessmentPortal.Entity.Category;
 import com.NTeq.AssessmentPortal.Entity.Options;
 import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
+import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.QuestionRepository;
 import com.NTeq.AssessmentPortal.Services.QuestionService;
 /**
@@ -20,6 +23,8 @@ import com.NTeq.AssessmentPortal.Services.QuestionService;
  */
 @Service
 public class QuestionServiceImpl implements QuestionService {
+    private final Logger LOGGER = LoggerFactory
+            .getLogger(QuestionServiceImpl.class);
     /**
      * Repository for question data. Injected by Spring using @Autowired.
      */
@@ -32,8 +37,19 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final String addQuestion(final QuestionDto questionDto) {
+        LOGGER.info("Adding a new question");
         Question question = this.dtoToQuestion(questionDto);
+        String correctOption = question.getAnswer();
+        if(!(correctOption.equalsIgnoreCase(question.getOptionOne())
+             || correctOption.equalsIgnoreCase(question.getOptionTwo())
+             || correctOption.equalsIgnoreCase(question.getOptionThree())
+             || correctOption.equalsIgnoreCase(question.getOptionFour())))
+        {
+            LOGGER.error("Answer doesn't match with options for question ");
+            throw new ResourceNotFound("Answer doesn't match with options");
+        }
         questionRepository.save(question);
+        LOGGER.info("Question added successfully");
         return "Question added successfully";
     }
     /**
@@ -42,10 +58,15 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final List<QuestionDto> getAllQuestion() {
-        List<Question> question = questionRepository.findAll();
-        return question.stream()
+        LOGGER.info("Getting all questions");
+
+        List<Question> questions = questionRepository.findAll();
+        List<QuestionDto> questionDtos = questions.stream()
                 .map(this::questionToDto)
                 .collect(Collectors.toList());
+
+        LOGGER.info("Retrieved {} questions", questionDtos.size());
+        return questionDtos;
     }
     /**
      * Retrieves a question by its unique identifier.
@@ -55,11 +76,16 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final QuestionDto getQuestionById(final long questionId) {
+        LOGGER.info("Getting question by ID: {}", questionId);
         Question question = questionRepository.findById(questionId)
                 .orElse(null);
         if (question != null) {
-            return questionToDto(question);
+            QuestionDto questionDto = this.questionToDto(question);
+
+            LOGGER.info("Retrieved question: {}", questionDto.getQuestionName());
+            return questionDto;
         }
+        LOGGER.warn("Question not found for ID: {}", questionId);
         return null;
     }
     /**
@@ -72,14 +98,17 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public final String updateQuestion(final long questionId,
             final QuestionDto questionDto) {
+        LOGGER.info("Updating question with ID: {}", questionId);
         Question existingQuestion = questionRepository.findById(questionId)
                 .orElse(null);
         if (existingQuestion != null) {
             Question updatedQuestion = this.dtoToQuestion(questionDto);
             updatedQuestion.setQuestionId(questionId);
             questionRepository.save(updatedQuestion);
+            LOGGER.info("Question updated successfully");
             return "Question updated successfully";
         }
+        LOGGER.warn("Question not found for ID: {}", questionId);
         return "Question not found";
     }
     /**
@@ -88,7 +117,9 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final void deleteQuestion(final long questionId) {
+        LOGGER.info("Deleting question by ID: {}", questionId);
         questionRepository.deleteById(questionId);
+        LOGGER.info("Question deleted successfully");
       }
     /**
      * Converts a QuestionDto object to a Question entity.

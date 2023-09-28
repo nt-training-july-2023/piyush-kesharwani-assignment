@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ import com.NTeq.AssessmentPortal.Services.CategoryService;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
+    private final Logger LOGGER = LoggerFactory
+            .getLogger(CategoryServiceImpl.class);
     /**
      * Repository for category data. Injected by Spring using @Autowired.
      */
@@ -38,20 +42,14 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public final String addCategory(final CategoryDto cgDto) {
+        LOGGER.info("Adding a new category: {}", cgDto.getCategoryName());
         Category cg = this.dtoToCategory(cgDto);
-
-        if (cg != null) {
             Category newOne = new Category(0L, cg.getCategoryName(),
                     cg.getDescription());
 
-            try {
                 categoryRepository.save(newOne);
+                LOGGER.info("Category added successfully: {}", newOne.getCategoryName());
                 return "Category added successfully";
-            } catch (Exception e) {
-                throw e;
-            }
-        }
-        return "Error!!!! Category not added..";
     }
     /**
      * Retrieves a list of all categories.
@@ -59,12 +57,15 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public final List<CategoryDto> getAllCategory() {
+        LOGGER.info("Getting all categories");
+
         List<Category> cgs = this.categoryRepository.findAll();
         List<CategoryDto> cgDtos = cgs.stream()
                 .map(category -> this.categoryToDto(category))
                 .collect(Collectors.toList());
-        return cgDtos;
 
+        LOGGER.info("Retrieved {} categories", cgDtos.size());
+        return cgDtos;
     }
 
     /**
@@ -75,13 +76,16 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public final CategoryDto getCategoryById(final long categoryId) {
+        LOGGER.info("Getting category by ID: {}", categoryId);
         Optional<Category> foundCategory = categoryRepository
                 .findById(categoryId);
         if (foundCategory.isPresent()) {
             Category cat = foundCategory.get();
             CategoryDto catDto = this.categoryToDto(cat);
+            LOGGER.info("Retrieved category: {}", catDto.getCategoryName());
             return catDto;
         } else {
+            LOGGER.error("Category not found for ID: {}", categoryId);
             throw new RuntimeException(
                     "Category not found for id" + categoryId);
         }
@@ -96,12 +100,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public final String updateCategory(final Long categoryId,
         final CategoryDto cgDto) {
+        LOGGER.info("Updating category with ID: {}", categoryId);
         Category existCg = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFound("Doesn't exists"));
         if (!cgDto.getCategoryName().equals(existCg.getCategoryName())) {
             Optional<Category> checkExisting = categoryRepository
                     .findByCategoryName(cgDto.getCategoryName());
             if (checkExisting.isPresent()) {
+                LOGGER.error("Category with the same name already exists: {}"
+                        , cgDto.getCategoryName());
                 throw new AlreadyExistException(
                       "Category with same name already exists");
             }
@@ -109,6 +116,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category cg = this.dtoToCategory(cgDto);
         cg.setCategoryId(categoryId);
         categoryRepository.save(cg);
+        LOGGER.info("Category updated successfully");
         return "Updated successfully..";
     }
     /**
@@ -116,8 +124,18 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categoryId The ID of the category to delete.
      */
     @Override
-    public final void deleteCategory(final long categoryId) {
-        categoryRepository.deleteById(categoryId);
+    public final String deleteCategory(final long categoryId) {
+//        categoryRepository.deleteById(categoryId);
+        LOGGER.info("Deleting category by ID: {}", categoryId);
+        Category category
+        = categoryRepository.findById(categoryId).orElseGet(() -> {
+            LOGGER.error("Category not found for ID: {}", categoryId);
+            throw new ResourceNotFound(
+                    "Category doesn't exists" + categoryId);
+        });
+            categoryRepository.delete(category);
+            LOGGER.error("Category not found for ID: {}", categoryId);
+            return "Category has been deleted";
     }
     /**
      * Retrieves a list of Quizzes of a category.
@@ -125,12 +143,15 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of QuizDTO objects.
      */
     public final List<QuizDto> getQuizzesByCategory(final long id) {
+        LOGGER.info("Getting quizzes for category with ID: {}", id);
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFound(
                         "*category doesn't exist with id: " + id));
         List<Quiz> quizzes = category.getQuiz();
-        return quizzes.stream().map(this::quizToDto)
-        .collect(Collectors.toList());
+        List<QuizDto> quizDtos = quizzes.stream().map(this::quizToDto).collect(Collectors.toList());
+
+        LOGGER.info("Retrieved {} quizzes for category with ID: {}", quizDtos.size(), id);
+        return quizDtos;
     }
     /**
      * Converts a Category entity to its corresponding DTO.

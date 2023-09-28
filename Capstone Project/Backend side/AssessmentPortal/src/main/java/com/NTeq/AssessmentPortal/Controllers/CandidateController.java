@@ -3,6 +3,8 @@ package com.NTeq.AssessmentPortal.Controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
 import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
 import com.NTeq.AssessmentPortal.Services.impl.CandidateServiceImpl;
-
 import jakarta.validation.Valid;
 
 /**
@@ -24,6 +25,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/candidate")
 public class CandidateController {
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(CandidateController.class);
     /**
      * The CandidateService implementation that handles candidate operation.
      * This field is automatically injected by using the @Autowired annotation.
@@ -39,7 +42,10 @@ public class CandidateController {
     @PostMapping(path = "/register")
     public final String saveUser(@Valid final @RequestBody
             CandidateDto cdDto) {
-        return candidateService.addCandidate(cdDto);
+        LOGGER.info("Candidate Method invoke");
+        String response = candidateService.addCandidate(cdDto);
+        LOGGER.info("Candidate registered succesfully");
+        return response;
     }
     /**
      * End point for candidate login.
@@ -49,7 +55,10 @@ public class CandidateController {
     @PostMapping(path = "/login")
     public final Map<String, String> loginCandidate(
             @Valid final @RequestBody LoginRequestDto loginRequestDto) {
-        Map<String, String> response = candidateService.loginCandidate(loginRequestDto);
+        LOGGER.info("Login method invoke");
+        Map<String, String> response = candidateService.
+                loginCandidate(loginRequestDto);
+        LOGGER.info("Login successfully");
         return response;
     }
     /**
@@ -58,6 +67,9 @@ public class CandidateController {
      */
     @GetMapping(path = "/all")
     public final List<CandidateDto> allCandidate() {
-        return candidateService.getAllCandidate();
+        LOGGER.info("Retrieving list of Candidates");
+        List<CandidateDto>  candidates = candidateService.getAllCandidate();
+        LOGGER.info("Retrieved list of candidates");
+        return candidates;
     }
 }

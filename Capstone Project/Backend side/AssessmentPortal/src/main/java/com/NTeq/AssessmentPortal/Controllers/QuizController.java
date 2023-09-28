@@ -3,6 +3,8 @@ package com.NTeq.AssessmentPortal.Controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/quiz")
 public class QuizController {
+    private final Logger LOGGER = LoggerFactory
+            .getLogger(QuizController.class);
     /**
      * The QuizService implementation that handles quiz operations.
      * This field is automatically injected by the @Autowired annotation.
@@ -42,7 +46,10 @@ public class QuizController {
      */
     @PostMapping("/addQuiz")
     public final String saveQuiz(@Valid final @RequestBody QuizDto qzDto) {
-        return quizService.addQuiz(qzDto);
+        LOGGER.info("Adding a new Quiz");
+        String result =  quizService.addQuiz(qzDto);
+        LOGGER.info("Quiz Added Successfully");
+        return result;
     }
     /**
      * End point to retrieve a Quiz by ID.
@@ -51,9 +58,11 @@ public class QuizController {
      * NOT_FOUND,status if not found.
      */
     @GetMapping("/getQuiz/{id}")
-    public final ResponseEntity<QuizDto> getCategory(
+    public final ResponseEntity<QuizDto> getQuiz(
            final @PathVariable("id") long id) {
+        LOGGER.info("Getting quiz by ID: {}", id);
         QuizDto qz = quizService.getQuizById(id);
+        LOGGER.info("successfully fetched Quiz with ID {}",id);
         return ResponseEntity.of(Optional.of(qz));
     }
     /**
@@ -62,7 +71,10 @@ public class QuizController {
      */
     @GetMapping("/all")
     public final List<QuizDto> getAll() {
-        return quizService.getAllQuiz();
+        LOGGER.info("Get Quizzes method invoke");
+        List<QuizDto> quizzes = quizService.getAllQuiz();
+        LOGGER.info("Retrieved quizzess");
+        return quizzes;
     }
     /**
      * End point to update a quiz by ID.
@@ -74,14 +86,10 @@ public class QuizController {
     @PutMapping("/update/{id}")
     public final ResponseEntity<QuizDto> updateQuiz(final
        @PathVariable("id") long id, @Valid final @RequestBody QuizDto qzDto) {
-        try {
-            quizService.updateQuiz(id, qzDto);
+        LOGGER.info("Updating quiz with ID: {}", id);   
+        quizService.updateQuiz(id, qzDto);
+        LOGGER.info("Quiz updated successfully");
             return ResponseEntity.ok().body(qzDto);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
-                    .build();
-        }
     }
     /**
      * End point to delete a quiz by ID.
@@ -91,15 +99,11 @@ public class QuizController {
      */
     @DeleteMapping("/delete/{id}")
     public final ResponseEntity<Void> deleteQuiz(final @PathVariable("id")
-                                                       long id) {
-        try {
+            long id) {
+           LOGGER.info("Deleting quiz by ID: {}", id);
             quizService.deleteQuiz(id);
+            LOGGER.info("Quiz deleted successfully");   
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR))
-                    .build();
-        }
     }
     /**
      * Retrieves a category by its ID.
@@ -109,6 +113,9 @@ public class QuizController {
     @GetMapping("questions/{quizId}")
     public final List<QuestionDto> getAllQuestionByQuiz(
             @PathVariable final int quizId) {
-        return quizService.getAllQuestionByQuiz(quizId);
+        LOGGER.info("Getting questions for quiz with ID: {}", quizId);
+        List<QuestionDto> questionByQuiz = quizService.getAllQuestionByQuiz(quizId);
+        LOGGER.info("Retrieved all questions for quiz with ID :{}",quizId);
+        return questionByQuiz;
     }
 }
