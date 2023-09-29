@@ -9,6 +9,7 @@ checkstyle_suppressions.xml
 spotbugs-filter.xml
 spotbugs-filter.xml
 mvn/wrapper
+*.log
 
 # testing
 /coverage

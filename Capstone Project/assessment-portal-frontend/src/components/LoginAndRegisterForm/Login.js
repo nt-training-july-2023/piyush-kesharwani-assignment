@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Swal from 'sweetalert2';
+
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
   const IsLoggedIn = localStorage.getItem("IsLoggedIn");
-
   const validateForm = () => {
     if (!email || !password) {
       setErrorMessage("Please enter both email and password.");
@@ -20,7 +20,7 @@ const Login = () => {
     setErrorMessage(""); 
     return true;
   };
-
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -77,7 +77,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+      <div className="login-container">
       <form className="portal-form" onSubmit={handleLogin}>
         <div className="portal-form-content">
           <div>
@@ -127,6 +127,7 @@ const Login = () => {
         </div>
       </form>
     </div>
+  
   );
 };
 

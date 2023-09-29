@@ -9,7 +9,7 @@ import Error from "../Error";
 const AddUpdateQuiz = () => {
   const [quizName, setQuizName] = useState("");
   const [quizDescription, setQuizDescription] = useState("");
-  const [time, setTime] = useState();
+  const [time, setTime] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState();    
   const [category, setCategory] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -24,7 +24,6 @@ const AddUpdateQuiz = () => {
   const getAllCategories =()=>{
     categoryService.getAll().then((response)=>{
       setCategories(response.data);
-      // console.log(response.data);
     }).catch((error)=>{
       console.log(error);
     })
@@ -44,7 +43,7 @@ const AddUpdateQuiz = () => {
 }
 
 const validateForm =() =>{
-    if(quizName==='' || quizDescription===''){
+    if(quizName==='' || quizDescription==='' || time===0 || selectedCategory===''){
       setErrors('*all the fields are mandatory')
       return true;
     }
@@ -67,7 +66,7 @@ const saveQuiz=(e)=>{
           navigate("/quiz/all")
         }).catch(error => {
             console.log(error);
-            const submitError =error.response.data.message
+            const submitError =error.response.data
             Swal.fire({
               title: "Error",
               text: `${submitError}`,
@@ -84,12 +83,12 @@ const saveQuiz=(e)=>{
             title: "Success",
             text: "Quiz added successfully",
             icon: "success",
-            // timer:2000,
+            timer:2000,
             showConfirmButton: false,
           });
           navigate("/quiz/all")
         }).catch(error =>{
-          const submitError =error.response.data.message
+          const submitError =error.response.data
           Swal.fire({
             title: "Error",
             text: `${submitError}`,

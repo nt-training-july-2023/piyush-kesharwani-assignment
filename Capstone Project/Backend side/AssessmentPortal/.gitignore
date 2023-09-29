@@ -8,6 +8,7 @@ mvnw.cmd
 !**/src/main/**/target/
 !**/src/test/**/target/
 *.log
+*.gz
 
 ### STS ###
 .apt_generated

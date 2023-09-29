@@ -1,9 +1,9 @@
 
 .category-container { 
-  /* background: linear-gradient(#9796f0,#fbc7d4); */
   background-color: cadetblue;
   padding: 20px;
   min-height: 500vh;
+  overflow-x: auto;
 }
 
 .category-title {

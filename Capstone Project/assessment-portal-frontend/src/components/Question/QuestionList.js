@@ -180,7 +180,7 @@ const QuestionList = () => {
                             Update Question
                           </Link>)}
                           <button
-                            className="button-update-question"
+                            className="button-delete-question"
                             onClick={() => deleteQuiz(question.questionId)}
                           >
                             Delete Question

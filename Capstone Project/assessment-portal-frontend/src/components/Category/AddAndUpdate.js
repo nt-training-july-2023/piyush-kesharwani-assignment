@@ -26,7 +26,6 @@ const AddAndUpdate = () => {
     const category = { categoryName, description };
     if(id){
       categoryService.updateCategory(id,category).then((response)=>{
-        console.log(response.data);
         Swal.fire({
           title: "Success",
           text: "Category Updated successfully",
@@ -50,7 +49,13 @@ const AddAndUpdate = () => {
     categoryService
       .addCategory(category)
       .then((response) => {
-        console.log(response.data);
+        Swal.fire({
+          title: "Success",
+          text: "Category Added successfully",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        })
         navigate('/category/all');
       })
       .catch((error) => {
@@ -61,6 +66,7 @@ const AddAndUpdate = () => {
   };
 
   useEffect(() => {
+    if(id){
     categoryService
       .getCategoryById(id)
       .then((response) => {
@@ -70,6 +76,7 @@ const AddAndUpdate = () => {
       .catch((error) => {
         console.log(error);
       });
+    }
   }, [id]);
 
   const title = () => {

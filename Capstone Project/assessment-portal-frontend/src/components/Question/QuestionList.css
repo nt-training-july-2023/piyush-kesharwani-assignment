@@ -29,6 +29,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    background-color: lavender;
   }
   
   .add-question-button {
@@ -74,12 +75,21 @@
   .button-update-question {
     background-color: #007bff;
     color: #ffffff;
-    padding: 5px 10px;
+    padding: 7px 10px;
     border: none;
     border-radius: 4px;
     text-decoration: none;
     margin-right: 10px;
   }
+
+  .button-delete-question{
+    background-color: red;
+    color: #ffffff;
+    padding: 8px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  
   
   .button-update-question:hover {
     background-color: #0056b3;

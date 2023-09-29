@@ -159,7 +159,7 @@ const AddUpdateQuestion = () => {
             title: "Question Added",
             text: "The question has been added successfully!",
           });
-          navigate("/question/all");
+          navigate(`/quiz/${id}/question`);
         })
         .catch((error) => {
           console.log(error);
@@ -194,7 +194,7 @@ const AddUpdateQuestion = () => {
           console.log(error);
         });
     }
-  }, [id]);
+  }, [questionId]);
 
   return (
     <div className="question-form-container">
