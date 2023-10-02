@@ -116,7 +116,6 @@ const QuizList = () => {
               </div>
               ) : (
                 <div className="button-container">
-                {/* <Link to={`/quiz/${qz.quizId}/test`}><button className="btn-update">Take Test</button></Link> */}
                 <button className="btn-update" onClick={()=>{handleOpenQuiz(qz.quizId)}}>Take Test</button>
                 <button className="btn-delete" onClick={()=>navigate("/category/all")}>Cancel</button>
               </div>

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.CategoryServiceImpl;
 
 import jakarta.validation.Valid;
@@ -49,12 +51,12 @@ public class CategoryController {
      * @return A message indicating the addition status.
      */
     @PostMapping("/addCategory")
-    public final String saveCategory(@Valid @RequestBody
-            final CategoryDto cgDto) {
-        LOGGER.info("Add category method invoke");
-        String response =  categoryService.addCategory(cgDto);
-        LOGGER.info("Category Added successfully");
-        return response;
+    public final ResponseEntity<SuccessResponse> saveCategory(@Valid 
+            @RequestBody final CategoryDto categoryDto) {
+        LOGGER.info(Message.ADD_CATEGORY);
+        SuccessResponse response =  categoryService.addCategory(categoryDto);
+        LOGGER.info(Message.CATEGORY_CREATED_SUCCESSFULLY);
+        return new ResponseEntity<SuccessResponse>(response, HttpStatus.CREATED);
     }
     /**
      * End point to retrieve a category by ID.
@@ -65,10 +67,10 @@ public class CategoryController {
     @GetMapping("/getCategory/{id}")
     public final ResponseEntity<CategoryDto> getCategory(
            final @PathVariable("id") long id) {
-        LOGGER.info("Received a request to get category with ID :{}", id);
-        CategoryDto cg = categoryService.getCategoryById(id);
-        LOGGER.info("successfully fetched category with ID {}", id);
-        return ResponseEntity.of(Optional.of(cg));
+        LOGGER.info(Message.GET_CATEGORY_BY_ID, id);
+        CategoryDto categoryDto = categoryService.getCategoryById(id);
+        LOGGER.info(Message.GET_CATEGORY_SUCESSFULLY, id);
+        return ResponseEntity.of(Optional.of(categoryDto));
     }
 
     /**
@@ -77,9 +79,9 @@ public class CategoryController {
      */
     @GetMapping("/all")
     public final List<CategoryDto> getAll() {
-        LOGGER.info("Get Categories method invoke");
+        LOGGER.info(Message.GET_CATEGORIES);
         List<CategoryDto> categories = categoryService.getAllCategory();
-        LOGGER.info("Retrieved categories");
+        LOGGER.info(Message.RETRIVED_CATEGORIES);
         return categories;
     }
 
@@ -91,13 +93,13 @@ public class CategoryController {
      * successful,or INTERNAL_SERVER_ERROR status if an exception occurs.
      */
     @PutMapping("/update/{id}")
-    public final ResponseEntity<CategoryDto> updateCategory(final
+    public final ResponseEntity<SuccessResponse> updateCategory(final
         @PathVariable("id") Long id, @Valid final @RequestBody
-        CategoryDto cgDto) {
-        LOGGER.info("Received a request to update category with ID :{}", id);
-        categoryService.updateCategory(id, cgDto);
-        LOGGER.info("Category Updated successfully");
-            return ResponseEntity.ok().body(cgDto);
+        CategoryDto categoryDto) {
+        LOGGER.info(Message.UPDATE_CATEGORY, id);
+        SuccessResponse response = categoryService.updateCategory(id, categoryDto);
+        LOGGER.info(Message.CATEGORY_UPDATED_SUCCESSFULLY);
+            return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -107,12 +109,12 @@ public class CategoryController {
      *         INTERNAL_SERVER_ERROR status if an exception occurs.
      */
     @DeleteMapping("/delete/{id}")
-    public final ResponseEntity<String> deleteCategory(final @PathVariable("id")
+    public final ResponseEntity<SuccessResponse> deleteCategory(final @PathVariable("id")
            Long id) {
-        LOGGER.info("Received a request to delete category with ID :{}", id);
-        categoryService.deleteCategory(id);
-        LOGGER.info("Deleted successfully");
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        LOGGER.info(Message.DELETE_CATEGORY, id);
+        SuccessResponse response = categoryService.deleteCategory(id);
+        LOGGER.info(Message.CATEGORY_DELETED_SUCCESSFULLY);
+        return new ResponseEntity<>(response , HttpStatus.OK);
     }
     /**
      * Retrieves quizzes associated with a specific category.
@@ -122,10 +124,9 @@ public class CategoryController {
     @GetMapping("/{id}/quizzes")
     public final ResponseEntity<List<QuizDto>> getQuizzesByCategory(
             @PathVariable final long id) {
-        LOGGER.info("Getting quizzes for category with ID: {}", id);
+        LOGGER.info(Message.GET_QUIZZES_BY_CATEGORY, id);
         List<QuizDto> quizzes = categoryService.getQuizzesByCategory(id);
-        LOGGER.info("Quizzes retrieved successfully for category with ID: {}",
-               id);
+        LOGGER.info(Message.RETRIVED_QUIZZES_SUCCESFULLY, id);
         return ResponseEntity.ok(quizzes);
     }
 }

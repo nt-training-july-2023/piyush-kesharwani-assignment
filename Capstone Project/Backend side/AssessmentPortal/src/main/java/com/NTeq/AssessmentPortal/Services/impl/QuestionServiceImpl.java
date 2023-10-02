@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
@@ -17,6 +18,8 @@ import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.QuestionRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.QuestionService;
 /**
  * Service implementation for managing Question-related operations.
@@ -39,20 +42,19 @@ public class QuestionServiceImpl implements QuestionService {
      * @return A message indicating the success of the operation.
      */
     @Override
-    public final String addQuestion(final QuestionDto questionDto) {
-        LOGGER.info("Adding a new question");
+    public final SuccessResponse addQuestion(final QuestionDto questionDto) {
         Question question = this.dtoToQuestion(questionDto);
         String correctOption = question.getAnswer();
         if (!(correctOption.equalsIgnoreCase(question.getOptionOne())
              || correctOption.equalsIgnoreCase(question.getOptionTwo())
              || correctOption.equalsIgnoreCase(question.getOptionThree())
              || correctOption.equalsIgnoreCase(question.getOptionFour()))) {
-            LOGGER.error("Answer doesn't match with options for question ");
-            throw new ResourceNotFound("Answer doesn't match with options");
+            LOGGER.error(Message.CORRECT_OPTION_ERROR);
+            throw new ResourceNotFound(Message.CORRECT_OPTION_ERROR);
         }
         questionRepository.save(question);
-        LOGGER.info("Question added successfully");
-        return "Question added successfully";
+        return new SuccessResponse(HttpStatus.CREATED.value(),
+                Message.QUESTION_CREATED_SUCCESSFULLY);
     }
     /**
      * Retrieves a list of all questions as QuestionDto objects.
@@ -60,14 +62,11 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final List<QuestionDto> getAllQuestion() {
-        LOGGER.info("Getting all questions");
 
         List<Question> questions = questionRepository.findAll();
         List<QuestionDto> questionDtos = questions.stream()
                 .map(this::questionToDto)
                 .collect(Collectors.toList());
-
-        LOGGER.info("Retrieved {} questions", questionDtos.size());
         return questionDtos;
     }
     /**
@@ -78,17 +77,14 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public final QuestionDto getQuestionById(final long questionId) {
-        LOGGER.info("Getting question by ID: {}", questionId);
         Question question = questionRepository.findById(questionId)
                 .orElse(null);
         if (question != null) {
             QuestionDto questionDto = this.questionToDto(question);
-
-        LOGGER.info("Retrieved question: {}", questionDto.getQuestionName());
             return questionDto;
         }
-        LOGGER.warn("Question not found for ID: {}", questionId);
-        return null;
+        LOGGER.error(Message.QUESTION_NOT_FOUND);
+        throw new ResourceNotFound(Message.QUESTION_NOT_FOUND);
     }
     /**
      * Updates an existing question using the QuestionDto and question ID.
@@ -98,30 +94,33 @@ public class QuestionServiceImpl implements QuestionService {
      *  "Question not found" if the question doesn't exist.
      */
     @Override
-    public final String updateQuestion(final long questionId,
+    public final SuccessResponse updateQuestion(final long questionId,
             final QuestionDto questionDto) {
-        LOGGER.info("Updating question with ID: {}", questionId);
         Question existingQuestion = questionRepository.findById(questionId)
                 .orElse(null);
         if (existingQuestion != null) {
             Question updatedQuestion = this.dtoToQuestion(questionDto);
             updatedQuestion.setQuestionId(questionId);
             questionRepository.save(updatedQuestion);
-            LOGGER.info("Question updated successfully");
-            return "Question updated successfully";
+            return new SuccessResponse(HttpStatus.OK.value(),
+                    Message.QUESTION_UPDATED_SUCCESSFULLY);
         }
-        LOGGER.warn("Question not found for ID: {}", questionId);
-        return "Question not found";
+        LOGGER.error(Message.QUESTION_NOT_FOUND);
+        return new SuccessResponse(HttpStatus.NOT_FOUND.value(),
+                Message.QUESTION_NOT_FOUND);
     }
     /**
      * Deletes a question by its unique identifier.
      * @param questionId The ID of the question to delete.
      */
     @Override
-    public final void deleteQuestion(final long questionId) {
-        LOGGER.info("Deleting question by ID: {}", questionId);
-        questionRepository.deleteById(questionId);
-        LOGGER.info("Question deleted successfully");
+    public final SuccessResponse deleteQuestion(final long questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new ResourceNotFound(
+                        Message.QUESTION_NOT_FOUND));
+        questionRepository.delete(question);
+        return new SuccessResponse(HttpStatus.OK.value(),
+                Message.QUESTION_DELETED_SUCCESSFULLY);
       }
     /**
      * Converts a QuestionDto object to a Question entity.

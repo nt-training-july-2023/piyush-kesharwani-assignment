@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import com.NTeq.AssessmentPortal.Dto.ResultDto;
 import com.NTeq.AssessmentPortal.Entity.Result;
 import com.NTeq.AssessmentPortal.Repositories.ResultRepository;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 class ResultServiceImplTest {
 
@@ -61,8 +62,8 @@ class ResultServiceImplTest {
        
        when(modelMapper.map(resultDto,Result.class )).thenReturn(result);
        when(resultRepository.save(result)).thenReturn(result);
-       String answer = resultService.addResult(resultDto);
-       assertEquals("Result created successfully" , answer);
+       SuccessResponse answer = resultService.addResult(resultDto);
+       assertEquals("Result created successfully." , answer.getMessage());
    }
    
 

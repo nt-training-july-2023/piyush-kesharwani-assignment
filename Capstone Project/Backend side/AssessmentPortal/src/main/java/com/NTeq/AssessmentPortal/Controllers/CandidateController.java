@@ -6,6 +6,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
 import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.CandidateServiceImpl;
 import jakarta.validation.Valid;
 
@@ -42,12 +46,13 @@ public class CandidateController {
      * @return A message indicating the registration status.
      */
     @PostMapping(path = "/register")
-    public final String saveUser(@Valid final @RequestBody
-            CandidateDto cdDto) {
-        LOGGER.info("Candidate Method invoke");
-        String response = candidateService.addCandidate(cdDto);
-        LOGGER.info("Candidate registered succesfully");
-        return response;
+    public final ResponseEntity<SuccessResponse> saveUser(@Valid final
+            @RequestBody CandidateDto candidateDto) {
+        LOGGER.info(Message.USER_METHOD_INVOKE);
+        SuccessResponse response = candidateService.addCandidate(candidateDto);
+        LOGGER.info(Message.REGISTERED_SUCCESSFULLY);
+        return new ResponseEntity<SuccessResponse>(response,
+                HttpStatus.CREATED);
     }
     /**
      * End point for candidate login.
@@ -57,10 +62,10 @@ public class CandidateController {
     @PostMapping(path = "/login")
     public final Map<String, String> loginCandidate(
             @Valid final @RequestBody LoginRequestDto loginRequestDto) {
-        LOGGER.info("Login method invoke");
+        LOGGER.info(Message.LOGIN_METHOD_INVOKE);
         Map<String, String> response = candidateService.
                 loginCandidate(loginRequestDto);
-        LOGGER.info("Login successfully");
+        LOGGER.info(Message.LOGIN_SUCCESSFULLY);
         return response;
     }
     /**
@@ -69,9 +74,9 @@ public class CandidateController {
      */
     @GetMapping(path = "/all")
     public final List<CandidateDto> allCandidate() {
-        LOGGER.info("Retrieving list of Candidates");
+        LOGGER.info(Message.GET_USERS);
         List<CandidateDto>  candidates = candidateService.getAllCandidate();
-        LOGGER.info("Retrieved list of candidates");
+        LOGGER.info(Message.RETRIVED_USERS);
         return candidates;
     }
 }

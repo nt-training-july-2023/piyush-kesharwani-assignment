@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 /**
  * Service interface for managing Quiz-related operations.
  */
@@ -13,7 +14,7 @@ public interface QuizService {
      * @param quizDto The DTO containing quiz details.
      * @return A message indicating the result of the operation.
      */
-    String addQuiz(QuizDto quizDto);
+    SuccessResponse addQuiz(QuizDto quizDto);
     /**
      * Retrieves a list of all quizzes.
      * @return A list of quiz DTOs.
@@ -31,12 +32,12 @@ public interface QuizService {
      * @param quizDto      The DTO containing updated quiz details.
      * @return A message indicating the result of the operation.
      */
-    String updateQuiz(long quizId, QuizDto quizDto);
+    SuccessResponse updateQuiz(long quizId, QuizDto quizDto);
     /**
      * Deletes a quiz by its unique identifier.
      * @param quizId The ID of the quiz to delete.
      */
-    void deleteQuiz(long quizId);
+    SuccessResponse deleteQuiz(long quizId);
     /**
      * Retrieves a list of question associated with a specific Quiz.
      * @param quizId The quizId from questions are to be retrieved.

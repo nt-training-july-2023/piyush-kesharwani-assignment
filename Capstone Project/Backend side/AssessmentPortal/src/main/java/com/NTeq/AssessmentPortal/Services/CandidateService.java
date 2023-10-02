@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
 import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 /**
  * Service interface for managing candidate-related operations.
@@ -15,7 +16,7 @@ public interface CandidateService {
      * @param cdDto The DTO containing candidate details.
      * @return A message indicating the result of the operation.
      */
-    String addCandidate(CandidateDto cdDto);
+    SuccessResponse addCandidate(CandidateDto cdDto);
 
     /**
      * Logs in a candidate using provided credentials.

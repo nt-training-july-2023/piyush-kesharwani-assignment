@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import categoryService from "../../Services/categoryService";
 import "./CategoryList.css";
 import Swal from "sweetalert2";
+import Button from "../../Component/Button component/Button";
 
 
 const CategoryList = () => {
@@ -89,7 +90,7 @@ const CategoryList = () => {
                   >
                     Update
                   </Link>
-                  <button
+                  <Button
                     className="category-delete-btn"
                     onClick={() =>
                       Swal.fire({
@@ -105,13 +106,14 @@ const CategoryList = () => {
                         }
                       })
                     }
+                    children="Delete"
                   >
-                    Delete
-                  </button>
+                    
+                  </Button>
                 </td>
               ) : (
                 <td>
-                  <button className="category-update-btn" onClick={()=>navigate(`/category/${category.categoryId}/quizzes`)}>View Quizzes</button>
+                  <Button className="category-update-btn" onClick={()=>navigate(`/category/${category.categoryId}/quizzes`)} children="View Quizzes"></Button>
                 </td>
               )}
             </tr>

@@ -4,7 +4,8 @@ import questionService from "../../Services/questionService";
 import Swal from "sweetalert2";
 import "./QuestionList.css";
 import quizService from "../../Services/quizService";
-// import Error from "../Error";
+import Button from "../../Component/Button component/Button";
+import Input from "../../Component/Input component/Input";
 
 const QuestionList = () => {
   const { id } = useParams();
@@ -45,7 +46,6 @@ const QuestionList = () => {
       .getAll()
       .then((response) => {
         setQuestions(response.data);
-        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -91,12 +91,12 @@ const QuestionList = () => {
             <div className="question-card-header-main">
               {id ? (<h2>QUIZ : {quizName}</h2>): (<h2>List Of Question</h2>)}
               <center>
-                <button
+                <Button
                   className="add-question-button"
                   onClick={() => navigate("/quiz/all")}
-                >
-                  Quiz List
-                </button>
+                  children="Quiz List"
+                >  
+                </Button>
                 {id ? (
                   <Link
                     className="add-question-button"
@@ -127,7 +127,7 @@ const QuestionList = () => {
                           <form>
                             <h4>{++index + ". "}{question.questionName}</h4>
                             <label>
-                              <input
+                              <Input
                                 type="radio"
                                 name={`option${index}`}
                                 value="optionOne"
@@ -136,7 +136,7 @@ const QuestionList = () => {
                             </label>
                             <br />
                             <label>
-                              <input
+                              <Input
                                 type="radio"
                                 name={`option${index}`}
                                 value="optionTwo"
@@ -145,7 +145,7 @@ const QuestionList = () => {
                             </label>
                             <br />
                             <label>
-                              <input
+                              <Input
                                 type="radio"
                                 name={`option${index}`}
                                 value="optionThree"
@@ -154,7 +154,7 @@ const QuestionList = () => {
                             </label>
                             <br />
                             <label>
-                              <input
+                              <Input
                                 type="radio"
                                 name={`option${index}`}
                                 value="optionFour"
@@ -179,12 +179,13 @@ const QuestionList = () => {
                           >
                             Update Question
                           </Link>)}
-                          <button
+                          <Button
                             className="button-delete-question"
                             onClick={() => deleteQuiz(question.questionId)}
+                            children="Delete Question"
                           >
-                            Delete Question
-                          </button>
+                            
+                          </Button>
                         </div>
                       </div>
                     ))}

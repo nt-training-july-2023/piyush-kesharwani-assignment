@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import DashboardCard from "./DashboardCard";
 import "./AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
+import DashboardCard from "../../Component/Card component/DashboardCard";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -32,20 +32,27 @@ const AdminDashboard = () => {
             <DashboardCard
               title="Manage Categories"
               link="/category/all"
-              description="Test your knowledge on a wide range of topics in our Technology category. 
-        Challenge yourself with questions that cover a diverse array of subjects and expand your horizons."
+              description="Admins can efficiently manage the categories in our system.
+               Add new categories to expand our offerings, 
+               update existing ones to keep information current, 
+               and delete categories that are no longer relevant."
+              className="dashboard-card"
             />
             <DashboardCard
               title="Manage Quizzes"
               link="/quiz/all"
-              description="Test your knowledge with our Trivia Quiz! This quiz covers a wide range of topics of Technology.
-         Challenge yourself and see how well-rounded your knowledge is. Have fun and learn something new!"
+              description="Admins can easily add, update, and delete quizzes. 
+              Add new quizzes to expand our collection, update existing ones to keep content fresh, 
+              and delete quizzes that are no longer needed."
+              className="dashboard-card"
             />
             <DashboardCard
               title="Manage Results"
               link="/results"
-              description="Congratulations to the top scorers of our Quiz! 
-        Check out their impressive results and get inspired to improve your own knowledge and skills. Keep challenging yourself!"
+              description="Admins can view all user quiz results effortlessly. 
+              Gain insights into top scorers, track progress, 
+              and inspire users to keep challenging themselves, all in just a few clicks."
+              className="dashboard-card"
             />
           </div>
         </div>

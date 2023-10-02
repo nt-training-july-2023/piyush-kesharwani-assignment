@@ -28,6 +28,7 @@ import com.NTeq.AssessmentPortal.Exceptions.FieldsRequiredException;
 import com.NTeq.AssessmentPortal.Exceptions.InvalidEmailDomainException;
 import com.NTeq.AssessmentPortal.Exceptions.WrongCredentialException;
 import com.NTeq.AssessmentPortal.Repositories.CandidateRepository;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 @ExtendWith(MockitoExtension.class)
 class CandidateServiceImplTest {
@@ -50,25 +51,20 @@ class CandidateServiceImplTest {
     }
     @Test
     public void testGetAllCandidate_WithCandidates_ShouldReturnListOfCandidates() {
-        // Arrange
         List<Candidate> candidates = new ArrayList<>();
         candidates.add(new Candidate());
         candidates.add(new Candidate());
         when(candidateRepository.findAll()).thenReturn(candidates);
-        // Act
         List<CandidateDto> result = candidateService.getAllCandidate();
-        // Assert
         assertEquals(2, result.size());
     }
 
     @Test
     public void testGetAllCandidate_NoCandidates_ShouldReturnEmptyList() {
-        // Arrange
         List<Candidate> candidates = new ArrayList<>();
         when(candidateRepository.findAll()).thenReturn(candidates);
-        // Act
         List<CandidateDto> result = candidateService.getAllCandidate();
-        // Assert
+
         assertTrue(result.isEmpty());
 }
     
@@ -82,7 +78,7 @@ class CandidateServiceImplTest {
         candidateDto.setPassword("password");
         candidateDto.setUserRole("user");
         candidateDto.setPhoneNumber("1234567890");
-        
+
         Candidate candidate = new Candidate();
         candidate.setId(candidateDto.getId());
         candidate.setFirstName(candidateDto.getFirstName());
@@ -91,18 +87,14 @@ class CandidateServiceImplTest {
         candidate.setPassword(candidateDto.getPassword());
         candidate.setUserRole(candidateDto.getUserRole());
         candidate.setPhoneNumber(candidateDto.getPhoneNumber());
-        
-        
 
-        // Mock behavior for UserRepository
         when(candidateRepository.findByEmail(candidateDto.getEmail())).thenReturn(Optional.empty());
-        // Mock behavior for PasswordEncoder
         when(passwordEncoder.encode(candidateDto.getPassword())).thenReturn("encodedPassword");
         when(modelMapper.map(candidateDto, Candidate.class)).thenReturn(candidate);
 
-        String result = candidateService.addCandidate(candidateDto);
+        SuccessResponse result = candidateService.addCandidate(candidateDto);
         assertNotNull(result);
-        assertEquals("Sky@nucleusTeq.com registered successfully" , result);
+        assertEquals("Candidate Register successfully." , result.getMessage());
     }
 
     @Test
@@ -125,39 +117,12 @@ class CandidateServiceImplTest {
         candidate.setUserRole(candidateDto.getUserRole());
         candidate.setPhoneNumber(candidateDto.getPhoneNumber());
         
-        // Mock behavior for UserRepository
         when(candidateRepository.findByEmail(candidate.getEmail())).thenReturn(Optional.of(candidate));
         when(modelMapper.map(candidateDto, Candidate.class)).thenReturn(candidate);
         assertThrows(DuplicateEmail.class, () -> 
         candidateService.addCandidate(candidateDto));
     }
-    
-//    @Test
-//    public void testAddUser_InvalidEmailDomain() {
-//        CandidateDto candidateDto = new CandidateDto();
-//        candidateDto.setId(5);
-//        candidateDto.setFirstName("Sky");
-//        candidateDto.setLastName("singh");
-//        candidateDto.setEmail("Sky@gmail.com");
-//        candidateDto.setPassword("password");
-//        candidateDto.setUserRole("user");
-//        candidateDto.setPhoneNumber("1234567890");
-//        
-//        Candidate candidate = new Candidate();
-//        candidate.setId(candidateDto.getId());
-//        candidate.setFirstName(candidateDto.getFirstName());
-//        candidate.setLastName(candidateDto.getLastName());
-//        candidate.setEmail(candidateDto.getEmail());
-//        candidate.setPassword(candidateDto.getPassword());
-//        candidate.setUserRole(candidateDto.getUserRole());
-//        candidate.setPhoneNumber(candidateDto.getPhoneNumber());
-//        
-//        // Mock behavior for UserRepository
-//        when(modelMapper.map(candidateDto, Candidate.class)).thenReturn(candidate);
-//        assertThrows(InvalidEmailDomainException.class, () -> 
-//        candidateService.addCandidate(candidateDto));
-//    }
-    
+
     @Test
     public void testLoginCandidate_Success() {
         LoginRequestDto candidateDto = new LoginRequestDto();
@@ -187,8 +152,6 @@ class CandidateServiceImplTest {
         candidate.setEmail(candidateDto.getEmail());
         candidate.setPassword(candidateDto.getPassword());
         when(candidateRepository.getByEmail(candidateDto.getEmail())).thenReturn(candidate);
-//        when(candidateRepository.findByEmailAndPassword(candidateDto.getEmail(), candidateDto.getPassword()))
-//        .thenReturn(Optional.of(candidate));
         when(passwordEncoder.matches(any(), any())).thenReturn(false);
         assertThrows(WrongCredentialException.class, () ->
         candidateService.loginCandidate(candidateDto));

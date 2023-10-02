@@ -1,7 +1,6 @@
 package com.NTeq.AssessmentPortal.Controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.QuizServiceImpl;
 
 class QuizControllerTest {
@@ -34,11 +34,14 @@ class QuizControllerTest {
     @Test
     void testSaveQuiz() {
         QuizDto quizDto = new QuizDto();
-        when(quizService.addQuiz(quizDto)).thenReturn("Quiz added successfully");
+        
+        SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
+                "Quiz created successfully.");
+        when(quizService.addQuiz(quizDto)).thenReturn(response);
 
-        String result = quizController.saveQuiz(quizDto);
-
-        assertEquals("Quiz added successfully", result);
+        ResponseEntity<SuccessResponse> result = quizController.saveQuiz(quizDto);
+        assertEquals(HttpStatus.CREATED , result.getStatusCode());
+        assertEquals(response, result.getBody());
     }
     
     @Test
@@ -55,19 +58,25 @@ class QuizControllerTest {
     void testUpdateQuiz_Success() {
         long quizId = 1L;
         QuizDto quizDto = new QuizDto();
-        ResponseEntity<QuizDto> responseEntity = quizController.updateQuiz(quizId, quizDto);
+        SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
+                "Quiz updated successfully.");
+        when(quizService.updateQuiz(quizId, quizDto)).thenReturn(response);
+        ResponseEntity<SuccessResponse> result = quizController.updateQuiz(quizId, quizDto);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(quizDto, responseEntity.getBody());
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(response, result.getBody());
     }
 
     @Test
     void testDeleteQuiz_Success() {
         long quizId = 1L;
-        doNothing().when(quizService).deleteQuiz(quizId);
+        SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
+                "Quiz deleted successfully.");
 
-        ResponseEntity<Void> responseEntity = quizController.deleteQuiz(quizId);
+        when(quizService.deleteQuiz(quizId)).thenReturn(response);
+        ResponseEntity<SuccessResponse> result = quizController.deleteQuiz(quizId);
 
-        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(response , result.getBody());
     }
 }

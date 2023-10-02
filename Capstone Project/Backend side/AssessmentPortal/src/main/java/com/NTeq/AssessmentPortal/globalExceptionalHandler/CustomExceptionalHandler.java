@@ -14,6 +14,7 @@ import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.DuplicateEmail;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Exceptions.WrongCredentialException;
+import com.NTeq.AssessmentPortal.Response.ErrorResponse;
 
 /**
  * Global exception handler controller class.
@@ -26,7 +27,7 @@ public class CustomExceptionalHandler {
      * @param exp methodArgumentNotValidException
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public final ResponseEntity<Map<String, String>>
+    public final ResponseEntity<ErrorResponse>
         handleMethodArgumentNotValidException(
                 final MethodArgumentNotValidException exp) {
         Map<String, String> response = new HashMap<>();
@@ -35,7 +36,9 @@ public class CustomExceptionalHandler {
             String message = error.getDefaultMessage();
             response.put(fieldName, message);
         });
-        return new ResponseEntity<Map<String, String>>(response,
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                response);
+        return new ResponseEntity<ErrorResponse>(errorResponse,
                 HttpStatus.BAD_REQUEST);
     }
 
@@ -45,9 +48,12 @@ public class CustomExceptionalHandler {
      * @param exception noSuchElementException
      */
     @ExceptionHandler(NoSuchElementException.class)
-    public final ResponseEntity<String> handleNoSuchElement(
+    public final ResponseEntity<ErrorResponse> handleNoSuchElement(
             final NoSuchElementException exception) {
-        return new ResponseEntity<String>(exception.getMessage(),
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage());
+        return new ResponseEntity<ErrorResponse>(response,
                 HttpStatus.NOT_FOUND);
     }
     /**
@@ -56,9 +62,12 @@ public class CustomExceptionalHandler {
      * @return ResponseEntity containing error message.
      */
     @ExceptionHandler(AlreadyExistException.class)
-    public final ResponseEntity<String> handleAlreadyExistException(
+    public final ResponseEntity<ErrorResponse> handleAlreadyExistException(
             final AlreadyExistException exception) {
-        return new ResponseEntity<String>(exception.getMessage(),
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage());
+        return new ResponseEntity<ErrorResponse>(response,
                 HttpStatus.CONFLICT);
     }
     /**
@@ -67,9 +76,12 @@ public class CustomExceptionalHandler {
      * @return ResponseEntity containing error message.
      */
     @ExceptionHandler(DuplicateEmail.class)
-    public final ResponseEntity<String> handleDuplicateEmail(
+    public final ResponseEntity<ErrorResponse> handleDuplicateEmail(
             final DuplicateEmail exception) {
-        return new ResponseEntity<String>(exception.getMessage(),
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage());
+        return new ResponseEntity<ErrorResponse>(response,
                 HttpStatus.CONFLICT);
     }
     /**
@@ -78,9 +90,12 @@ public class CustomExceptionalHandler {
      * @return ResponseEntity containing error message.
      */
     @ExceptionHandler(WrongCredentialException.class)
-    public final ResponseEntity<String> handleWrongCredentialException(
+    public final ResponseEntity<ErrorResponse> handleWrongCredentialException(
             final WrongCredentialException exception) {
-        return new ResponseEntity<String>(exception.getMessage(),
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                exception.getMessage());
+        return new ResponseEntity<ErrorResponse>(response,
                 HttpStatus.UNAUTHORIZED);
     }
     /**
@@ -89,9 +104,12 @@ public class CustomExceptionalHandler {
      * @return ResponseEntity containing error message.
      */
     @ExceptionHandler(ResourceNotFound.class)
-    public final ResponseEntity<String> handleResourceNotFound(
+    public final ResponseEntity<ErrorResponse> handleResourceNotFound(
             final ResourceNotFound exception) {
-        return new ResponseEntity<String>(exception.getMessage(),
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage());
+        return new ResponseEntity<ErrorResponse>(response,
                 HttpStatus.NOT_FOUND);
     }
 }

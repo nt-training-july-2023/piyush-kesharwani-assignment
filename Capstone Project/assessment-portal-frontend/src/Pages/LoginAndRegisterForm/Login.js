@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Swal from 'sweetalert2';
+import Button from "../../Component/Button component/Button";
+import Input from "../../Component/Input component/Input";
 
 
 
@@ -85,7 +87,7 @@ const Login = () => {
           </div>
           {errorMessage && <div className="custom-error">{errorMessage}</div>}
           <div className="form-group">
-            <input
+            <Input
               type="email"
               className="form-control"
               id="exampleInputEmail1"
@@ -99,7 +101,7 @@ const Login = () => {
             />
           </div>
           <div className="form-group my-3">
-            <input
+            <Input
               type="password"
               className="form-control"
               id="exampleInputPassword1"
@@ -111,9 +113,9 @@ const Login = () => {
               value={password}
             />
           </div>
-          <button type="submit" className="btn btn-primary my-3">
-            Login
-          </button>
+          <Button type="submit" className="btn btn-primary my-3"
+          children=" Login">
+          </Button>
           <div className="register-link">
             Not a member?{" "}
             <span

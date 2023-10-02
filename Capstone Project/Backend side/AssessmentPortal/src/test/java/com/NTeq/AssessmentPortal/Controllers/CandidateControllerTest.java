@@ -13,9 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
 import com.NTeq.AssessmentPortal.Dto.LoginRequestDto;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.CandidateServiceImpl;
 @ExtendWith(MockitoExtension.class)
 class CandidateControllerTest {
@@ -29,19 +32,20 @@ class CandidateControllerTest {
     @Test
     public void testSaveUser() {
         CandidateDto candidateDto = new CandidateDto();
-        // Set up candidateDto with appropriate data
 
-        when(candidateService.addCandidate(candidateDto)).thenReturn("Login successfully");
+        SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
+                "Candidate Register successfully.");
+        when(candidateService.addCandidate(candidateDto)).thenReturn(response);
 
-        String response = candidateController.saveUser(candidateDto);
+        ResponseEntity<SuccessResponse> result = candidateController.saveUser(candidateDto);
 
-        assertEquals("Login successfully", response);
+        assertEquals(HttpStatus.CREATED , result.getStatusCode());
+        assertEquals(response, result.getBody());
     }
     
     @Test
     public void testLoginCandidate() {
         LoginRequestDto loginRequestDto = new LoginRequestDto();
-        // Set up candidateDto with appropriate data
 
         Map<String, String> loginResponse = new HashMap<>();
         loginResponse.put("status", "Success");
@@ -58,8 +62,6 @@ class CandidateControllerTest {
     @Test
     public void testAllCandidate() {
         List<CandidateDto> candidateDtoList = new ArrayList<>();
-        // Set up candidateDtoList with some data
-
         when(candidateService.getAllCandidate()).thenReturn(candidateDtoList);
 
         List<CandidateDto> response = candidateController.allCandidate();

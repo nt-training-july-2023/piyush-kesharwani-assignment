@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import quizService from "../../Services/quizService";
 import resultService from "../../Services/resultService";
 import Swal from "sweetalert2";
+import Button from "../../Component/Button component/Button";
+import Input from "../../Component/Input component/Input";
 
 const UserTest = () => {
   const [questions, setQuestions] = useState([]);
@@ -27,8 +29,6 @@ const UserTest = () => {
   useEffect(() => {
     getQuestionByQuiz();
     getQuizById();
-    // console.log(obtainedMarks);
-    // console.log(attemptedQuestion);
   }, [obtainedMarks, attemptedQuestion]);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ const UserTest = () => {
                                   className="question-card-text"
                                 >
                                   {optionIndex + 1}:
-                                  <input
+                                  <Input
                                     type="radio"
                                     name={`options-${question.questionId}`}
                                     value={optionValue}
@@ -180,16 +180,13 @@ const UserTest = () => {
               </div>
             </div>
             <div>
-              <button
+              <Button
                 onClick={handleSubmit}
-                style={{
-                  backgroundColor: "blue",
-                  color: "white",
-                }}
                 disabled={submitted}
+                children="Submit Answers"
               >
-                Submit Answers
-              </button>
+                
+              </Button>
             </div>
           </div>
         </div>

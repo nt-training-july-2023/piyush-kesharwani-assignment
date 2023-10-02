@@ -1,8 +1,6 @@
 package com.NTeq.AssessmentPortal.Services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import java.util.ArrayList;
@@ -23,6 +21,7 @@ import com.NTeq.AssessmentPortal.Entity.Options;
 import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Repositories.QuestionRepository;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 class QuestionServiceImplTest {
     @InjectMocks
@@ -69,8 +68,8 @@ class QuestionServiceImplTest {
         question.setQuiz(quiz);
         when(questionService2.dtoToQuestion(questionDto)).thenReturn(question);
         when(questionRepository.save(question)).thenReturn(question);
-        String result = questionService.addQuestion(questionDto);
-        assertEquals("Question added successfully", result);
+        SuccessResponse result = questionService.addQuestion(questionDto);
+        assertEquals("Question created successfully.", result.getMessage());
     }
 
     @Test
@@ -166,8 +165,8 @@ class QuestionServiceImplTest {
         when(questionRepository.findById(questionIdToUpdate)).thenReturn(Optional.of(question));
         when(questionRepository.save(question)).thenReturn(question);
 
-        String result = questionService.updateQuestion(questionIdToUpdate, questionDto);
-        assertEquals("Question updated successfully", result);
+        SuccessResponse result = questionService.updateQuestion(questionIdToUpdate, questionDto);
+        assertEquals("Question updated successfully.", result.getMessage());
     }
     
     @Test
@@ -205,15 +204,15 @@ class QuestionServiceImplTest {
 
         when(questionService2.dtoToQuestion(questionDto)).thenReturn(question);
         when(questionRepository.findById(questionIdToUpdate)).thenReturn(Optional.empty());
-        String result = questionService.updateQuestion(questionIdToUpdate, questionDto);
-        assertEquals("Question not found",result);
+        SuccessResponse result = questionService.updateQuestion(questionIdToUpdate, questionDto);
+        assertEquals("Question does not exist.",result.getMessage());
     }
     @Test
     void testDeleteQuestion_Success(){
         long questionIdToDelete = 1;
         when(questionRepository.findById(questionIdToDelete)).thenReturn(Optional.of(new Question()));
 
-        questionService.deleteQuestion(questionIdToDelete);
-        verify(questionRepository, times(1)).deleteById(questionIdToDelete);
+        SuccessResponse result = questionService.deleteQuestion(questionIdToDelete);
+        assertEquals("Question deleted successfully.",result.getMessage());
     }
 }

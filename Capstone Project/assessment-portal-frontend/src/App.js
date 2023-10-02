@@ -1,21 +1,21 @@
 import "./App.css";
-import Login from "./components/LoginAndRegisterForm/Login";
-import Register from "./components/LoginAndRegisterForm/Register";
+import Login from "./Pages/LoginAndRegisterForm/Login";
+import Register from "./Pages/LoginAndRegisterForm/Register";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 // import { Navbar } from "./components/Navbar";
-import CategoryList from "./components/Category/CategoryList";
-import AddAndUpdate from "./components/Category/AddAndUpdate";
-import UserDashboard from "./components/UserDashboard/Userboard";
-import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
-import Error from "./components/Error";
-import QuizList from "./components/Quiz/QuizList";
-import AddUpdateQuiz from "./components/Quiz/AddUpdateQuiz";
-import QuizzesByCategory from "./components/Category/QuizzesByCategory";
-import QuestionList from "./components/Question/QuestionList";
-import AddUpdateQuestion from "./components/Question/AddUpdateQuestion";
-import UserTest from "./components/Question/UserTest";
-import Result from "./components/Result/Result";
+import CategoryList from "./Pages/Category/CategoryList";
+import AddAndUpdate from "./Pages/Category/AddAndUpdate";
+import UserDashboard from "./Pages/UserDashboard/Userboard";
+import AdminDashboard from "./Pages/AdminDashboard/AdminDashboard";
+import Error from "./Pages/Error";
+import QuizList from "./Pages/Quiz/QuizList";
+import AddUpdateQuiz from "./Pages/Quiz/AddUpdateQuiz";
+import QuizzesByCategory from "./Pages/Category/QuizzesByCategory";
+import QuestionList from "./Pages/Question/QuestionList";
+import AddUpdateQuestion from "./Pages/Question/AddUpdateQuestion";
+import UserTest from "./Pages/Question/UserTest";
+import Result from "./Pages/Result/Result";
 
 
 

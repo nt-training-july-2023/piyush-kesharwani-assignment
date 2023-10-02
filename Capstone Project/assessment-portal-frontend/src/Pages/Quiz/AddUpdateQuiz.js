@@ -4,7 +4,8 @@ import quizService from "../../Services/quizService";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './AddUpdateQuiz.css';
-import Error from "../Error";
+import Error from "../../Pages/Error";
+import Input from "../../Component/Input component/Input";
 
 const AddUpdateQuiz = () => {
   const [quizName, setQuizName] = useState("");
@@ -32,7 +33,6 @@ const AddUpdateQuiz = () => {
     const categoryId = event.target.value;
     categoryService.getCategoryById(categoryId).then(
       response => {
-        // console.log(response.data)
         const catObject = response.data;
         setCategory(catObject);
       }
@@ -141,7 +141,7 @@ const saveQuiz=(e)=>{
               <label className="form-label" htmlFor="quizName">
                 Quiz Name:
               </label>
-              <input
+              <Input
                 type="text"
                 placeholder="Enter Quiz name"
                 id="quizName"
@@ -154,7 +154,7 @@ const saveQuiz=(e)=>{
               <label className="form-label" htmlFor="quizDescription">
                 Description:
               </label>
-              <input
+              <Input
                 type="text"
                 placeholder="Enter Description"
                 id="quizDescription"
@@ -167,7 +167,7 @@ const saveQuiz=(e)=>{
               <label className="form-label" htmlFor="Time">
                 Set Timer:
               </label>
-              <input
+              <Input
                 type="number"
                 placeholder="Set Time"
                 id="Time"

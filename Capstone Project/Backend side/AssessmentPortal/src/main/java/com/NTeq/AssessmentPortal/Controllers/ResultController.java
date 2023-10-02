@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.NTeq.AssessmentPortal.Dto.ResultDto;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.ResultServiceImpl;
 
 import jakarta.validation.Valid;
@@ -42,12 +45,13 @@ public class ResultController {
      * @return A message indicating the addition status.
      */
     @PostMapping("/addResult")
-    public final String saveResult(@Valid final @RequestBody
-            ResultDto resultDto) {
-        LOGGER.info("Add Result method invoked");
-        String result = resultService.addResult(resultDto);
-        LOGGER.info("Result created succesfully");
-        return result;
+    public final ResponseEntity<SuccessResponse> saveResult(@Valid final
+            @RequestBody ResultDto resultDto) {
+        LOGGER.info(Message.ADD_RESULT);
+        SuccessResponse result = resultService.addResult(resultDto);
+        LOGGER.info(Message.RESULT_CREATED_SUCCESSFULLY);
+        return new ResponseEntity<SuccessResponse>(result,
+                HttpStatus.CREATED);
     }
     /**
      * End point to retrieve a list of all result.
@@ -55,9 +59,9 @@ public class ResultController {
      */
     @GetMapping("/all")
     public final ResponseEntity<List<ResultDto>> getAll() {
-        LOGGER.info("Get results method invoked");
+        LOGGER.info(Message.GET_RESULTS);
         List<ResultDto> reportDtos = resultService.getAllResult();
-        LOGGER.info("Retrieved Results Successfully");
+        LOGGER.info(Message.RETRIVED_RESULT);
         return ResponseEntity.ok(reportDtos);
     }
     /**
@@ -68,9 +72,9 @@ public class ResultController {
     @GetMapping("/{email}")
     public final ResponseEntity<List<ResultDto>> findByEmailId(
            final @PathVariable String email) {
-        LOGGER.info("Getting result by email: {}", email);
+        LOGGER.info(Message.GET_RESULT_BY_EMAIL, email);
         List<ResultDto> resultDto = resultService.getresultByEmail(email);
-        LOGGER.info("Successfully fetched result with email {}", email);
+        LOGGER.info(Message.RETRIVED_RESULT_BY_EMAIL, email);
            return ResponseEntity.ok(resultDto);
     }
 }

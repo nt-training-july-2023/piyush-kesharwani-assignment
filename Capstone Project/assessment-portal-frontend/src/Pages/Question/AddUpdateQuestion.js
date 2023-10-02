@@ -4,6 +4,8 @@ import quizService from "../../Services/quizService";
 import questionService from "../../Services/questionService";
 import "./AddUpdateQuestion.css";
 import Swal from "sweetalert2";
+import Button from "../../Component/Button component/Button";
+import Input from "../../Component/Input component/Input";
 
 const AddUpdateQuestion = () => {
   const [questionName, setquestionName] = useState("");
@@ -188,7 +190,6 @@ const AddUpdateQuestion = () => {
             (options) => options.trim() !== ""
           );
           setAllFieldsFilled(areOptionsFilled);
-          // console.log(questionId);
         })
         .catch((error) => {
           console.log(error);
@@ -207,11 +208,11 @@ const AddUpdateQuestion = () => {
             Select Quiz
           </label>
           {id ? (
-            <input
+            <Input
             type="text"
             value= {quiz ? quiz.quizName : "not available"}
             readOnly
-            ></input>
+            />
           ):(
           <select
             id="quizSelect"
@@ -233,7 +234,7 @@ const AddUpdateQuestion = () => {
           <label htmlFor="questionText" className="question-form-label">
             Question Name
           </label>
-          <input
+          <Input
             type="text"
             className="question-form-control"
             id="questionText"
@@ -246,7 +247,7 @@ const AddUpdateQuestion = () => {
           <label htmlFor="optionOne" className="question-form-label">
             Option One
           </label>
-          <input
+          <Input
             type="text"
             className="question-form-control"
             id="optionOne"
@@ -261,7 +262,7 @@ const AddUpdateQuestion = () => {
           <label htmlFor="optionTwo" className="question-form-label">
             Option Two
           </label>
-          <input
+          <Input
             type="text"
             className="question-form-control"
             id="optionTwo"
@@ -276,7 +277,7 @@ const AddUpdateQuestion = () => {
           <label htmlFor="optionThree" className="question-form-label">
             Option Three
           </label>
-          <input
+          <Input
             type="text"
             className="question-form-control"
             id="optionThree"
@@ -291,7 +292,7 @@ const AddUpdateQuestion = () => {
           <label htmlFor="optionFour" className="question-form-label">
             Option Four
           </label>
-          <input
+          <Input
             type="text"
             className="question-form-control"
             id="optionFour"
@@ -321,9 +322,9 @@ const AddUpdateQuestion = () => {
         </div>
        <span style={{color:"red"}}>{errors}</span>
         <div>
-          <button className="cat-button">Submit</button>
+          <Button className="cat-button" children="Submit"></Button>
           <Link to="/question/all">
-            <button>Cancel</button>
+            <Button children="Cancel"></Button>
           </Link>
         </div>
       </form>

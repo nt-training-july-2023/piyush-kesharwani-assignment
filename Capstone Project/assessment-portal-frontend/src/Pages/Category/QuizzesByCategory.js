@@ -4,6 +4,7 @@ import categoryService from '../../Services/categoryService';
 import quizService from "../../Services/quizService";
 import Swal from "sweetalert2";
 import './QuizzesByCategory.css';
+import Button from "../../Component/Button component/Button";
 
 const QuizzesByCategory = () => {
 
@@ -85,12 +86,12 @@ const QuizzesByCategory = () => {
               {valid === "true" && isLoggedIn === "true" ? (
               <div className="button-container">
                 <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><button className="btn-update" >Update</button></Link>
-                <button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)}>Delete</button>
+                <Button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)} children="Delete"></Button>
               </div>
               ) : (
                 <div className="button-container">
-                <button className="btn-update" onClick={"/"}>Take Test</button>
-                <button className="btn-delete" onClick={()=>navigate("/category/all")}>Cancel</button>
+                <Button className="btn-update" onClick={"/"} children="Take Test"></Button>
+                <Button className="btn-delete" onClick={()=>navigate("/category/all")} children="Cancel"></Button>
               </div>
               )}
             </div>

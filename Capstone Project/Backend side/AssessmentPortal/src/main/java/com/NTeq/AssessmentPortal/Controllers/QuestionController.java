@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.QuestionServiceImpl;
 
 import jakarta.validation.Valid;
@@ -45,12 +47,12 @@ public class QuestionController {
      * @return A ResponseEntity indicating the success of the operation.
      */
     @PostMapping("/add")
-    public final ResponseEntity<String> addQuestion(
+    public final ResponseEntity<SuccessResponse> addQuestion(
            @Valid final @RequestBody QuestionDto questionDto) {
-        LOGGER.info("Add Question Method invoked");
-        String result = questionService.addQuestion(questionDto);
-        LOGGER.info("Question added Successfully");
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        LOGGER.info(Message.ADD_QUESTION);
+        SuccessResponse result = questionService.addQuestion(questionDto);
+        LOGGER.info(Message.QUESTION_CREATED_SUCCESSFULLY);
+        return new ResponseEntity<SuccessResponse>(result, HttpStatus.CREATED);
     }
     /**
      * Retrieves a list of all questions as QuestionDto objects.
@@ -58,9 +60,9 @@ public class QuestionController {
      */
     @GetMapping("/all")
     public final List<QuestionDto> getAll() {
-        LOGGER.info("Get Questions method invoke");
+        LOGGER.info(Message.GET_QUESTIONS);
         List<QuestionDto> questions = questionService.getAllQuestion();
-        LOGGER.info("Retrieved Questions successfully");
+        LOGGER.info(Message.RETRIVED_QUESTIONS);
         return questions;
     }
     /**
@@ -72,9 +74,9 @@ public class QuestionController {
     @GetMapping("/{questionId}")
     public final ResponseEntity<QuestionDto> getQuestionById(
             final @PathVariable long questionId) {
-       LOGGER.info("Getting question with ID: {}", questionId);
+       LOGGER.info(Message.GET_QUESTION_BY_ID, questionId);
         QuestionDto question = questionService.getQuestionById(questionId);
-        LOGGER.info("successfully fetched Quiz with ID {}", questionId);
+        LOGGER.info(Message.RETRIVED_QUESTIONS, questionId);
           return new ResponseEntity<>(question, HttpStatus.OK);
     }
     /**
@@ -84,13 +86,15 @@ public class QuestionController {
      * @return A ResponseEntity indicating the success of the update operation.
      */
     @PutMapping("/update/{questionId}")
-    public final ResponseEntity<QuestionDto> updateQuestion(
+    public final ResponseEntity<SuccessResponse> updateQuestion(
            final @PathVariable long questionId,
           @Valid final @RequestBody QuestionDto questionDto) {
-          LOGGER.info("Updating question with ID: {}", questionId);
-            questionService.updateQuestion(questionId, questionDto);
-            LOGGER.info("Question updated successfully");
-            return ResponseEntity.ok().body(questionDto);
+          LOGGER.info(Message.UPDATE_QUESTION, questionId);
+           SuccessResponse response = questionService.updateQuestion(
+                   questionId, questionDto);
+            LOGGER.info(Message.QUESTION_UPDATED_SUCCESSFULLY);
+            return new ResponseEntity<SuccessResponse>(response,
+                    HttpStatus.OK);
     }
     /**
      * Deletes a question by its unique identifier.
@@ -98,11 +102,12 @@ public class QuestionController {
      * @return A ResponseEntity indicating the success of the delete operation.
      */
     @DeleteMapping("/{questionId}")
-    public final ResponseEntity<Void> deleteQuestion(
+    public final ResponseEntity<SuccessResponse> deleteQuestion(
             final @PathVariable long questionId) {
-        LOGGER.info("Deleting question by ID: {}", questionId);
-        questionService.deleteQuestion(questionId);
-        LOGGER.info("Quiz deleted successfully");
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        LOGGER.info(Message.DELETE_QUESTION, questionId);
+        SuccessResponse response = questionService.deleteQuestion(questionId);
+        LOGGER.info(Message.QUESTION_DELETED_SUCCESSFULLY);
+        return new ResponseEntity<SuccessResponse>(response,
+                HttpStatus.OK);
     }
 }

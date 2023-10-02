@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.NTeq.AssessmentPortal.Dto.ResultDto;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.ResultServiceImpl;
 
 class ResultControllerTest {
@@ -35,12 +36,13 @@ class ResultControllerTest {
         ResultDto resultDto = new ResultDto();
         resultDto.setResultId(1L);
         resultDto.setUserEmail("Aakash@nucleusTeq.com");
+        SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
+                "Result created successfully.");
+        when(resultService.addResult(resultDto)).thenReturn(response);
 
-        when(resultService.addResult(resultDto)).thenReturn("Result saved successfully");
-
-        String response = resultController.saveResult(resultDto);
-
-        assertEquals("Result saved successfully", response);
+        ResponseEntity<SuccessResponse> result = resultController.saveResult(resultDto);
+        assertEquals(HttpStatus.CREATED , result.getStatusCode());
+        assertEquals(response, result.getBody());
     }
 
     @Test

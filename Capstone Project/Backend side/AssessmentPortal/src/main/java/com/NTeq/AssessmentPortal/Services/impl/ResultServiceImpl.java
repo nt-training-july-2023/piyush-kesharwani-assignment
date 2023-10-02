@@ -7,11 +7,15 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.NTeq.AssessmentPortal.Dto.ResultDto;
 import com.NTeq.AssessmentPortal.Entity.Result;
+import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.ResultRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.ResultService;
 /**
  * Service implementation for managing Result-related operations.
@@ -35,33 +39,31 @@ public class ResultServiceImpl implements ResultService {
     private ModelMapper modelMapper;
 
     @Override
-    public final String addResult(final ResultDto resultDto) {
-        LOGGER.info("Adding a new result");
+    public final SuccessResponse addResult(final ResultDto resultDto) {
         Result result = this.dtoToResult(resultDto);
         resultRepository.save(result);
-        LOGGER.info("Result created successfully");
-        return "Result created successfully";
+        return new SuccessResponse(HttpStatus.CREATED.value(),
+                Message.RESULT_CREATED_SUCCESSFULLY);
     }
 
     @Override
     public final List<ResultDto> getAllResult() {
-        LOGGER.info("Getting all results");
         List<Result> result = this.resultRepository.findAll();
         List<ResultDto> resultDtos = result.stream()
                 .map(rs -> this.resultToDto(rs))
                 .collect(Collectors.toList());
-        LOGGER.info("Retrieved {} results", resultDtos.size());
         return resultDtos;
     }
     @Override
     public final List<ResultDto> getresultByEmail(final String userEmail) {
-        LOGGER.info("Getting results by email: {}", userEmail);
         List<Result> result = this.resultRepository.findByUserEmail(userEmail);
+        if(result.isEmpty()) {
+            LOGGER.error(Message.RESULT_NOT_FOUND);
+            throw new ResourceNotFound(Message.RESULT_NOT_FOUND);
+        }
         List<ResultDto> resultDtos = result.stream()
                 .map(rs -> this.resultToDto(rs))
                 .collect(Collectors.toList());
-        LOGGER.info("Retrieved {} results for email: {}", resultDtos.size(),
-                userEmail);
         return resultDtos;
     }
     /**

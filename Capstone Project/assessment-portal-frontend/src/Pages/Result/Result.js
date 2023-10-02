@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react'
 import resultService from '../../Services/resultService';
-import Error from '../Error';
+import Error from '../../Pages/Error';
 import "./Result.css";
 
 const Result = () => {

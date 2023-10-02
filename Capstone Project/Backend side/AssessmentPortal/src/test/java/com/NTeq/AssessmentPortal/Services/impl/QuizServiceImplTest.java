@@ -2,8 +2,6 @@ package com.NTeq.AssessmentPortal.Services.impl;
 
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
 import com.NTeq.AssessmentPortal.Repositories.QuizRepository;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 @ExtendWith(MockitoExtension.class)
 class QuizServiceImplTest {
     
@@ -58,8 +57,8 @@ class QuizServiceImplTest {
         when(modelMapper.map(quizDto, Quiz.class)).thenReturn(quiz);
         when(quizRepository.save(any(Quiz.class))).thenReturn(quiz);
         
-        String result = quizService.addQuiz(quizDto);
-        assertEquals("Quiz added successfully", result);
+        SuccessResponse result = quizService.addQuiz(quizDto);
+        assertEquals("Quiz created successfully.", result.getMessage());
     }
     
     @Test
@@ -103,18 +102,18 @@ class QuizServiceImplTest {
 
         when(modelMapper.map(updatedQuizDto, Quiz.class)).thenReturn(updatedQuiz);
 
-        String result = quizService.updateQuiz(quizId, updatedQuizDto);
+        SuccessResponse result = quizService.updateQuiz(quizId, updatedQuizDto);
 
-        assertEquals("Updated successfully..", result);
+        assertEquals("Quiz updated successfully.", result.getMessage());
     }
    
     @Test
     public void testDeleteQuiz() {
         long quizId = 1L;
 
-        quizService.deleteQuiz(quizId);
+        SuccessResponse result = quizService.deleteQuiz(quizId);
+        assertEquals("Quiz deleted successfully.",result.getMessage());
 
-        verify(quizRepository, times(1)).deleteById(quizId);
     }
 
     

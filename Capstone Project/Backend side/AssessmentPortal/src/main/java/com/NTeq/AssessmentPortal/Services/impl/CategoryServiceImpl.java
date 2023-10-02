@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
@@ -17,6 +18,8 @@ import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.CategoryService;
 /**
  * Service implementation for managing category-related operations.
@@ -44,16 +47,19 @@ public class CategoryServiceImpl implements CategoryService {
      * @return A message indicating the result of the operation.
      */
     @Override
-    public final String addCategory(final CategoryDto cgDto) {
-        LOGGER.info("Adding a new category: {}", cgDto.getCategoryName());
-        Category cg = this.dtoToCategory(cgDto);
-            Category newOne = new Category(0L, cg.getCategoryName(),
-                    cg.getDescription());
-
-                categoryRepository.save(newOne);
-                LOGGER.info("Category added successfully: {}",
-                        newOne.getCategoryName());
-                return "Category added successfully";
+    public final SuccessResponse addCategory(final CategoryDto categoryDto) {
+        Category category = this.dtoToCategory(categoryDto);
+            Category newOne = new Category(0L, category.getCategoryName(),
+                    category.getDescription());
+       Optional<Category> existingCategory = categoryRepository
+               .findByCategoryName(category.getCategoryName());
+       if (existingCategory.isPresent()) {
+           LOGGER.error(Message.ALREADY_EXISTS);
+           throw new AlreadyExistException(Message.ALREADY_EXISTS);
+       }
+            categoryRepository.save(newOne);
+            return new SuccessResponse(HttpStatus.CREATED.value(),
+                    Message.CATEGORY_CREATED_SUCCESSFULLY);
     }
     /**
      * Retrieves a list of all categories.
@@ -61,15 +67,11 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public final List<CategoryDto> getAllCategory() {
-        LOGGER.info("Getting all categories");
-
-        List<Category> cgs = this.categoryRepository.findAll();
-        List<CategoryDto> cgDtos = cgs.stream()
+        List<Category> categories = this.categoryRepository.findAll();
+        List<CategoryDto> categoryDtos = categories.stream()
                 .map(category -> this.categoryToDto(category))
                 .collect(Collectors.toList());
-
-        LOGGER.info("Retrieved {} categories", cgDtos.size());
-        return cgDtos;
+        return categoryDtos;
     }
 
     /**
@@ -80,66 +82,61 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public final CategoryDto getCategoryById(final long categoryId) {
-        LOGGER.info("Getting category by ID: {}", categoryId);
         Optional<Category> foundCategory = categoryRepository
                 .findById(categoryId);
         if (foundCategory.isPresent()) {
-            Category cat = foundCategory.get();
-            CategoryDto catDto = this.categoryToDto(cat);
-            LOGGER.info("Retrieved category: {}", catDto.getCategoryName());
-            return catDto;
+            Category category = foundCategory.get();
+            CategoryDto categoryDto = this.categoryToDto(category);
+            return categoryDto;
         } else {
-            LOGGER.error("Category not found for ID: {}", categoryId);
-            throw new RuntimeException(
-                    "Category not found for id" + categoryId);
+            LOGGER.error(Message.CATEGORY_NOT_FOUND);
+            throw new ResourceNotFound(
+                    Message.CATEGORY_NOT_FOUND);
         }
     }
 
     /**
      * Updates a category's information.
      * @param categoryId The ID of the category to update.
-     * @param cgDto      The DTO containing updated category details.
+     * @param categoryDto      The DTO containing updated category details.
      * @return A message indicating the result of the operation.
      */
     @Override
-    public final String updateCategory(final Long categoryId,
-        final CategoryDto cgDto) {
-        LOGGER.info("Updating category with ID: {}", categoryId);
-        Category existCg = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFound("Doesn't exists"));
-        if (!cgDto.getCategoryName().equals(existCg.getCategoryName())) {
+    public final SuccessResponse updateCategory(final Long categoryId,
+        final CategoryDto categoryDto) {
+        Category existCategory = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFound(
+                        Message.CATEGORY_NOT_FOUND));
+        if (!categoryDto.getCategoryName().equals(existCategory.getCategoryName())) {
             Optional<Category> checkExisting = categoryRepository
-                    .findByCategoryName(cgDto.getCategoryName());
+                    .findByCategoryName(categoryDto.getCategoryName());
             if (checkExisting.isPresent()) {
-                LOGGER.error("Category with the same name already exists: {}",
-                       cgDto.getCategoryName());
+                LOGGER.error(Message.CATEGORY_ALREADY_EXISTS);
                 throw new AlreadyExistException(
-                      "Category with same name already exists");
+                      Message.CATEGORY_ALREADY_EXISTS);
             }
         }
-        Category cg = this.dtoToCategory(cgDto);
-        cg.setCategoryId(categoryId);
-        categoryRepository.save(cg);
-        LOGGER.info("Category updated successfully");
-        return "Updated successfully..";
+        Category category = this.dtoToCategory(categoryDto);
+        category.setCategoryId(categoryId);
+        categoryRepository.save(category);
+        return new SuccessResponse(HttpStatus.OK.value(),
+                Message.CATEGORY_UPDATED_SUCCESSFULLY);
     }
     /**
      * Deletes a category by its unique identifier.
      * @param categoryId The ID of the category to delete.
      */
     @Override
-    public final String deleteCategory(final long categoryId) {
-//        categoryRepository.deleteById(categoryId);
-        LOGGER.info("Deleting category by ID: {}", categoryId);
+    public final SuccessResponse deleteCategory(final long categoryId) {
         Category category
         = categoryRepository.findById(categoryId).orElseGet(() -> {
-            LOGGER.error("Category not found for ID: {}", categoryId);
+            LOGGER.error(Message.CATEGORY_NOT_FOUND);
             throw new ResourceNotFound(
-                    "Category doesn't exists" + categoryId);
+                   Message.CATEGORY_NOT_FOUND + categoryId);
         });
             categoryRepository.delete(category);
-            LOGGER.error("Category not found for ID: {}", categoryId);
-            return "Category has been deleted";
+            return new SuccessResponse(HttpStatus.OK.value(),
+                    Message.CATEGORY_DELETED_SUCCESSFULLY);
     }
     /**
      * Retrieves a list of Quizzes of a category.
@@ -147,16 +144,12 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of QuizDTO objects.
      */
     public final List<QuizDto> getQuizzesByCategory(final long id) {
-        LOGGER.info("Getting quizzes for category with ID: {}", id);
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFound(
-                        "*category doesn't exist with id: " + id));
+                        Message.CATEGORY_NOT_FOUND + id));
         List<Quiz> quizzes = category.getQuiz();
         List<QuizDto> quizDtos = quizzes.stream().map(this::quizToDto)
                 .collect(Collectors.toList());
-
-        LOGGER.info("Retrieved {} quizzes for category with ID: {}",
-                 quizDtos.size(), id);
         return quizDtos;
     }
     /**

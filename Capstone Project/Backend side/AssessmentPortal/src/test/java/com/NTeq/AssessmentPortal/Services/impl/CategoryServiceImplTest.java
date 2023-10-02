@@ -19,6 +19,7 @@ import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 class CategoryServiceImplTest {
 
@@ -47,8 +48,8 @@ class CategoryServiceImplTest {
         when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
         when(categoryRepository.save(category)).thenReturn(category);
 
-        String resultMessage = categoryService.addCategory(categoryDto);
-        assertEquals("Category added successfully", resultMessage);
+        SuccessResponse result = categoryService.addCategory(categoryDto);
+        assertEquals("Category created successfully.", result.getMessage());
     }
     @Test
     public void testGetCategoryById_Success() {
@@ -124,8 +125,8 @@ class CategoryServiceImplTest {
         when(modelMapper.map(categoryDto, Category.class)).thenReturn(updatedCategory);
         when(categoryRepository.save(updatedCategory)).thenReturn(updatedCategory);
 
-        String resultDto = categoryService.updateCategory(5L,categoryDto);
-        assertEquals("Updated successfully..", resultDto);
+        SuccessResponse resultDto = categoryService.updateCategory(5L,categoryDto);
+        assertEquals("Category updated successfully.", resultDto.getMessage());
     }
     @Test
     public void testGetQuizzesByCategory() {

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Swal from "sweetalert2";
+import Button from "../../Component/Button component/Button";
+import Input from "../../Component/Input component/Input";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -14,7 +16,6 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const emailRegex = /^[a-zA-Z0-9.]+@nucleusTeq\.com$/;
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
@@ -111,7 +112,7 @@ const Register = () => {
             )}
 
             <div className="form-group mt-3">
-              <input
+              <Input
                 type="text"
                 id="firstName"
                 className="form-control mt-1"
@@ -126,7 +127,7 @@ const Register = () => {
               )}
             </div>
             <div className="form-group mt-3">
-              <input
+              <Input
                 type="text"
                 id="lastName"
                 className="form-control mt-1"
@@ -139,7 +140,7 @@ const Register = () => {
               )}
             </div>
             <div className="form-group mt-3">
-              <input
+              <Input
                 type="tel"
                 id="phoneNumber"
                 className="form-control mt-1"
@@ -159,7 +160,7 @@ const Register = () => {
               )}
             </div>
             <div className="form-group mt-3">
-              <input
+              <Input
                 type="email"
                 id="email"
                 className="form-control mt-1"
@@ -179,7 +180,7 @@ const Register = () => {
               )}
             </div>
             <div className="form-group mt-3">
-              <input
+              <Input
                 type="password"
                 id="password"
                 className="form-control mt-1"
@@ -199,7 +200,7 @@ const Register = () => {
               )}
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button className="btn btn-primary">Submit</button>
+              <Button className="btn btn-primary" children="Submit"></Button>
             </div>
             <div className="text-center my-3">
               Already registered?{" "}
@@ -215,6 +216,7 @@ const Register = () => {
         </form>
       </div>
     </div>
+    
   );
 };
 

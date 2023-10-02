@@ -3,6 +3,7 @@ package com.NTeq.AssessmentPortal.Services;
 import java.util.List;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 /**
  * Service interface for managing category-related operations.
  */
@@ -12,7 +13,7 @@ public interface CategoryService {
      * @param cgDto The DTO containing category details.
      * @return A message indicating the result of the operation.
      */
-    String addCategory(CategoryDto cgDto);
+     SuccessResponse addCategory(CategoryDto cgDto);
     /**
      * Retrieves a list of all categories.
      * @return A list of category DTOs.
@@ -30,13 +31,13 @@ public interface CategoryService {
      * @param cgDto      The DTO containing updated category details.
      * @return A message indicating the result of the operation.
      */
-    String updateCategory(Long categoryId, CategoryDto cgDto);
+    SuccessResponse updateCategory(Long categoryId, CategoryDto cgDto);
     /**
      * Deletes a category by its unique identifier.
      * @param categoryId The ID of the category to delete.
      * @return A message indicating the delete operation.
      */
-     String deleteCategory(long categoryId);
+    SuccessResponse deleteCategory(long categoryId);
 }
 
 

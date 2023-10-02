@@ -7,7 +7,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,8 @@ import com.NTeq.AssessmentPortal.Exceptions.DuplicateEmail;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Exceptions.WrongCredentialException;
 import com.NTeq.AssessmentPortal.Repositories.CandidateRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.CandidateService;
 
 /**
@@ -25,6 +30,11 @@ import com.NTeq.AssessmentPortal.Services.CandidateService;
  */
 @Service
 public class CandidateServiceImpl implements CandidateService {
+    /**
+     * This class represents a logger for the CandidateServiceImpl.
+     */
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(CategoryServiceImpl.class);
     /**
      * Repository for candidate data. Injected by Spring using @Autowired.
      */
@@ -50,23 +60,21 @@ public class CandidateServiceImpl implements CandidateService {
      * @throws DuplicateEmail If the provided email already exists.
      */
     @Override
-    public final String addCandidate(final CandidateDto cdDto) {
-        Candidate cd = this.dtoToCandidate(cdDto);
-//            if (!cd.getEmail().endsWith("@nucleusTeq.com")) {
-//                throw new InvalidEmailDomainException(
-//                        "Email domain should be @nucleusTeq.com");
-//            }
+    public final SuccessResponse addCandidate(final CandidateDto candidateDto) {
+        Candidate cd = this.dtoToCandidate(candidateDto);
             Optional<Candidate> existingCdByEmail = candidateRepository
                     .findByEmail(cd.getEmail());
             if (existingCdByEmail.isPresent()) {
                 throw new DuplicateEmail("Email already exits");
             }
-            Candidate newCd = new Candidate(0, cd.getFirstName(),
+            Candidate newCandidate = new Candidate(0, cd.getFirstName(),
                     cd.getLastName(), cd.getEmail(),
                     this.passwordEncoder.encode(cd.getPassword()), "user",
                     cd.getPhoneNumber());
-                candidateRepository.save(newCd);
-            return newCd.getEmail() + " registered successfully";
+                candidateRepository.save(newCandidate);
+               LOGGER.info(Message.REGISTERED_SUCCESSFULLY);
+            return new SuccessResponse(HttpStatus.CREATED.value(),
+                    Message.REGISTERED_SUCCESSFULLY);
     }
 
     /**
@@ -116,14 +124,17 @@ public class CandidateServiceImpl implements CandidateService {
                             + " " + foundCandidate.getLastName());
                     response.put("role", foundCandidate.getUserRole());
                 } else {
+                    LOGGER.error(Message.LOGIN_FAILED);
                     throw new WrongCredentialException(
                             "Login Failed!! Wrong Credentials");
                 }
             } else {
+                LOGGER.error(Message.LOGIN_FAILED);
                 throw new WrongCredentialException(
                         "Login Failed!! Wrong Credentials");
             }
         } else {
+            LOGGER.error(Message.USER_NOT_FOUND);
             throw new ResourceNotFound("User doesn't exits");
 
         }

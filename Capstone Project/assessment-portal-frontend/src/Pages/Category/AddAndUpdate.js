@@ -4,6 +4,8 @@ import categoryService from '../../Services/categoryService';
 import './styles.css';
 import Error from '../Error';
 import Swal from 'sweetalert2';
+import Button from '../../Component/Button component/Button';
+import Input from '../../Component/Input component/Input';
 
 const AddAndUpdate = () => {
   const [categoryName, setCategoryName] = useState('');
@@ -103,7 +105,7 @@ const AddAndUpdate = () => {
               <label className='form-label' htmlFor='categoryName'>
                 Name:
               </label>
-              <input
+              <Input
                 type='text'
                 placeholder='Enter Category name'
                 id='categoryName'
@@ -116,7 +118,7 @@ const AddAndUpdate = () => {
               <label className='form-label' htmlFor='description'>
                 Description:
               </label>
-              <input
+              <Input
                 type='text'
                 placeholder='Enter description'
                 id='description'
@@ -126,11 +128,11 @@ const AddAndUpdate = () => {
               />
             </div>
             <span style={{color: "red"}}>{error}</span>
-            <button className='btn-primary' onClick={(e) => saveCategory(e)}>
-              Submit
-            </button>
+            <Button className='btn-primary' onClick={(e) => saveCategory(e)}
+            children="Submit">
+            </Button>
             <Link to = "/category/all">
-               <button className='btn-primary'>Cancel</button>
+               <Button className='btn-primary' children="Cancel"></Button>
             </Link>
           </form>
         </div>

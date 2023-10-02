@@ -1,7 +1,6 @@
 package com.NTeq.AssessmentPortal.Controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
+import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.QuestionServiceImpl;
 
 class QuestionControllerTest {
@@ -35,10 +35,13 @@ class QuestionControllerTest {
     public void testAddQuestion() {
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionName("Sample question text");
-        when(questionService.addQuestion(questionDto)).thenReturn("Question added successfully");
-        ResponseEntity<String> response = questionController.addQuestion(questionDto);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("Question added successfully", response.getBody());
+        
+        SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
+                "Question created successfully.");
+        when(questionService.addQuestion(questionDto)).thenReturn(response);
+        ResponseEntity<SuccessResponse> result = questionController.addQuestion(questionDto);
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        assertEquals(response, result.getBody());
     }
 
     @Test
@@ -65,17 +68,22 @@ class QuestionControllerTest {
         long questionId = 1L;
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionId(questionId);
-        when(questionService.updateQuestion(questionId, questionDto)).thenReturn("Question updated successfully");
-        ResponseEntity<QuestionDto> response = questionController.updateQuestion(questionId, questionDto);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(questionDto, response.getBody());
+        SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
+                "Question updated successfully.");
+        when(questionService.updateQuestion(questionId, questionDto)).thenReturn(response);
+        ResponseEntity<SuccessResponse> result = questionController.updateQuestion(questionId, questionDto);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(response, result.getBody());
     }
     
     @Test
     public void testDeleteQuestion() {
         long questionId = 1L;
-        doNothing().when(questionService).deleteQuestion(questionId);
-        ResponseEntity<Void> response = questionController.deleteQuestion(questionId);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
+                "Question deleted successfully.");
+        when(questionService.deleteQuestion(questionId)).thenReturn(response);
+        ResponseEntity<SuccessResponse> result = questionController.deleteQuestion(questionId);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(response , result.getBody());
     }
 }
