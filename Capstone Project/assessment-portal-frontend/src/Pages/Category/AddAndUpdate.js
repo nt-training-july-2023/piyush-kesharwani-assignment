@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams,Link } from 'react-router-dom';
 import categoryService from '../../Services/categoryService';
 import './styles.css';
-import Error from '../Error';
 import Swal from 'sweetalert2';
 import Button from '../../Component/Button component/Button';
 import Input from '../../Component/Input component/Input';
+import { Label } from '../../Component/Label component/Label';
+import Error from '../../Component/Error component/Error';
 
 const AddAndUpdate = () => {
   const [categoryName, setCategoryName] = useState('');
@@ -102,9 +103,9 @@ const AddAndUpdate = () => {
         <div className='card-body'>
           <form>
             <div className='form-group'>
-              <label className='form-label' htmlFor='categoryName'>
-                Name:
-              </label>
+              <Label className='form-label' htmlFor='categoryName'
+                children="Name:">
+              </Label>
               <Input
                 type='text'
                 placeholder='Enter Category name'
@@ -115,9 +116,9 @@ const AddAndUpdate = () => {
               />
             </div>
             <div className='form-group'>
-              <label className='form-label' htmlFor='description'>
-                Description:
-              </label>
+              <Label className='form-label' htmlFor='description'
+                children = "Description:">
+              </Label>
               <Input
                 type='text'
                 placeholder='Enter description'

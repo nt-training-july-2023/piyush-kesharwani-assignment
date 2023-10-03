@@ -1,7 +1,7 @@
 import React, { useState , useEffect} from 'react'
 import resultService from '../../Services/resultService';
-import Error from '../../Pages/Error';
 import "./Result.css";
+import Error from '../../Component/Error component/Error';
 
 const Result = () => {
     const [results, setResults] = useState([])

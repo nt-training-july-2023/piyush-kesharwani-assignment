@@ -22,13 +22,16 @@ const QuestionList = () => {
     }
   }, [id]);
 
-  const getQuizById=() =>{
-    quizService.getQuizById(id).then(response =>{
+  const getQuizById = () => {
+    quizService
+      .getQuizById(id)
+      .then((response) => {
         setQuizName(response.data.quizName);
-    }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
-    })
-}
+      });
+  };
 
   const getQuestionByQuiz = () => {
     quizService
@@ -89,14 +92,13 @@ const QuestionList = () => {
         <div className="question-column">
           <div className="question-main-card">
             <div className="question-card-header-main">
-              {id ? (<h2>QUIZ : {quizName}</h2>): (<h2>List Of Question</h2>)}
+              {id ? <h2>QUIZ : {quizName}</h2> : <h2>List Of Question</h2>}
               <center>
                 <Button
                   className="add-question-button"
                   onClick={() => navigate("/quiz/all")}
                   children="Quiz List"
-                >  
-                </Button>
+                ></Button>
                 {id ? (
                   <Link
                     className="add-question-button"
@@ -125,42 +127,40 @@ const QuestionList = () => {
                         </div>
                         <div className="question-card-body">
                           <form>
-                            <h4>{++index + ". "}{question.questionName}</h4>
-                            <label>
-                              <Input
-                                type="radio"
-                                name={`option${index}`}
-                                value="optionOne"
-                              />
-                              {question.options.optionOne}
-                            </label>
+                            <h4>
+                              {++index + ". "}
+                              {question.questionName}
+                            </h4>
+                            <Input
+                              type="radio"
+                              name={`option${index}`}
+                              value="optionOne"
+                            />
+                            {question.options.optionOne}
                             <br />
-                            <label>
-                              <Input
-                                type="radio"
-                                name={`option${index}`}
-                                value="optionTwo"
-                              />
-                              {question.options.optionTwo}
-                            </label>
+                            <Input
+                              type="radio"
+                              name={`option${index}`}
+                              value="optionTwo"
+                            />
+                            {question.options.optionTwo}
                             <br />
-                            <label>
-                              <Input
-                                type="radio"
-                                name={`option${index}`}
-                                value="optionThree"
-                              />
-                              {question.options.optionThree}
-                            </label>
+
+                            <Input
+                              type="radio"
+                              name={`option${index}`}
+                              value="optionThree"
+                            />
+                            {question.options.optionThree}
+
                             <br />
-                            <label>
-                              <Input
-                                type="radio"
-                                name={`option${index}`}
-                                value="optionFour"
-                              />
-                              {question.options.optionFour}
-                            </label>
+
+                            <Input
+                              type="radio"
+                              name={`option${index}`}
+                              value="optionFour"
+                            />
+                            {question.options.optionFour}
                           </form>
                           <p>
                             <strong>Correct Option:</strong> {question.answer}
@@ -168,24 +168,26 @@ const QuestionList = () => {
                           <p>Category: {question.quiz.category.categoryName}</p>
                         </div>
                         <div className="question-card-footer">
-                          {id ? (<Link
-                            className="button-update-question"
-                            to={`/quiz/${id}/edit-question/${question.questionId}`}
-                          >
-                            Update Question
-                          </Link>):(<Link
-                            className="button-update-question"
-                            to={`/question/all/edit-question/${question.questionId}`}
-                          >
-                            Update Question
-                          </Link>)}
+                          {id ? (
+                            <Link
+                              className="button-update-question"
+                              to={`/quiz/${id}/edit-question/${question.questionId}`}
+                            >
+                              Update Question
+                            </Link>
+                          ) : (
+                            <Link
+                              className="button-update-question"
+                              to={`/question/all/edit-question/${question.questionId}`}
+                            >
+                              Update Question
+                            </Link>
+                          )}
                           <Button
                             className="button-delete-question"
                             onClick={() => deleteQuiz(question.questionId)}
                             children="Delete Question"
-                          >
-                            
-                          </Button>
+                          ></Button>
                         </div>
                       </div>
                     ))}

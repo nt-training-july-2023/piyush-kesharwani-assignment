@@ -6,9 +6,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    overflow-y: auto;
 }
 
-.sidebar {
+/* .sidebar {
   width: 250px;
   background-color: #333;
   color: #fff;
@@ -35,7 +36,7 @@
   color: #fff;
   font-size: 16px;
   display: block;
-}
+} */
 
 .dashboard-content {
   display: flex;
@@ -58,7 +59,7 @@
   background-color: darkslategrey;
   align-items: center;
   text-align: center;
-  color:#fff
+  color:#fff;
   
 }
 

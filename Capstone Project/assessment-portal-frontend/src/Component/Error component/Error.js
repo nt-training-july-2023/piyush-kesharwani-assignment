@@ -1,5 +1,6 @@
 import React, { useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
+import "./Error.css"
 
 const Error = () => {
   const navigate = useNavigate();
@@ -28,8 +29,9 @@ const Error = () => {
   }
 
   return (
-    <div>
-      <h1>Unauthorized Access</h1>
+    <div className='error-page'>
+      <h1 className="errorh2">403</h1>
+      <h1 className='errorh2'>Unauthorized Access</h1>
       <button onClick = {handleNavigate}>
         GO BACK!
       </button>

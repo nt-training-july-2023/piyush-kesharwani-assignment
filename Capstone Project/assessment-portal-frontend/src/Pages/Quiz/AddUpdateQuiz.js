@@ -4,8 +4,10 @@ import quizService from "../../Services/quizService";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './AddUpdateQuiz.css';
-import Error from "../../Pages/Error";
 import Input from "../../Component/Input component/Input";
+import Button from "../../Component/Button component/Button";
+import { Label } from "../../Component/Label component/Label";
+import Error from "../../Component/Error component/Error";
 
 const AddUpdateQuiz = () => {
   const [quizName, setQuizName] = useState("");
@@ -21,7 +23,6 @@ const AddUpdateQuiz = () => {
   useEffect(() => {
     getAllCategories();
   }, []);
-
   const getAllCategories =()=>{
     categoryService.getAll().then((response)=>{
       setCategories(response.data);
@@ -43,7 +44,7 @@ const AddUpdateQuiz = () => {
 }
 
 const validateForm =() =>{
-    if(quizName==='' || quizDescription==='' || time===0 || selectedCategory===''){
+    if(quizName==='' || quizDescription==='' || (!time || time<=0) || selectedCategory===''){
       setErrors('*all the fields are mandatory')
       return true;
     }
@@ -138,9 +139,9 @@ const saveQuiz=(e)=>{
         <div className="quiz-card-body">
           <form>
             <div className="form-group">
-              <label className="form-label" htmlFor="quizName">
-                Quiz Name:
-              </label>
+              <Label className="form-label" htmlFor="quizName"
+                children = "Quiz Name:">
+              </Label>
               <Input
                 type="text"
                 placeholder="Enter Quiz name"
@@ -151,9 +152,9 @@ const saveQuiz=(e)=>{
               />
             </div>
             <div className="form-group">
-              <label className="form-label" htmlFor="quizDescription">
-                Description:
-              </label>
+              <Label className="form-label" htmlFor="quizDescription"
+                children = "Description:">
+              </Label>
               <Input
                 type="text"
                 placeholder="Enter Description"
@@ -164,9 +165,9 @@ const saveQuiz=(e)=>{
               />
             </div>
             <div className="form-group">
-              <label className="form-label" htmlFor="Time">
-                Set Timer:
-              </label>
+              <Label className="form-label" htmlFor="Time"
+                children = "Set Timer:">
+              </Label>
               <Input
                 type="number"
                 placeholder="Set Time"
@@ -177,7 +178,9 @@ const saveQuiz=(e)=>{
               />
             </div>
             <div className="form-group">
-              <label className="form-label" htmlFor="category-select">Category:</label>
+              <Label className="form-label" htmlFor="category-select"
+                children="Category:">
+                </Label>
               <select
                 id="category-select"
                 value={selectedCategory}
@@ -193,11 +196,11 @@ const saveQuiz=(e)=>{
             </div>
             <span style={{color : "red"}}>{errors}</span>
             <div>
-            <button onClick={(e)=>saveQuiz(e)}  className='cat-button'>
+            <Button onClick={(e)=>saveQuiz(e)}  className='cat-button'>
               Submit
-            </button>
+            </Button>
             <Link to="/quiz/all">
-              <button>Cancel</button>
+              <Button>Cancel</Button>
             </Link>
           </div>
           </form>

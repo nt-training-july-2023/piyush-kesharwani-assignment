@@ -6,6 +6,7 @@ import "./AddUpdateQuestion.css";
 import Swal from "sweetalert2";
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
+import { Label } from "../../Component/Label component/Label";
 
 const AddUpdateQuestion = () => {
   const [questionName, setquestionName] = useState("");
@@ -46,7 +47,6 @@ const AddUpdateQuestion = () => {
       .getAllQuiz()
       .then((response) => {
         setQuizzes(response.data);
-        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -204,9 +204,9 @@ const AddUpdateQuestion = () => {
       </h2>
       <form onSubmit={saveQuestion}>
         <div className="question-form-group">
-          <label htmlFor="quizSelect" className="question-form-label">
-            Select Quiz
-          </label>
+          <Label htmlFor="quizSelect" className="question-form-label"
+           children ="Select Quiz">
+          </Label>
           {id ? (
             <Input
             type="text"
@@ -231,9 +231,9 @@ const AddUpdateQuestion = () => {
         </div>
 
         <div className="question-form-group">
-          <label htmlFor="questionText" className="question-form-label">
-            Question Name
-          </label>
+          <Label htmlFor="questionText" className="question-form-label"
+            children = "Question Name">
+          </Label>
           <Input
             type="text"
             className="question-form-control"
@@ -244,9 +244,9 @@ const AddUpdateQuestion = () => {
         </div>
 
         <div className="question-form-group">
-          <label htmlFor="optionOne" className="question-form-label">
-            Option One
-          </label>
+          <Label htmlFor="optionOne" className="question-form-label"
+            children = "Option One">
+          </Label>
           <Input
             type="text"
             className="question-form-control"
@@ -259,9 +259,9 @@ const AddUpdateQuestion = () => {
         </div>
 
         <div className="question-form-group">
-          <label htmlFor="optionTwo" className="question-form-label">
-            Option Two
-          </label>
+          <Label htmlFor="optionTwo" className="question-form-label"
+            children = "Option Two">
+          </Label>
           <Input
             type="text"
             className="question-form-control"
@@ -274,9 +274,9 @@ const AddUpdateQuestion = () => {
         </div>
 
         <div className="question-form-group">
-          <label htmlFor="optionThree" className="question-form-label">
-            Option Three
-          </label>
+          <Label htmlFor="optionThree" className="question-form-label"
+            children = "Option Three">
+          </Label>
           <Input
             type="text"
             className="question-form-control"
@@ -289,9 +289,9 @@ const AddUpdateQuestion = () => {
         </div>
 
         <div className="question-form-group">
-          <label htmlFor="optionFour" className="question-form-label">
-            Option Four
-          </label>
+          <Label htmlFor="optionFour" className="question-form-label"
+            children = "Option Four">
+          </Label>
           <Input
             type="text"
             className="question-form-control"
@@ -304,7 +304,7 @@ const AddUpdateQuestion = () => {
         </div>
 
         <div className="question-form-group">
-          <label htmlFor="answer">Correct Answer</label>
+          <Label htmlFor="answer" children="Correct Answer"></Label>
           <select
             id="answer"
             className="question-form-control"

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import quizService from "../../Services/quizService";
 import "./QuizList.css";
 import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from "../../Component/Button component/Button";
+import QuizCard from "../../Component/Card component/QuizCard";
 
 const QuizList = () => {
   const [quiz, setQuiz] = useState([]);
@@ -87,11 +89,11 @@ const QuizList = () => {
         <>
       {role === "admin" && (
             <>
-              <button className="btn-add" onClick={() => navigate("/adminDashboard")}>Dashboard</button>
-              <button className="btn-add" onClick={() => navigate("/quiz/all/addQuiz")}>Add Quiz</button>
+              <Button className="btn-add" onClick={() => navigate("/adminDashboard")}>Dashboard</Button>
+              <Button className="btn-add" onClick={() => navigate("/quiz/all/addQuiz")}>Add Quiz</Button>
             </>
           )}
-      <div className="quiz-card-container">
+      {/* <div className="quiz-card-container">
         {quiz.map((qz) => (
           <div key={qz.quizId} className="card">
             <div className="card-body">
@@ -110,20 +112,32 @@ const QuizList = () => {
               </div>
               {valid === "true" && isLoggedIn === "true" ? (
               <div className="button-container">
-                <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><button className="btn-update" >Update</button></Link>
-                <Link to={`/quiz/${qz.quizId}/question`}><button className="view-btn" >View Question</button></Link>
-                <button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)}>Delete</button>
+                <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><Button className="btn-update" >Update</Button></Link>
+                <Link to={`/quiz/${qz.quizId}/question`}><Button className="view-btn" >View Question</Button></Link>
+                <Button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)}>Delete</Button>
               </div>
               ) : (
                 <div className="button-container">
-                <button className="btn-update" onClick={()=>{handleOpenQuiz(qz.quizId)}}>Take Test</button>
-                <button className="btn-delete" onClick={()=>navigate("/category/all")}>Cancel</button>
+                <Button className="btn-update" onClick={()=>{handleOpenQuiz(qz.quizId)}}>Take Test</Button>
+                <Button className="btn-delete" onClick={()=>navigate("/category/all")}>Cancel</Button>
               </div>
               )}
             </div>
+
           </div>
         ))}
-      </div>
+      </div> */}
+       <div className="quiz-card-container">
+            {quiz.map((qz) => (
+              <QuizCard
+                key={qz.quizId}
+                quiz={qz}
+                onDelete={deleteQuiz}
+                onOpenQuiz={handleOpenQuiz}
+                isAdmin={valid === "true" && isLoggedIn === "true"}
+              />
+            ))}
+          </div>
       </>
       )}
     </div>

@@ -5,15 +5,14 @@ import "./CategoryList.css";
 import Swal from "sweetalert2";
 import Button from "../../Component/Button component/Button";
 
-
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-  const [valid, setValid] = useState("")
+  const [valid, setValid] = useState("");
   const navigate = useNavigate();
 
   const isLoggedIn = localStorage.getItem("IsLoggedIn");
   const role = localStorage.getItem("role");
-  
+
   useEffect(() => {
     if (role === "admin") {
       setValid("true");
@@ -22,12 +21,11 @@ const CategoryList = () => {
     }
   }, [role]);
 
-
   useEffect(() => {
     if (isLoggedIn !== null) {
       getCategory();
     } else {
-      navigate("/"); 
+      navigate("/");
     }
   }, [isLoggedIn, navigate]);
 
@@ -51,7 +49,7 @@ const CategoryList = () => {
           text: "Category deleted successfully",
           icon: "success",
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
         getCategory();
       })
@@ -60,84 +58,95 @@ const CategoryList = () => {
       });
   };
 
-  
   return (
     <div className="category-container">
-      
       <h2 className="category-title">List of Categories</h2>
-      {(isLoggedIn === "true") && (
-      <table className="category-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((category, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{category.categoryName}</td>
-              <td>{category.description}</td>
-              {valid === "true" && isLoggedIn === "true" ? (
-                <td className="category-actions">
-                  <Link className="category-update-btn" to={`/category/${category.categoryId}/quizzes`}>Quizzes</Link>
-                  <Link
-                    className="category-update-btn"
-                    to={`/category/all/edit-category/${category.categoryId}`}
-                  >
-                    Update
-                  </Link>
-                  <Button
-                    className="category-delete-btn"
-                    onClick={() =>
-                      Swal.fire({
-                        title: "Warning",
-                        text: "Delete Category",
-                        icon: "warning",
-                        confirmButtonText: "Delete",
-                        confirmButtonColor: "red",
-                        showCancelButton: true
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          deleteCategory(category.categoryId);
-                        }
-                      })
-                    }
-                    children="Delete"
-                  >
-                    
-                  </Button>
-                </td>
-              ) : (
-                <td>
-                  <Button className="category-update-btn" onClick={()=>navigate(`/category/${category.categoryId}/quizzes`)} children="View Quizzes"></Button>
-                </td>
-              )}
+      {isLoggedIn === "true" && (
+        <table className="category-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {categories.map((category, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{category.categoryName}</td>
+                <td>{category.description}</td>
+                {valid === "true" && isLoggedIn === "true" ? (
+                  <td className="category-actions">
+                    <Link to={`/category/${category.categoryId}/quizzes`}>
+                      <Button
+                        className="category-update-btn"
+                        children="Quizzes"
+                      ></Button>
+                    </Link>
+                    <Link
+                      to={`/category/all/edit-category/${category.categoryId}`}
+                    >
+                      <Button
+                        className="category-update-btn"
+                        children="Update"
+                      ></Button>
+                    </Link>
+                    <Button
+                      className="category-delete-btn"
+                      onClick={() =>
+                        Swal.fire({
+                          title: "Warning",
+                          text: "Delete Category",
+                          icon: "warning",
+                          confirmButtonText: "Delete",
+                          confirmButtonColor: "red",
+                          showCancelButton: true,
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            deleteCategory(category.categoryId);
+                          }
+                        })
+                      }
+                      children="Delete"
+                    ></Button>
+                  </td>
+                ) : (
+                  <td>
+                    <Button
+                      className="category-update-btn"
+                      onClick={() =>
+                        navigate(`/category/${category.categoryId}/quizzes`)
+                      }
+                      children="Quizzes"
+                    ></Button>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
       <div className="category-button-group">
         {role === "user" ? (
-          <Link className="category-delete-btn" to="/userDashboard">
-            Cancel
+          <Link to="/userDashboard">
+            <Button className="category-delete-btn" children="Cancel"></Button>
           </Link>
         ) : (
           <>
-            <Link className="category-add-btn" to="/category/all/addCategory">
-              Add Category
+            <Link to="/category/all/addCategory">
+              <Button
+                className="category-update-btn"
+                children="Add"
+              ></Button>
             </Link>
-            <Link className="category-add-btn" to="/adminDashboard">
-              Cancel
+            <Link to="/adminDashboard">
+              <Button className="category-delete-btn" children="Cancel"></Button>
             </Link>
           </>
         )}
       </div>
-  
     </div>
   );
 };

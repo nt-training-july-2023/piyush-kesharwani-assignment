@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
 import "./AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
 import DashboardCard from "../../Component/Card component/DashboardCard";
+import Sidebar from "../../Component/Sidebar component/Sidebar";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const AdminDashboard = () => {
     <>
       {valid === "true" && IsLoggedIn === "true" ? (
         <div className="admin-dashboard">
-          <Sidebar />
+          <Sidebar dashboardType={"admin"}/>
           <div className="dashboard-content">
             <DashboardCard
               title="Manage Categories"

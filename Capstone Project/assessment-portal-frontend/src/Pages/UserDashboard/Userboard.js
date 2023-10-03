@@ -1,18 +1,18 @@
 import React from "react";
-import Sidebar from "./Sidebar";
 import "./UserDashboard.css";
-import Error from "../../Pages/Error";
 import DashboardCard from "../../Component/Card component/DashboardCard";
+import Sidebar from "../../Component/Sidebar component/Sidebar";
+import Error from "../../Component/Error component/Error";
 
 
 const UserDashboard = () => {
   const role = localStorage.getItem("role");
   if (role !== "user") {
-    return <Error />;
+    return <Error/>;
   }
   return (
     <div className="user-dashboard">
-      <Sidebar />
+      <Sidebar dashboardType={"user"}/>
       <div className="dashboard-content">
         <DashboardCard
           title="Categories"

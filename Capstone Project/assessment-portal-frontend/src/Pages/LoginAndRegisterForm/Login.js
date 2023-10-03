@@ -85,7 +85,6 @@ const Login = () => {
           <div>
             <h2 className="text-center"><b>Login</b></h2>
           </div>
-          {errorMessage && <div className="custom-error">{errorMessage}</div>}
           <div className="form-group">
             <Input
               type="email"
@@ -113,6 +112,7 @@ const Login = () => {
               value={password}
             />
           </div>
+          {errorMessage && <div className="custom-error">{errorMessage}</div>}
           <Button type="submit" className="btn btn-primary my-3"
           children=" Login">
           </Button>
