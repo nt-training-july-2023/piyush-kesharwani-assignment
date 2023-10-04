@@ -3,47 +3,12 @@
 .admin-dashboard {
     display: flex;
     height: 100vh;
-    background-image: url(adminDashboard.jpg);
+    background-image: url('../../Assets/Images/adminDashboard.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     overflow-y: auto;
   }
-  
-  /* .sidebar {
-    width: 250px;
-    background-color: #07131c;
-    color: #fff;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sidebar h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .nav-links {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .nav-links li {
-    margin-bottom: 10px;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 18px;
-    display: block;
-    padding: 10px 0; 
-    transition: color 0.3s;
-  }
-
-  .nav-links a:hover {
-    color: #9A3B3B; 
-  } */
   
   .dashboard-content {
     display: flex;

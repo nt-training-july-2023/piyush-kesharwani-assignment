@@ -23,7 +23,7 @@ const AddUpdateQuestion = () => {
   const [errors, setErrors] = useState('');
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
   const navigate = useNavigate();
-  const { id } = useParams();  //quiz id
+  const { id } = useParams();  
   const {quizId, questionId} = useParams();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const AddUpdateQuestion = () => {
     quizService.getQuizById(id).then(response =>{
       setQuiz(response.data);
     }).catch((error) =>{
-      console.log(error);
+      console.error(error);
     })
   }
 
@@ -49,7 +49,7 @@ const AddUpdateQuestion = () => {
         setQuizzes(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -58,12 +58,11 @@ const AddUpdateQuestion = () => {
     quizService
       .getQuizById(quizId)
       .then((response) => {
-        console.log(response.data);
         const quizObject = response.data;
         setQuiz(quizObject);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
     setSelectedQuiz(quizId);
   };
@@ -134,7 +133,7 @@ const AddUpdateQuestion = () => {
           navigate("/question/all");
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
     else if (questionId) {
@@ -149,7 +148,7 @@ const AddUpdateQuestion = () => {
           navigate("/question/all");
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     } 
     else {
@@ -164,7 +163,7 @@ const AddUpdateQuestion = () => {
           navigate(`/quiz/${id}/question`);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
     }
@@ -192,7 +191,7 @@ const AddUpdateQuestion = () => {
           setAllFieldsFilled(areOptionsFilled);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     }
   }, [questionId]);
@@ -320,7 +319,7 @@ const AddUpdateQuestion = () => {
             <option value={options.optionFour}>{options.optionFour}</option>
           </select>
         </div>
-       <span style={{color:"red"}}>{errors}</span>
+       <span>{errors}</span>
         <div>
           <Button className="cat-button" children="Submit"></Button>
           <Link to="/question/all">

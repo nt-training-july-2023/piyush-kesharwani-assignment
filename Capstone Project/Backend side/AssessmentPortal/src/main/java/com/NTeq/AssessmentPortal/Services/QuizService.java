@@ -36,6 +36,7 @@ public interface QuizService {
     /**
      * Deletes a quiz by its unique identifier.
      * @param quizId The ID of the quiz to delete.
+     * @return A message indicating the delete of quiz.
      */
     SuccessResponse deleteQuiz(long quizId);
     /**

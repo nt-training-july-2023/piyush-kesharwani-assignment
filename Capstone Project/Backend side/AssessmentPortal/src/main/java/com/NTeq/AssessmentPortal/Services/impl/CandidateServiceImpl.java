@@ -54,9 +54,8 @@ public class CandidateServiceImpl implements CandidateService {
 
     /**
      * Adds a new candidate to the system.
-     * @param cdDto The DTO containing candidate details.
+     * @param candidateDto The DTO containing candidate details.
      * @return A message indicating the result of the operation.
-     * @throws FieldsRequiredException If required fields are missing.
      * @throws DuplicateEmail If the provided email already exists.
      */
     @Override

@@ -20,7 +20,6 @@ import Error from "./Component/Error component/Error";
 function App() {
   return (
     <Router>
-      {/* <Navbar/> */}
       <Routes>
         <Route exact path="/" Component={Login}></Route>
         <Route exact path="/register" Component={Register}></Route>

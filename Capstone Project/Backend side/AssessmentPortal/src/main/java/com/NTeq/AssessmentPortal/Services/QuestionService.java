@@ -36,6 +36,7 @@ public interface QuestionService {
     /**
      * Deletes a question by its unique identifier.
      * @param questionId The ID of the question to delete.
+     * @return A message indicating the delete questions.
      */
     SuccessResponse deleteQuestion(long questionId);
 }

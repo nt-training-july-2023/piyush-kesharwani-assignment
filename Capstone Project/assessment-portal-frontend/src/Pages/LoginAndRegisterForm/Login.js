@@ -41,7 +41,6 @@ const Login = () => {
           timer:2000,
           showConfirmButton:false
         });
-        console.log(response.data);
         if (response.data && response.data.status === "true") {
           if (response.data.role === "admin") {
             navigate("/AdminDashboard");

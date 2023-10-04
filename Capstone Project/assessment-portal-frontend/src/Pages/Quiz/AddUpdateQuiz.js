@@ -66,7 +66,6 @@ const saveQuiz=(e)=>{
           });
           navigate("/quiz/all")
         }).catch(error => {
-            console.log(error);
             const submitError =error.response.data
             Swal.fire({
               title: "Error",

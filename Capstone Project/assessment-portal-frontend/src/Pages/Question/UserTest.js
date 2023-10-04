@@ -21,26 +21,70 @@ const UserTest = () => {
   const dateTime = `${currentDate.getDate()}-${
     currentDate.getMonth() + 1
   }-${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  const userName = localStorage.getItem("userName");
-  const userEmail = localStorage.getItem("email");
+  localStorage.setItem("dateTime", dateTime);
   const { quizId } = useParams();
   const navigate = useNavigate();
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
+    const prevCount = parseInt(localStorage.getItem("reloadAttempts")) || 0;
+    const newCount = prevCount + 1;
+    localStorage.setItem("reloadAttempts", newCount.toString());
+
+    if (
+      localStorage.getItem("reloadAttempts") >= 3 &&
+      localStorage.getItem("reloadAttempts") <= 6
+    ) {
+      Swal.fire({
+        title: "If you refresh the page, the test will be submitted",
+        showDenyButton: true,
+        confirmButtonText: "Submit Test",
+        denyButtonText: "Cancel",
+        customClass: {
+          actions: "my-actions",
+          cancelButton: "order-1 right-gap",
+          confirmButton: "order-2",
+          denyButton: "order-3",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleSubmit();
+          console.log("Submitted successfully");
+        }
+      });
+    } else if (localStorage.getItem("reloadAttempts") > 6) {
+      handleSubmit();
+      console.log("Submitted successfully");
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedSelectedAnswers = localStorage.getItem("selectedAnswers");
+    if (storedSelectedAnswers) {
+      setSelectedAnswers(JSON.parse(storedSelectedAnswers));
+    }
+    const storedTimer = localStorage.getItem("timerinSecond");
+    if (storedTimer) {
+      const timerinSecond = parseInt(storedTimer);
+      setTimeinSeconds(timerinSecond);
+    }
     getQuestionByQuiz();
     getQuizById();
-  }, [obtainedMarks, attemptedQuestion]);
+  }, []);
 
   useEffect(() => {
-    const handleCountdown = () => {
-      if (timeinSeconds > 0) {
-        setTimeinSeconds((prevTime) => prevTime - 1);
-      } else {
-        handleSubmit();
-      }
-    };
-    const countdownInterval = setInterval(handleCountdown, 1000);
-    return () => clearInterval(countdownInterval);
+    if (role === "user") {
+      const handleCountdown = () => {
+        if (timeinSeconds > 0) {
+          setTimeinSeconds((prevTime) => prevTime - 1);
+          localStorage.setItem("timerinSecond", (timeinSeconds - 1).toString());
+        } else {
+          handleSubmit();
+        }
+      };
+      const countdownInterval = setInterval(handleCountdown, 1000);
+      return () => clearInterval(countdownInterval);
+    }
   }, [timeinSeconds]);
 
   const formattedTime = new Date(timeinSeconds * 1000)
@@ -48,17 +92,26 @@ const UserTest = () => {
     .substr(11, 8);
 
   const getQuizById = () => {
+    const storedTimer = localStorage.getItem("timerinSecond");
     quizService
       .getQuizById(quizId)
       .then((response) => {
+        localStorage.setItem("quizName", response.data.quizName);
+        localStorage.setItem(
+          "categoryName",
+          response.data.category.categoryName
+        );
         setQuizName(response.data.quizName);
+        setCategoryName(response.data.category.categoryName);
         const timer = response.data.time;
         const timerinSecond = timer * 60;
-        setTimeinSeconds(timerinSecond);
-        setCategoryName(response.data.category.categoryName);
+        if (!storedTimer) {
+          setTimeinSeconds(timerinSecond);
+          localStorage.setItem("timerinSecond", timerinSecond.toString());
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -69,45 +122,78 @@ const UserTest = () => {
         setQuestions(response.data);
         setTotalMarks(response.data.length);
         setTotalQuestion(response.data.length);
+        localStorage.setItem("totalMarks", response.data.length);
+        localStorage.setItem("totalQuestion", response.data.length);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
   const handleOptionChange = (questionId, selectedOption, correctAnswer) => {
+    // if (!submitted) {
+    //   setSelectedAnswers((prevSelectedAnswers) => ({
+    //     ...prevSelectedAnswers,
+    //     [questionId]: selectedOption,
+    //   }));
+
+    //   localStorage.setItem("selectedAnswers", JSON.stringify({
+    //     ...selectedAnswers,
+    //     [questionId]: selectedOption,
+    //   }));
+    // }
     if (!submitted) {
-      setSelectedAnswers((prevSelectedAnswers) => ({
-        ...prevSelectedAnswers,
-        [questionId]: selectedOption,
-      }));
+      setSelectedAnswers((prevSelectedAnswers) => {
+        const updatedSelectedAnswers = {
+          ...prevSelectedAnswers,
+          [questionId]: selectedOption,
+        };
+
+        localStorage.setItem(
+          "selectedAnswers",
+          JSON.stringify(updatedSelectedAnswers)
+        );
+
+        calculateMarks(updatedSelectedAnswers);
+
+        return updatedSelectedAnswers;
+      });
     }
   };
+
+  const calculateMarks = (updatedSelectedAnswers) => {
+    let score = 0;
+    for (const question of questions) {
+      const questionId = question.questionId;
+      if (updatedSelectedAnswers[questionId] === question.answer) {
+        score += 1;
+      }
+    }
+    setObtainedMarks(score);
+    setAttemptedQuestion(Object.keys(updatedSelectedAnswers).length);
+    localStorage.setItem("obtainedMarks", score);
+    localStorage.setItem(
+      "attemptedQuestion",
+      Object.keys(updatedSelectedAnswers).length
+    );
+  };
+
   const handleSubmit = (e) => {
     if (e) {
       e.preventDefault();
     }
     setSubmitted(true);
-    let score = 0;
-    for (const question of questions) {
-      const questionId = question.questionId;
-      if (selectedAnswers[questionId] === question.answer) {
-        score += 1;
-      }
-    }
-    setObtainedMarks(score);
-    setAttemptedQuestion(Object.keys(selectedAnswers).length);
 
     const result = {
-      totalMarks,
-      obtainedMarks: score,
-      userEmail,
-      userName,
-      dateTime,
-      quizName,
-      categoryName,
-      attemptedQuestion: Object.keys(selectedAnswers).length,
-      totalQuestion,
+      totalMarks: localStorage.getItem("totalMarks"),
+      obtainedMarks: localStorage.getItem("obtainedMarks"),
+      userEmail: localStorage.getItem("email"),
+      userName: localStorage.getItem("userName"),
+      dateTime: localStorage.getItem("dateTime"),
+      quizName: localStorage.getItem("quizName"),
+      categoryName: localStorage.getItem("categoryName"),
+      attemptedQuestion: localStorage.getItem("attemptedQuestion"),
+      totalQuestion: localStorage.getItem("totalQuestion"),
     };
     resultService.saveResult(result).then((response) => {
       Swal.fire({
@@ -115,8 +201,18 @@ const UserTest = () => {
         text: "Test Submitted successfully",
         icon: "success",
         timer: 2000,
-        showConfirmButton: false
-      })
+        showConfirmButton: false,
+      });
+      localStorage.removeItem("timerinSecond");
+      localStorage.removeItem("selectedAnswers");
+      localStorage.removeItem("totalMarks");
+      localStorage.removeItem("obtainedMarks");
+      localStorage.removeItem("dateTime");
+      localStorage.removeItem("quizName");
+      localStorage.removeItem("categoryName");
+      localStorage.removeItem("attemptedQuestion");
+      localStorage.removeItem("totalQuestion");
+      localStorage.removeItem("reloadAttempts");
       navigate("/userDashboard");
     });
   };
@@ -136,13 +232,15 @@ const UserTest = () => {
                 <table className="question-table">
                   <tbody className="quiz-table-content">
                     {questions.map((question, index) => (
-                      <div className="question-card" key={question.questionId}>
+                      <div className="question-card" key={index}>
                         <div className="question-card-header">
                           <h3>{question.quiz.quizName}</h3>
                         </div>
                         <div className="question-card-body">
                           <form>
-                            <h3>{question.questionName}</h3>
+                            <h3>
+                              {++index} : {question.questionName}
+                            </h3>
                             {Object.values(question.options).map(
                               (optionValue, optionIndex) => (
                                 <p
@@ -181,12 +279,11 @@ const UserTest = () => {
             </div>
             <div>
               <Button
+                className="button-update-question"
                 onClick={handleSubmit}
                 disabled={submitted}
                 children="Submit Answers"
-              >
-                
-              </Button>
+              ></Button>
             </div>
           </div>
         </div>

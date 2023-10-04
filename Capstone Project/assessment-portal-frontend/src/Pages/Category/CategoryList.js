@@ -36,7 +36,7 @@ const CategoryList = () => {
         setCategories(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -54,7 +54,7 @@ const CategoryList = () => {
         getCategory();
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 

@@ -3,6 +3,7 @@ package com.NTeq.AssessmentPortal.Controllers;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 import com.NTeq.AssessmentPortal.Services.impl.QuizServiceImpl;
@@ -78,5 +80,30 @@ class QuizControllerTest {
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(response , result.getBody());
+    }
+    
+    @Test
+    void testGetQuiz() {
+        long quizId = 1L;
+        QuizDto quizDto = new QuizDto();
+        
+        when(quizService.getQuizById(quizId)).thenReturn(quizDto);
+        
+        ResponseEntity<QuizDto> result = quizController.getQuiz(quizId);
+        
+        assertEquals(HttpStatus.OK , result.getStatusCode());
+        assertEquals(quizDto , result.getBody());
+    }
+    
+    @Test
+    void testGetQuestionsByQuiz() {
+        int quizId = 10;
+        List<QuestionDto> questionDto = new ArrayList<>();
+        
+        when(quizService.getAllQuestionByQuiz(quizId)).thenReturn(questionDto);
+        
+        List<QuestionDto> result = quizController.getAllQuestionByQuiz(quizId);
+        
+        assertEquals(questionDto , result);
     }
 }

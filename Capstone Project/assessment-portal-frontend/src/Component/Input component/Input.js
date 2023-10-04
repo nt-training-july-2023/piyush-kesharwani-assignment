@@ -6,7 +6,8 @@ const Input = (props) => {
       name={props.name} 
       className={props.className} 
       value={props.value} 
-      onChange={props.onChange}/>
+      onChange={props.onChange}
+      checked={props.checked}/>
   )
 }
 export default Input

@@ -42,7 +42,7 @@ public class CandidateController {
     private CandidateServiceImpl candidateService;
     /**
      * End point to register a new candidate.
-     * @param cdDto The candidate DTO containing registration details.
+     * @param candidateDto The candidate DTO containing registration details.
      * @return A message indicating the registration status.
      */
     @PostMapping(path = "/register")

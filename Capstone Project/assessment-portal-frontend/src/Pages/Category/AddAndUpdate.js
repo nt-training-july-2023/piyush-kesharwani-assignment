@@ -62,7 +62,14 @@ const AddAndUpdate = () => {
         navigate('/category/all');
       })
       .catch((error) => {
-        console.log(error);
+        const submitError =error.response.data.message
+            Swal.fire({
+              title: "Error",
+              text: `${submitError}`,
+              icon: "error",
+              confirmButtonText:"Retry",
+              confirmButtonColor:"red"
+            });
       });
     }
   }
@@ -77,7 +84,7 @@ const AddAndUpdate = () => {
         setDescription(response.data.description);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
     }
   }, [id]);

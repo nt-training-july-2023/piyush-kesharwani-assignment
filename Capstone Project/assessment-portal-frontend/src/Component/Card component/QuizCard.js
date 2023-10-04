@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../Component/Button component/Button";
 
 const QuizCard = ({ quiz, onDelete, onOpenQuiz, isAdmin }) => {
+  const navigate = useNavigate();
   return (
     <div className="card">
       <div className="card-body">
@@ -19,25 +20,25 @@ const QuizCard = ({ quiz, onDelete, onOpenQuiz, isAdmin }) => {
             <p>No category available</p>
           )}
         </div>
-        <div className="button-container">
+        <div className="quiz-button-container">
           {isAdmin ? (
             <>
               <Link to={`/quiz/all/edit-quiz/${quiz.quizId}`}>
-                <Button className="btn-update">Update</Button>
+                <Button className="quiz-btn-update">Update</Button>
               </Link>
               <Link to={`/quiz/${quiz.quizId}/question`}>
-                <Button className="view-btn">View Question</Button>
+                <Button className="quiz-view-btn">Questions</Button>
               </Link>
-              <Button className="btn-delete" onClick={() => onDelete(quiz.quizId)}>
+              <Button className="quiz-btn-delete" onClick={() => onDelete(quiz.quizId)}>
                 Delete
               </Button>
             </>
           ) : (
             <>
-              <Button className="btn-update" onClick={() => onOpenQuiz(quiz.quizId)}>
+              <Button className="quiz-btn-update" onClick={() => onOpenQuiz(quiz.quizId)}>
                 Take Test
               </Button>
-              <Button className="btn-delete" onClick={() => alert("Cancel button clicked")}>
+              <Button className="quiz-btn-delete" onClick={() =>navigate("/userDashboard")}>
                 Cancel
               </Button>
             </>

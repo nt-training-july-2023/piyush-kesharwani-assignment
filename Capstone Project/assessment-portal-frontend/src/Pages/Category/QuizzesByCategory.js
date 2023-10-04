@@ -39,7 +39,7 @@ const QuizzesByCategory = () => {
         setquizzes(response.data)
         setCategoryName(response.data[0].category.categoryName)
     }).catch((error) => {
-        console.log(error);
+        console.error(error);
       });
  }
 
@@ -57,7 +57,7 @@ const QuizzesByCategory = () => {
         getAllQuiz()
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -84,12 +84,12 @@ const QuizzesByCategory = () => {
                 )}
               </div>
               {valid === "true" && isLoggedIn === "true" ? (
-              <div className="button-container">
-                <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><button className="btn-update" >Update</button></Link>
+              <div className="quiz-cat-button-container">
+                <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><button className="btn-update" children="Update"></button></Link>
                 <Button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)} children="Delete"></Button>
               </div>
               ) : (
-                <div className="button-container">
+                <div className="quiz-cat-button-container">
                 <Button className="btn-update" onClick={"/"} children="Take Test"></Button>
                 <Button className="btn-delete" onClick={()=>navigate("/category/all")} children="Cancel"></Button>
               </div>

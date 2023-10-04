@@ -6,6 +6,7 @@ import "./QuestionList.css";
 import quizService from "../../Services/quizService";
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
+import Error from "../../Component/Error component/Error";
 
 const QuestionList = () => {
   const { id } = useParams();
@@ -29,7 +30,7 @@ const QuestionList = () => {
         setQuizName(response.data.quizName);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -40,7 +41,7 @@ const QuestionList = () => {
         setQuestions(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -51,7 +52,7 @@ const QuestionList = () => {
         setQuestions(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
   const deleteQuiz = (questionId) => {
@@ -72,18 +73,18 @@ const QuestionList = () => {
             getAllQuestion();
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       }
     });
   };
 
-  // const userRole = localStorage.getItem('userRole');
-  // if (userRole !== 'admin') {
-  //   return (
-  //     <Error />
-  //   );
-  // }
+  const userRole = localStorage.getItem('role');
+  if (userRole !== 'admin') {
+    return (
+      <Error/>
+    );
+  }
 
   return (
     <div className="question-wrapper">
@@ -92,7 +93,7 @@ const QuestionList = () => {
         <div className="question-column">
           <div className="question-main-card">
             <div className="question-card-header-main">
-              {id ? <h2>QUIZ : {quizName}</h2> : <h2>List Of Question</h2>}
+              {id ? <h2 className="question-h2">QUIZ : {quizName}</h2> : <h2>List Of Question</h2>}
               <center>
                 <Button
                   className="add-question-button"
@@ -101,17 +102,17 @@ const QuestionList = () => {
                 ></Button>
                 {id ? (
                   <Link
-                    className="add-question-button"
                     to={`/quiz/${id}/addQuestion`}
                   >
-                    Add Question
+                   <Button  className="add-question-button"
+                   children="Add"></Button>
                   </Link>
                 ) : (
                   <Link
-                    className="add-question-button"
                     to={"/question/all/addQuestion"}
                   >
-                    Add Question
+                    <Button  className="add-question-button"
+                   children="Add"></Button>
                   </Link>
                 )}
               </center>
@@ -170,23 +171,23 @@ const QuestionList = () => {
                         <div className="question-card-footer">
                           {id ? (
                             <Link
-                              className="button-update-question"
                               to={`/quiz/${id}/edit-question/${question.questionId}`}
                             >
-                              Update Question
+                              <Button className="button-update-question" 
+                              children="Update"></Button>
                             </Link>
                           ) : (
                             <Link
-                              className="button-update-question"
                               to={`/question/all/edit-question/${question.questionId}`}
                             >
-                              Update Question
+                             <Button className="button-update-question" 
+                              children="Update"></Button>
                             </Link>
                           )}
                           <Button
                             className="button-delete-question"
                             onClick={() => deleteQuiz(question.questionId)}
-                            children="Delete Question"
+                            children="Delete"
                           ></Button>
                         </div>
                       </div>

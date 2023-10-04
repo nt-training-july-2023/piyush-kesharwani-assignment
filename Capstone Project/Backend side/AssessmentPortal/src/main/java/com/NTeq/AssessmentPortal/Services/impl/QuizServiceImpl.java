@@ -60,9 +60,9 @@ public class QuizServiceImpl implements QuizService {
         Optional<Quiz> existingQuiz = quizRepository.findByQuizName(
                 quizDto.getQuizName());
         if (existingQuiz.isPresent()) {
-            LOGGER.error(Message.QUIZ__ALREADY_EXISTS + quizDto.getQuizName());
-            throw new AlreadyExistException(Message.QUIZ__ALREADY_EXISTS +
-                    quizDto.getQuizName());
+            LOGGER.error(Message.QUIZ_ALREADY_EXISTS + quizDto.getQuizName());
+            throw new AlreadyExistException(Message.QUIZ_ALREADY_EXISTS
+                    + quizDto.getQuizName());
         }
         Quiz quiz = this.dtoToQuiz(quizDto);
         Category category = categoryRepository.findById(quiz.getCategory()
@@ -75,7 +75,7 @@ public class QuizServiceImpl implements QuizService {
         quiz.setCategory(category);
         quizRepository.save(quiz);
         return new SuccessResponse(HttpStatus.CREATED.value(),
-                Message.QUIZ_CREATED_SUCCESSFULLY) ;
+                Message.QUIZ_CREATED_SUCCESSFULLY);
     }
     /**
      * Retrieves a list of all quizzes as QuizDto objects.
@@ -180,7 +180,7 @@ public class QuizServiceImpl implements QuizService {
      * @param question The object to be converted.
      * @return the converted into QuestionDto entity.
      */
-    private QuestionDto convertEntityToDto(final Question question) {
+     public QuestionDto convertEntityToDto(final Question question) {
 
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionId(question.getQuestionId());

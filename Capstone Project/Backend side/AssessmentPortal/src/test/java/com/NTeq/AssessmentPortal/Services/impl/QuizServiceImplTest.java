@@ -19,6 +19,7 @@ import org.modelmapper.ModelMapper;
 
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
+
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
@@ -39,6 +40,9 @@ class QuizServiceImplTest {
     @InjectMocks
     private QuizServiceImpl quizService;
 
+    @Mock
+    private QuizServiceImpl quizService2;
+    
     @BeforeEach
     void init() {
         MockitoAnnotations.openMocks(this);
@@ -115,7 +119,4 @@ class QuizServiceImplTest {
         assertEquals("Quiz deleted successfully.",result.getMessage());
 
     }
-
-    
-
 }

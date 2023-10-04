@@ -1,4 +1,3 @@
-/* QuestionList.css */
 
 .question-wrapper {
     display: flex;
@@ -9,6 +8,10 @@
     overflow: hidden;
   }
   
+  .question-h2{
+    text-align: center;
+    margin-left: 15px;
+  }
   .question-container {
     background-color: #ffffff;
     border-radius: 8px;
@@ -24,12 +27,11 @@
   }
   
   .question-card-header-main {
-    /* margin-top: 5px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background-color: lavender;
+    background-color: lightcoral;
   }
   
   .add-question-button {
@@ -40,6 +42,8 @@
     border-radius: 4px;
     text-decoration: none;
     margin-right: 20px;
+    width: 100px;
+    height: 40px;
   }
   
   .add-question-button:hover {
@@ -80,6 +84,8 @@
     border-radius: 4px;
     text-decoration: none;
     margin-right: 10px;
+    width: 100px;
+    height: 40px;
   }
 
   .button-delete-question{
@@ -88,6 +94,8 @@
     padding: 8px 10px;
     border-radius: 4px;
     text-decoration: none;
+    width: 100px;
+    height: 40px;
   }
   
   

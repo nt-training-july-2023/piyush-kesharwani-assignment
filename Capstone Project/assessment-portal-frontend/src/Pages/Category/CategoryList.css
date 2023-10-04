@@ -1,8 +1,9 @@
 
 .category-container { 
-  background-color: cadetblue;
+  /* background-color: cadetblue; */
+  background: linear-gradient(#9796f0,#fbc7d4);
   padding: 20px;
-  min-height: 500vh;
+  min-height: 93vh;
   overflow-x: auto;
 }
 
@@ -60,15 +61,3 @@
   margin-top: 20px;
   text-align: center;
 }
-
-/* .category-add-btn {
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 10px 10px;
-  cursor: pointer;
-  margin-right: 10px;
-  text-decoration: none;
-  width: 100px;
-  height: 40px;
-} */

@@ -55,10 +55,9 @@ const QuizList = () => {
       .getAllQuiz()
       .then((response) => {
         setQuiz(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -76,7 +75,7 @@ const QuizList = () => {
         getQuiz();
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   };
 
@@ -89,44 +88,10 @@ const QuizList = () => {
         <>
       {role === "admin" && (
             <>
-              <Button className="btn-add" onClick={() => navigate("/adminDashboard")}>Dashboard</Button>
-              <Button className="btn-add" onClick={() => navigate("/quiz/all/addQuiz")}>Add Quiz</Button>
+              <Button className="btn-add" onClick={() => navigate("/adminDashboard")} children ="Dashboard"></Button>
+              <Button className="btn-add" onClick={() => navigate("/quiz/all/addQuiz")} children="Add Quiz"></Button>
             </>
           )}
-      {/* <div className="quiz-card-container">
-        {quiz.map((qz) => (
-          <div key={qz.quizId} className="card">
-            <div className="card-body">
-              <h5 className="card-title">{qz.quizName}</h5>
-              <p className="card-text">{qz.quizDescription}</p>
-              <p className="card-text">Quiz Timer: {qz.time}</p>
-              <div className="card-text">
-                {qz.category ? (
-                  <div>
-                    <h4>Category: {qz.category.categoryName}</h4>
-                    <p>{qz.category.Description}</p>
-                  </div>
-                ) : (
-                  <p>No category available</p>
-                )}
-              </div>
-              {valid === "true" && isLoggedIn === "true" ? (
-              <div className="button-container">
-                <Link to={`/quiz/all/edit-quiz/${qz.quizId}`}><Button className="btn-update" >Update</Button></Link>
-                <Link to={`/quiz/${qz.quizId}/question`}><Button className="view-btn" >View Question</Button></Link>
-                <Button className="btn-delete" onClick={()=>deleteQuiz(qz.quizId)}>Delete</Button>
-              </div>
-              ) : (
-                <div className="button-container">
-                <Button className="btn-update" onClick={()=>{handleOpenQuiz(qz.quizId)}}>Take Test</Button>
-                <Button className="btn-delete" onClick={()=>navigate("/category/all")}>Cancel</Button>
-              </div>
-              )}
-            </div>
-
-          </div>
-        ))}
-      </div> */}
        <div className="quiz-card-container">
             {quiz.map((qz) => (
               <QuizCard

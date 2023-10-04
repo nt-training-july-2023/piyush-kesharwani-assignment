@@ -46,11 +46,11 @@ public class QuizController {
     private QuizServiceImpl quizService;
     /**
      * End point to add a new quiz.
-     * @param qzDto The Quiz DTO containing quiz details.
+     * @param quizDto The Quiz DTO containing quiz details.
      * @return A message indicating the addition status.
      */
     @PostMapping("/addQuiz")
-    public final ResponseEntity<SuccessResponse> saveQuiz(@Valid final 
+    public final ResponseEntity<SuccessResponse> saveQuiz(@Valid final
             @RequestBody QuizDto quizDto) {
         LOGGER.info(Message.ADD_QUIZ);
         SuccessResponse result =  quizService.addQuiz(quizDto);
@@ -86,7 +86,7 @@ public class QuizController {
     /**
      * End point to update a quiz by ID.
      * @param id    The ID of the quiz to update.
-     * @param qzDto The updated quiz DTO.
+     * @param quizDto The updated quiz DTO.
      * @return The ResponseEntity containing the updated quiz DTO if
      *      successful,or INTERNAL_SERVER_ERROR status if an exception occurs.
      */

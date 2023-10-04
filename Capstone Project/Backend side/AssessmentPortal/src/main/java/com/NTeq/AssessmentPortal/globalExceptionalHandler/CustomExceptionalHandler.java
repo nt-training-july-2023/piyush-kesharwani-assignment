@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,7 +37,8 @@ public class CustomExceptionalHandler {
             String message = error.getDefaultMessage();
             response.put(fieldName, message);
         });
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
                 response);
         return new ResponseEntity<ErrorResponse>(errorResponse,
                 HttpStatus.BAD_REQUEST);
@@ -111,5 +113,20 @@ public class CustomExceptionalHandler {
                 exception.getMessage());
         return new ResponseEntity<ErrorResponse>(response,
                 HttpStatus.NOT_FOUND);
+    }
+    /**
+     * Exception handler for handling HttpMessageNotReadableException.
+     * @param exception HttpMessageNotReadableException.
+     * @return ResponseEntity containing error message.
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public final ResponseEntity<ErrorResponse>
+    handleHttpMessageNotReadableException(final
+            HttpMessageNotReadableException exception){
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getMessage());
+        return new ResponseEntity<ErrorResponse>(response,
+                HttpStatus.BAD_REQUEST);
     }
 }

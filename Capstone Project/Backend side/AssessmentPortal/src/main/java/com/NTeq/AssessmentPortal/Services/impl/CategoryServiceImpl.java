@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     private ModelMapper modelMapper;
     /**
      * Adds a new category to the system.
-     * @param cgDto The DTO containing category details.
+     * @param categoryDto The DTO containing category details.
      * @return A message indicating the result of the operation.
      */
     @Override
@@ -107,7 +107,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category existCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFound(
                         Message.CATEGORY_NOT_FOUND));
-        if (!categoryDto.getCategoryName().equals(existCategory.getCategoryName())) {
+        if (!categoryDto.getCategoryName().equals(
+                existCategory.getCategoryName())) {
             Optional<Category> checkExisting = categoryRepository
                     .findByCategoryName(categoryDto.getCategoryName());
             if (checkExisting.isPresent()) {

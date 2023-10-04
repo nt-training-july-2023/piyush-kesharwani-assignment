@@ -69,7 +69,6 @@ const Register = () => {
           timer:2000,
           showConfirmButton:false
         });
-        console.log(response.data);
         if(response.status===200){
           navigate("/")
         }

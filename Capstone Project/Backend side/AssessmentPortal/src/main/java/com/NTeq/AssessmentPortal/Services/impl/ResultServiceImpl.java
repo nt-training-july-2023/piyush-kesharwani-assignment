@@ -57,7 +57,7 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public final List<ResultDto> getresultByEmail(final String userEmail) {
         List<Result> result = this.resultRepository.findByUserEmail(userEmail);
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             LOGGER.error(Message.RESULT_NOT_FOUND);
             throw new ResourceNotFound(Message.RESULT_NOT_FOUND);
         }

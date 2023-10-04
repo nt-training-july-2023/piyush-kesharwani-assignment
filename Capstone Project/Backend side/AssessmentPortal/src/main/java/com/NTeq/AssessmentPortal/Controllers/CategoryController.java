@@ -47,16 +47,17 @@ public class CategoryController {
 
     /**
      * End point to add a new category.
-     * @param cgDto The category DTO containing category details.
+     * @param categoryDto The category DTO containing category details.
      * @return A message indicating the addition status.
      */
     @PostMapping("/addCategory")
-    public final ResponseEntity<SuccessResponse> saveCategory(@Valid 
+    public final ResponseEntity<SuccessResponse> saveCategory(@Valid
             @RequestBody final CategoryDto categoryDto) {
         LOGGER.info(Message.ADD_CATEGORY);
         SuccessResponse response =  categoryService.addCategory(categoryDto);
         LOGGER.info(Message.CATEGORY_CREATED_SUCCESSFULLY);
-        return new ResponseEntity<SuccessResponse>(response, HttpStatus.CREATED);
+        return new ResponseEntity<SuccessResponse>(response,
+                HttpStatus.CREATED);
     }
     /**
      * End point to retrieve a category by ID.
@@ -88,7 +89,7 @@ public class CategoryController {
     /**
      * End point to update a category by ID.
      * @param id    The ID of the category to update.
-     * @param cgDto The updated category DTO.
+     * @param categoryDto The updated category DTO.
      * @return The ResponseEntity containing the updated category DTO if
      * successful,or INTERNAL_SERVER_ERROR status if an exception occurs.
      */
@@ -97,7 +98,8 @@ public class CategoryController {
         @PathVariable("id") Long id, @Valid final @RequestBody
         CategoryDto categoryDto) {
         LOGGER.info(Message.UPDATE_CATEGORY, id);
-        SuccessResponse response = categoryService.updateCategory(id, categoryDto);
+        SuccessResponse response = categoryService.updateCategory(
+                id, categoryDto);
         LOGGER.info(Message.CATEGORY_UPDATED_SUCCESSFULLY);
             return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -109,12 +111,12 @@ public class CategoryController {
      *         INTERNAL_SERVER_ERROR status if an exception occurs.
      */
     @DeleteMapping("/delete/{id}")
-    public final ResponseEntity<SuccessResponse> deleteCategory(final @PathVariable("id")
-           Long id) {
+    public final ResponseEntity<SuccessResponse> deleteCategory(final
+            @PathVariable("id") Long id) {
         LOGGER.info(Message.DELETE_CATEGORY, id);
         SuccessResponse response = categoryService.deleteCategory(id);
         LOGGER.info(Message.CATEGORY_DELETED_SUCCESSFULLY);
-        return new ResponseEntity<>(response , HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     /**
      * Retrieves quizzes associated with a specific category.
