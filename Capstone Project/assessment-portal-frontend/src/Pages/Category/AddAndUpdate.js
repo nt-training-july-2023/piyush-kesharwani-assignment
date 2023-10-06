@@ -7,6 +7,7 @@ import Button from '../../Component/Button component/Button';
 import Input from '../../Component/Input component/Input';
 import { Label } from '../../Component/Label component/Label';
 import Error from '../../Component/Error component/Error';
+import { ValidationError } from '../../Component/ValidationError/Validation';
 
 const AddAndUpdate = () => {
   const [categoryName, setCategoryName] = useState('');
@@ -135,7 +136,7 @@ const AddAndUpdate = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <span style={{color: "red"}}>{error}</span>
+            <ValidationError errorMessage={error}/>
             <Button className='btn-primary' onClick={(e) => saveCategory(e)}
             children="Submit">
             </Button>

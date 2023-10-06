@@ -5,6 +5,7 @@ import resultService from "../../Services/resultService";
 import Swal from "sweetalert2";
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
+import DeactivateBackButton from "../../Component/DisabledBack/DeactivateBackButton";
 
 const UserTest = () => {
   const [questions, setQuestions] = useState([]);
@@ -73,13 +74,25 @@ const UserTest = () => {
   }, []);
 
   useEffect(() => {
+    const disableBackButton = () => {
+      window.history.pushState(null, null, window.location.href);
+    };
+    window.addEventListener("popstate", disableBackButton);
+    return () => {
+      window.removeEventListener("popstate", disableBackButton);
+    };
+  }, []);
+
+  useEffect(() => {
     if (role === "user") {
       const handleCountdown = () => {
         if (timeinSeconds > 0) {
           setTimeinSeconds((prevTime) => prevTime - 1);
           localStorage.setItem("timerinSecond", (timeinSeconds - 1).toString());
         } else {
-          handleSubmit();
+          if(questions.length>0){
+            handleSubmit();
+          }
         }
       };
       const countdownInterval = setInterval(handleCountdown, 1000);
@@ -131,17 +144,6 @@ const UserTest = () => {
   };
 
   const handleOptionChange = (questionId, selectedOption, correctAnswer) => {
-    // if (!submitted) {
-    //   setSelectedAnswers((prevSelectedAnswers) => ({
-    //     ...prevSelectedAnswers,
-    //     [questionId]: selectedOption,
-    //   }));
-
-    //   localStorage.setItem("selectedAnswers", JSON.stringify({
-    //     ...selectedAnswers,
-    //     [questionId]: selectedOption,
-    //   }));
-    // }
     if (!submitted) {
       setSelectedAnswers((prevSelectedAnswers) => {
         const updatedSelectedAnswers = {
@@ -195,15 +197,7 @@ const UserTest = () => {
       attemptedQuestion: localStorage.getItem("attemptedQuestion"),
       totalQuestion: localStorage.getItem("totalQuestion"),
     };
-    resultService.saveResult(result).then((response) => {
-      Swal.fire({
-        title: "Test Submitted",
-        text: "Test Submitted successfully",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-      localStorage.removeItem("timerinSecond");
+    localStorage.removeItem("timerinSecond");
       localStorage.removeItem("selectedAnswers");
       localStorage.removeItem("totalMarks");
       localStorage.removeItem("obtainedMarks");
@@ -213,18 +207,27 @@ const UserTest = () => {
       localStorage.removeItem("attemptedQuestion");
       localStorage.removeItem("totalQuestion");
       localStorage.removeItem("reloadAttempts");
+    resultService.saveResult(result).then((response) => {
+      Swal.fire({
+        title: "Test Submitted",
+        text: "Test Submitted successfully",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
       navigate("/userDashboard");
     });
   };
 
   return (
     <div className="question-wrapper">
+      <DeactivateBackButton/>
       <div className="question-container">
         <div className="question-sidebar-column"></div>
         <div className="question-column">
           <div className="question-main-card">
             <div className="question-card-header-main">
-              <h2>Test : {quizName}</h2>
+              <h2 className="question-h2">Test : {quizName}</h2>
               <h2>Time Remaining: {formattedTime}</h2>
             </div>
             <div className="question-card-body">
@@ -278,12 +281,22 @@ const UserTest = () => {
               </div>
             </div>
             <div>
-              <Button
+              {questions.length>0 ? (
+                <Button
                 className="button-update-question"
                 onClick={handleSubmit}
                 disabled={submitted}
-                children="Submit Answers"
+                children="Submit"
               ></Button>
+              ) : (
+                <Button
+                className="button-update-question"
+                onClick={()=>navigate("/userDashboard")}
+                disabled={submitted}
+                children="Exit"
+              ></Button>
+              )}
+              
             </div>
           </div>
         </div>

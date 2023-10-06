@@ -3,6 +3,7 @@ import "./AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
 import DashboardCard from "../../Component/Card component/DashboardCard";
 import Sidebar from "../../Component/Sidebar component/Sidebar";
+import DeactivateBackButton from "../../Component/DisabledBack/DeactivateBackButton";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -17,16 +18,13 @@ const AdminDashboard = () => {
     } else {
       setValid("false");
     }
-    window.history.pushState(null, "", "/adminDashboard");
-    window.addEventListener("popstate", () => {
-      window.history.pushState(null, "", "/adminDashboard");
-    });
   }, []);
 
   return (
     <>
       {valid === "true" && IsLoggedIn === "true" ? (
         <div className="admin-dashboard">
+          <DeactivateBackButton/>
           <Sidebar dashboardType={"admin"}/>
           <div className="dashboard-content">
             <DashboardCard

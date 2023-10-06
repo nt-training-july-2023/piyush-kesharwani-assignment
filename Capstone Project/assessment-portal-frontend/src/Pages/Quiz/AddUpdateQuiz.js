@@ -8,6 +8,7 @@ import Input from "../../Component/Input component/Input";
 import Button from "../../Component/Button component/Button";
 import { Label } from "../../Component/Label component/Label";
 import Error from "../../Component/Error component/Error";
+import { ValidationError } from "../../Component/ValidationError/Validation";
 
 const AddUpdateQuiz = () => {
   const [quizName, setQuizName] = useState("");
@@ -193,13 +194,13 @@ const saveQuiz=(e)=>{
                 ))}
               </select> 
             </div>
-            <span style={{color : "red"}}>{errors}</span>
+            <ValidationError errorMessage={errors}/>
             <div>
             <Button onClick={(e)=>saveQuiz(e)}  className='cat-button'>
               Submit
             </Button>
             <Link to="/quiz/all">
-              <Button>Cancel</Button>
+              <Button className="quiz-cancel">Cancel</Button>
             </Link>
           </div>
           </form>

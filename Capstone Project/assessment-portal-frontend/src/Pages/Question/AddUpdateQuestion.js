@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
 import { Label } from "../../Component/Label component/Label";
+import { ValidationError } from "../../Component/ValidationError/Validation";
 
 const AddUpdateQuestion = () => {
   const [questionName, setquestionName] = useState("");
@@ -197,6 +198,7 @@ const AddUpdateQuestion = () => {
   }, [questionId]);
 
   return (
+    <div className="outer-container">
     <div className="question-form-container">
       <h2 className="question-form-header">
         {questionId ? "Edit Question" : "Add Question"}
@@ -319,14 +321,15 @@ const AddUpdateQuestion = () => {
             <option value={options.optionFour}>{options.optionFour}</option>
           </select>
         </div>
-       <span>{errors}</span>
+       <ValidationError errorMessage={errors}/>
         <div>
           <Button className="cat-button" children="Submit"></Button>
           <Link to="/question/all">
-            <Button children="Cancel"></Button>
+            <Button className="quiz-cancel" children="Cancel"></Button>
           </Link>
         </div>
       </form>
+    </div>
     </div>
   );
 };

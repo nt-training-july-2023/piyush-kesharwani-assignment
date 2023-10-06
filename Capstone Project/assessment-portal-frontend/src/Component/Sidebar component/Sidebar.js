@@ -57,7 +57,7 @@ const Sidebar = ({ dashboardType }) => {
           <Link to="/results">Results</Link>
         </li>
         <li>
-          <button onClick={handleLogoutConfirmation}>Logout</button>
+          <button className="quiz-cancel" onClick={handleLogoutConfirmation}>Logout</button>
         </li>
       </ul>
     </div>

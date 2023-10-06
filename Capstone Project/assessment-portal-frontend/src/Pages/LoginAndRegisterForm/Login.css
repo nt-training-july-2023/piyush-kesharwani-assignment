@@ -114,8 +114,8 @@ body {
 }
 
 .custom-error {
-  color: #dc3545;
+  color: red;
   text-align: left;
-  font-size: 13px;
+  font-size: 15px;
 }
 

@@ -5,6 +5,8 @@ import "./Login.css";
 import Swal from 'sweetalert2';
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
+import { ValidationError } from "../../Component/ValidationError/Validation";
+import { useEffect } from "react";
 
 
 
@@ -22,6 +24,19 @@ const Login = () => {
     setErrorMessage(""); 
     return true;
   };
+
+  useEffect(() => {
+      const isLoggedIn = localStorage.getItem('IsLoggedIn');
+      const userRole = localStorage.getItem('role');
+
+      if (isLoggedIn === 'true') {
+          if (userRole === 'admin') {
+              navigate('/adminDashboard');
+          } else if (userRole === 'user') {
+              navigate('/userDashboard');
+          }
+      }
+  }, [navigate]);
   
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -58,7 +73,7 @@ const Login = () => {
 
       } catch (error) {
         setErrorMessage("Wrong Credentials");
-        const submitError = error.response.data;
+        const submitError = error.response.data.message;
         Swal.fire({
           title: "Error",
           text: `${submitError}`,
@@ -119,7 +134,6 @@ const Login = () => {
             Not a member?{" "}
             <span
               className="link-primary"
-              style={{ cursor: "pointer" }}
               onClick={handleRegisterClick}
             >
               Register here

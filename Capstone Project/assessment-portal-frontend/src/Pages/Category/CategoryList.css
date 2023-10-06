@@ -1,6 +1,5 @@
 
 .category-container { 
-  /* background-color: cadetblue; */
   background: linear-gradient(#9796f0,#fbc7d4);
   padding: 20px;
   min-height: 93vh;
@@ -45,6 +44,7 @@
   width: 100px;
   height: 40px;
   margin-right: 10px;
+  border-radius: 5px;
 }
 
 .category-delete-btn {
@@ -55,6 +55,7 @@
   cursor: pointer;
   width: 100px;
   height: 40px;
+  border-radius: 5px;
 }
 
 .category-button-group {

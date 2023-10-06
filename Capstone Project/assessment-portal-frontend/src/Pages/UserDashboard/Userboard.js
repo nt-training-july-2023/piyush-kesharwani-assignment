@@ -3,6 +3,7 @@ import "./UserDashboard.css";
 import DashboardCard from "../../Component/Card component/DashboardCard";
 import Sidebar from "../../Component/Sidebar component/Sidebar";
 import Error from "../../Component/Error component/Error";
+import DeactivateBackButton from "../../Component/DisabledBack/DeactivateBackButton";
 
 
 const UserDashboard = () => {
@@ -10,8 +11,19 @@ const UserDashboard = () => {
   if (role !== "user") {
     return <Error/>;
   }
+      localStorage.removeItem("timerinSecond");
+      localStorage.removeItem("selectedAnswers");
+      localStorage.removeItem("totalMarks");
+      localStorage.removeItem("obtainedMarks");
+      localStorage.removeItem("dateTime");
+      localStorage.removeItem("quizName");
+      localStorage.removeItem("categoryName");
+      localStorage.removeItem("attemptedQuestion");
+      localStorage.removeItem("totalQuestion");
+      localStorage.removeItem("reloadAttempts");
   return (
     <div className="user-dashboard">
+      <DeactivateBackButton/>
       <Sidebar dashboardType={"user"}/>
       <div className="dashboard-content">
         <DashboardCard

@@ -5,6 +5,7 @@ import "./Login.css";
 import Swal from "sweetalert2";
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
+import { useEffect } from "react";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -20,6 +21,19 @@ const Register = () => {
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
   const phoneRegex = /^[0-9]{10}$/;
+
+  useEffect(() => {
+      const isLoggedIn = localStorage.getItem('IsLoggedIn');
+      const userRole = localStorage.getItem('role');
+
+      if (isLoggedIn === 'true') {
+          if (userRole === 'admin') {
+              navigate('/adminDashboard');
+          } else{
+              navigate('/userDashboard');
+          }
+      }
+  }, [navigate]);
 
   const validateForm = () => {
     if (firstName === "" || lastName === "") {
@@ -69,7 +83,7 @@ const Register = () => {
           timer:2000,
           showConfirmButton:false
         });
-        if(response.status===200){
+        if(response.status===201){
           navigate("/")
         }
         setSuccessMessage("Registration successful. Please log in.");
