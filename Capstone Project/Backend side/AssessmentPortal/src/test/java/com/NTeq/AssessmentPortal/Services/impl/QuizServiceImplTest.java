@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +18,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
-
+import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
@@ -119,4 +121,27 @@ class QuizServiceImplTest {
         assertEquals("Quiz deleted successfully.",result.getMessage());
 
     }
+    
+    @Test
+    public void testGetAllQuestionByQuiz() {
+
+        long quizId = 1L;
+        Quiz quiz = new Quiz();
+        quiz.setQuizId(quizId);
+        quiz.setCategory(new Category());
+        
+        List<Question> questions = new ArrayList<>();
+        Question question = new Question(12L,"Which is not a programming language",
+                "Java","Python","MYSQL","C++","MYSQL",quiz);
+        questions.add(question);
+        quiz.setQuestion(questions);
+        
+        when(quizRepository.findById(quizId)).thenReturn(Optional.of(quiz));
+        List<QuestionDto> questionDto = quizService.getAllQuestionByQuiz(quizId);
+        
+        assertNotNull(questionDto);
+        assertEquals(1,questionDto.size());
+        
+    }
+
 }

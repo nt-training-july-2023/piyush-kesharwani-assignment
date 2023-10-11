@@ -305,7 +305,8 @@ const AddUpdateQuestion = () => {
         </div>
 
         <div className="question-form-group">
-          <Label htmlFor="answer" children="Correct Answer"></Label>
+          <Label htmlFor="answer"  className="question-form-label"
+          children="Correct Answer"></Label>
           <select
             id="answer"
             className="question-form-control"

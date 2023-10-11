@@ -41,20 +41,20 @@ const Sidebar = ({ dashboardType }) => {
       </h1>
       <ul className="nav-links">
         <li>
-          <Link to="/category/all">Categories</Link>
+          <Link to="/category/all">&#x1F4C1; Categories</Link>
         </li>
         <li>
-          <Link to="/quiz/all">Quizzes</Link>
+          <Link to="/quiz/all">&#x1F4C3; Quizzes</Link>
         </li>
         {dashboardType === "admin" ? (
           <li>
-            <Link to="/question/all">Questions</Link>
+            <Link to="/question/all">&#x2753; Questions</Link>
           </li>
         ) : (
           <></>
         )}
         <li>
-          <Link to="/results">Results</Link>
+          <Link to="/results">&#x1F4CB; Results</Link>
         </li>
         <li>
           <button className="quiz-cancel" onClick={handleLogoutConfirmation}>Logout</button>

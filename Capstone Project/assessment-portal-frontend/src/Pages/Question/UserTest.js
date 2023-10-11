@@ -70,7 +70,6 @@ const UserTest = () => {
       setTimeinSeconds(timerinSecond);
     }
     getQuestionByQuiz();
-    getQuizById();
   }, []);
 
   useEffect(() => {
@@ -103,40 +102,27 @@ const UserTest = () => {
   const formattedTime = new Date(timeinSeconds * 1000)
     .toISOString()
     .substr(11, 8);
-
-  const getQuizById = () => {
-    const storedTimer = localStorage.getItem("timerinSecond");
-    quizService
-      .getQuizById(quizId)
-      .then((response) => {
-        localStorage.setItem("quizName", response.data.quizName);
-        localStorage.setItem(
-          "categoryName",
-          response.data.category.categoryName
-        );
-        setQuizName(response.data.quizName);
-        setCategoryName(response.data.category.categoryName);
-        const timer = response.data.time;
-        const timerinSecond = timer * 60;
-        if (!storedTimer) {
-          setTimeinSeconds(timerinSecond);
-          localStorage.setItem("timerinSecond", timerinSecond.toString());
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
+    
   const getQuestionByQuiz = () => {
+    const storedTimer = localStorage.getItem("timerinSecond");
     quizService
       .getAllQuestionByQuiz(quizId)
       .then((response) => {
         setQuestions(response.data);
         setTotalMarks(response.data.length);
         setTotalQuestion(response.data.length);
+        setQuizName(response.data[0].quiz.quizName);
+        setCategoryName(response.data[0].quiz.category.categoryName);
         localStorage.setItem("totalMarks", response.data.length);
         localStorage.setItem("totalQuestion", response.data.length);
+        localStorage.setItem("quizName", response.data[0].quiz.quizName);
+        localStorage.setItem("categoryName",response.data[0].quiz.category.categoryName);
+        const timer = response.data[0].quiz.time;
+        const timerinSecond = timer * 60;
+        if (!storedTimer) {
+          setTimeinSeconds(timerinSecond);
+          localStorage.setItem("timerinSecond", timerinSecond.toString());
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -228,7 +214,7 @@ const UserTest = () => {
           <div className="question-main-card">
             <div className="question-card-header-main">
               <h2 className="question-h2">Test : {quizName}</h2>
-              <h2>Time Remaining: {formattedTime}</h2>
+              <h2 className="question-h2">Time Remaining: {formattedTime}</h2>
             </div>
             <div className="question-card-body">
               <div className="question-table-wrapper">

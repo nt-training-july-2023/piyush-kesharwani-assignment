@@ -58,26 +58,6 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-			<dependency>
-		    <groupId>org.mockito</groupId>
-		    <artifactId>mockito-core</artifactId>
-		    <scope>test</scope>
-		</dependency>
-           <dependency>
-	        <groupId>org.junit.platform</groupId>
-	        <artifactId>junit-platform-runner</artifactId>
-	        <scope>test</scope>
-	    </dependency>
-		<dependency>
-		    <groupId>org.junit.jupiter</groupId>
-		    <artifactId>junit-jupiter-api</artifactId>
-		    <scope>test</scope>
-		</dependency>
-		<dependency>
-		    <groupId>org.junit.jupiter</groupId>
-		    <artifactId>junit-jupiter-engine</artifactId>
-		    <scope>test</scope>
-		</dependency>
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-validation</artifactId>
@@ -113,7 +93,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.13.0</version>
 				<configuration>
 
 					<failOnViolation>true</failOnViolation>
@@ -144,8 +123,27 @@
 				    <effort>Max</effort>
 				    <threshold>Low</threshold>
 				    <xmlOutput>true</xmlOutput>
-				    <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
+				    <!--<excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>-->
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

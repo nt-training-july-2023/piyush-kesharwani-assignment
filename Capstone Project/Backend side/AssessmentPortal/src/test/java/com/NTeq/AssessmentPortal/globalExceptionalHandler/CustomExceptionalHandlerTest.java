@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -94,5 +95,18 @@ class CustomExceptionalHandlerTest {
         ResponseEntity<ErrorResponse> result = exceptionHandler.handleResourceNotFound(exception);
         assertEquals(HttpStatus.NOT_FOUND , result.getStatusCode());
         assertEquals("Resource Not found" , result.getBody().getMessage());
+    }
+    @Test
+    public void testHttpMessageNotReadableException() {
+        @SuppressWarnings("deprecation")
+        HttpMessageNotReadableException exception = new 
+                HttpMessageNotReadableException("Data body is required");
+        CustomExceptionalHandler exceptionHandler = new CustomExceptionalHandler();
+        
+        ResponseEntity<ErrorResponse> result = exceptionHandler
+                .handleHttpMessageNotReadableException(exception);
+        
+        assertEquals(HttpStatus.BAD_REQUEST , result.getStatusCode());
+        assertEquals("Data body is required" , result.getBody().getMessage());
     }
 }

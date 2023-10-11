@@ -11,6 +11,7 @@
   .question-h2{
     text-align: center;
     margin-left: 15px;
+    color: antiquewhite;
   }
   .question-container {
     background-color: #ffffff;
@@ -31,7 +32,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background-color: lightcoral;
+    background-color: #272424;
   }
   
   .add-question-button {

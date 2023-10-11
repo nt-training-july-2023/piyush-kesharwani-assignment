@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
 import { useEffect } from "react";
+import candidateService from "../../Services/candidateService";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -65,17 +66,8 @@ const Register = () => {
   const handleRegisterClick = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      try {
-        const response = await axios.post(
-          "http://localhost:8080/candidate/register",
-          {
-            firstName,
-            lastName,
-            phoneNumber,
-            email,
-            password,
-          }
-        );
+      const candidate = {firstName, lastName, phoneNumber, email, password}
+      candidateService.register(candidate).then((response) => {
         Swal.fire({
           title: "Success",
           text: "User registered successfully",
@@ -88,22 +80,24 @@ const Register = () => {
         }
         setSuccessMessage("Registration successful. Please log in.");
         setErrorMessage("");
-      } catch (error) {
-        const submitError=error.response.data.message;
-            Swal.fire({
-              title: "Error",
-              text: `${submitError}`,
-              icon: "error",
-              confirmButtonText: "Retry",
-              confirmButtonColor:"red"
-            });
-        console.error(error);
-        if (error.response) {
-          setErrorMessage("Registration failed. " + error.response.data.email);
+      }).catch ((error) => { 
+        if (error.response.data) {
+          const submitError=error.response.data.message;
+          Swal.fire({
+            title: "Error",
+            text: `${submitError}`,
+            icon: "error",
+            confirmButtonText: "Retry",
+            confirmButtonColor:"red"
+          });
         } else {
-          setErrorMessage("An error occurred during registration.");
+          Swal.fire({
+            title: "Login Failed",
+            text: "Server is currently unavailable .Please try again later",
+            icon: "error",
+          });
         }
-      }
+      })
     }
   };
 
