@@ -1,5 +1,7 @@
 package com.NTeq.AssessmentPortal.Dto;
 
+import java.util.Objects;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -66,4 +68,46 @@ public class ResultDto {
     @NotNull(message = "Total marks is required")
     @Min(value = 1, message = "Minimun value should be 1")
     private int totalQuestion;
+    /**
+     * Generates a hash code for this ResultDto object.
+     * @return The hash code value based on attemptedQuestion,
+     *  categoryName, dateTime, obtainedMarks, quizName, resultId,
+     *  totalMarks, totalQuestion, userEmail, and userName properties.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(attemptedQuestion, categoryName, dateTime,
+                obtainedMarks, quizName, resultId, totalMarks, totalQuestion,
+                userEmail, userName);
+    }
+    /**
+     * Checks if this ResultDto object is equal to another object.
+     * @param obj The object to compare with.
+     * @return {@code true} if objects are equal based on attemptedQuestion,
+     *  categoryName, dateTime, obtainedMarks, quizName, resultId,
+     *  totalMarks, totalQuestion, userEmail, and userName properties,
+     *         {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ResultDto other = (ResultDto) obj;
+        return attemptedQuestion == other.attemptedQuestion
+                && Objects.equals(categoryName, other.categoryName)
+                && Objects.equals(dateTime, other.dateTime)
+                && obtainedMarks == other.obtainedMarks
+                && Objects.equals(quizName, other.quizName)
+                && resultId == other.resultId && totalMarks == other.totalMarks
+                && totalQuestion == other.totalQuestion
+                && Objects.equals(userEmail, other.userEmail)
+                && Objects.equals(userName, other.userName);
+    }
 }

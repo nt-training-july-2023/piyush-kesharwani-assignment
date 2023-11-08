@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
@@ -20,7 +21,9 @@ import com.NTeq.AssessmentPortal.Entity.Category;
 import com.NTeq.AssessmentPortal.Entity.Options;
 import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
+import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.QuestionRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
 import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 class QuestionServiceImplTest {
@@ -66,10 +69,14 @@ class QuestionServiceImplTest {
         quiz.setCategory(categoryEntity);
         quiz.setTime(10);
         question.setQuiz(quiz);
+        
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.CREATED.value(),
+                Message.QUESTION_CREATED_SUCCESSFULLY);
         when(questionService2.dtoToQuestion(questionDto)).thenReturn(question);
         when(questionRepository.save(question)).thenReturn(question);
+        
         SuccessResponse result = questionService.addQuestion(questionDto);
-        assertEquals("Question created successfully.", result.getMessage());
+        assertEquals(expectedResponse, result);
     }
 
     @Test
@@ -77,7 +84,16 @@ class QuestionServiceImplTest {
         Category category = new Category(11, "Programming language",
                 "Programming language mcqs");
        Quiz qz = new Quiz(111,"Java","Java mcqs",category,10);
-        Question question = new Question(111, "Which is not a programming language","Java","C++","MYSQL","Python","MYSQL",qz);
+        Question question = new Question();
+        question.setQuestionId(111);
+        question.setQuestionName("Which is not a programming language");
+        question.setOptionOne("Java");
+        question.setOptionTwo("Python");
+        question.setOptionThree("MYSQL");
+        question.setOptionFour("C++");
+        question.setAnswer("MYSQL");
+        question.setQuiz(qz);
+        
         List<Question> questions = new ArrayList<>();
         questions.add(question);
 
@@ -90,10 +106,11 @@ class QuestionServiceImplTest {
     
     @Test
     void testGetQuestionById_Success() {
+        long questionId = 1;
         QuestionDto questionDto = new QuestionDto();
-        questionDto.setQuestionId(1);
+        questionDto.setQuestionId(questionId);
         questionDto.setQuestionName("Which is not a programming language");
-    Options options = new Options("Java", "C++", "MYSQL", "Python");
+        Options options = new Options("Java", "C++", "MYSQL", "Python");
         questionDto.setOptions(options);
         questionDto.setAnswer(options.getOptionThree());
         CategoryDto category = new CategoryDto(11, "Programming language",
@@ -124,8 +141,17 @@ class QuestionServiceImplTest {
         when(questionRepository.findById(question.getQuestionId())).thenReturn(Optional.of(question));
         when(questionRepository.save(any(Question.class))).thenReturn(question);
 
-        QuestionDto resultQuestionDto = questionService.getQuestionById(1);
-        assertNotNull(resultQuestionDto);
+        QuestionDto result = questionService.getQuestionById(1);
+        assertNotNull(result);
+        assertEquals(questionId, result.getQuestionId());
+    }
+    @Test
+    public void testGetQuestionById_ResourceNotFound() {
+        long questionId = 1;
+
+        when(questionRepository.findById(questionId)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFound.class, () -> questionService.getQuestionById(questionId));
     }
     
     @Test
@@ -161,12 +187,15 @@ class QuestionServiceImplTest {
         quiz.setTime(10);
         question.setQuiz(quiz);
 
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.OK.value(),
+                Message.QUESTION_UPDATED_SUCCESSFULLY);
+        
         when(questionService2.dtoToQuestion(questionDto)).thenReturn(question);
         when(questionRepository.findById(questionIdToUpdate)).thenReturn(Optional.of(question));
         when(questionRepository.save(question)).thenReturn(question);
 
         SuccessResponse result = questionService.updateQuestion(questionIdToUpdate, questionDto);
-        assertEquals("Question updated successfully.", result.getMessage());
+        assertEquals(expectedResponse, result);
     }
     
     @Test
@@ -201,18 +230,24 @@ class QuestionServiceImplTest {
         quiz.setCategory(categoryEntity);
         quiz.setTime(10);
         question.setQuiz(quiz);
+        
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.NOT_FOUND.value(),
+                Message.QUESTION_NOT_FOUND);
 
         when(questionService2.dtoToQuestion(questionDto)).thenReturn(question);
         when(questionRepository.findById(questionIdToUpdate)).thenReturn(Optional.empty());
         SuccessResponse result = questionService.updateQuestion(questionIdToUpdate, questionDto);
-        assertEquals("Question does not exist.",result.getMessage());
+        
+        assertEquals(expectedResponse,result);
     }
     @Test
     void testDeleteQuestion_Success(){
         long questionIdToDelete = 1;
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.OK.value(),
+                Message.QUESTION_DELETED_SUCCESSFULLY);
         when(questionRepository.findById(questionIdToDelete)).thenReturn(Optional.of(new Question()));
-
+  
         SuccessResponse result = questionService.deleteQuestion(questionIdToDelete);
-        assertEquals("Question deleted successfully.",result.getMessage());
+        assertEquals(expectedResponse,result);
     }
 }

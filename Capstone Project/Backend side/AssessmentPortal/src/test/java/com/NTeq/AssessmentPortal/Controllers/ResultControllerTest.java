@@ -38,11 +38,14 @@ class ResultControllerTest {
         resultDto.setUserEmail("Aakash@nucleusTeq.com");
         SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
                 "Result created successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.CREATED);
+        
         when(resultService.addResult(resultDto)).thenReturn(response);
 
         ResponseEntity<SuccessResponse> result = resultController.saveResult(resultDto);
-        assertEquals(HttpStatus.CREATED , result.getStatusCode());
-        assertEquals(response, result.getBody());
+        
+        assertEquals(expectedResponse, result);
     }
 
     @Test
@@ -52,13 +55,14 @@ class ResultControllerTest {
                 "12/07/23 05:34:45","SpringBoot","Java",95,100));
         resultList.add(new ResultDto(10,100,85,"Aman@nucleusTeq.com","Aman Singh",
                 "12/07/23 05:37:45","SpringBoot","Java",95,100));
+        ResponseEntity<List<ResultDto>> expectedResponse = new ResponseEntity<List<ResultDto>>(
+                resultList,HttpStatus.OK);
 
         when(resultService.getAllResult()).thenReturn(resultList);
 
         ResponseEntity<List<ResultDto>> responseEntity = resultController.getAll();
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(resultList, responseEntity.getBody());
+        assertEquals(expectedResponse, responseEntity);
     }
 
     @Test

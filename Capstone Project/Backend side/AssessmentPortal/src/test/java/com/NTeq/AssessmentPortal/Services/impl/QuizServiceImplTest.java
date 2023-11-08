@@ -17,15 +17,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 
 import com.NTeq.AssessmentPortal.Dto.QuestionDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
 import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
+import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
 import com.NTeq.AssessmentPortal.Repositories.QuizRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
 import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 @ExtendWith(MockitoExtension.class)
 class QuizServiceImplTest {
@@ -63,8 +66,25 @@ class QuizServiceImplTest {
         when(modelMapper.map(quizDto, Quiz.class)).thenReturn(quiz);
         when(quizRepository.save(any(Quiz.class))).thenReturn(quiz);
         
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.CREATED.value(),
+                Message.QUIZ_CREATED_SUCCESSFULLY);
+        
         SuccessResponse result = quizService.addQuiz(quizDto);
-        assertEquals("Quiz created successfully.", result.getMessage());
+        assertEquals(expectedResponse, result);
+    }
+    @Test
+    public void testAddQuiz_QuizAlreadyExist() {
+        QuizDto quizDto = new QuizDto();
+        quizDto.setQuizName("Sample Quiz");
+
+        Quiz quiz = new Quiz();
+        Category category = new Category();
+        quiz.setCategory(category);
+        
+        when(quizRepository.findByQuizName("Sample Quiz")).thenReturn(Optional.of(quiz));
+        assertThrows(AlreadyExistException.class, () -> {
+            quizService.addQuiz(quizDto);
+        });
     }
     
     @Test
@@ -84,18 +104,19 @@ class QuizServiceImplTest {
         quiz.setQuizId(quizId);
         
         QuizDto quizDto = new QuizDto();
+        quizDto.setQuizId(quizId);
         when(quizRepository.findById(quizId)).thenReturn(Optional.of(quiz));
         when(modelMapper.map(quiz, QuizDto.class)).thenReturn(quizDto);
 
         QuizDto result = quizService.getQuizById(quizId);
         assertNotNull(result);
-        assertEquals(quizDto.getQuizId(), result.getQuizId());
+        assertEquals(quizDto, result);
     }
     @Test
     public void testGetQuizById_ResourceNotFound() {
-        int quizId = 1;
+        long quizId = 1;
 
-        when(quizRepository.findById((long) quizId)).thenReturn(Optional.empty());
+        when(quizRepository.findById(quizId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFound.class, () -> quizService.getQuizById(quizId));
     }
@@ -105,20 +126,27 @@ class QuizServiceImplTest {
         long quizId = 1L;
         QuizDto updatedQuizDto = new QuizDto();
         Quiz updatedQuiz = new Quiz();
+        updatedQuiz.setQuizName("quiz 1");
 
         when(modelMapper.map(updatedQuizDto, Quiz.class)).thenReturn(updatedQuiz);
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.OK.value(),
+                Message.QUIZ_UPDATED_SUCCESSFULLY);
 
         SuccessResponse result = quizService.updateQuiz(quizId, updatedQuizDto);
 
-        assertEquals("Quiz updated successfully.", result.getMessage());
+        assertEquals(expectedResponse, result);
     }
    
     @Test
     public void testDeleteQuiz() {
         long quizId = 1L;
+        Quiz quiz = new Quiz();
+        quiz.setQuizId(quizId);
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.NO_CONTENT.value(),
+                Message.QUIZ_DELETED_SUCCESSFULLY);
 
         SuccessResponse result = quizService.deleteQuiz(quizId);
-        assertEquals("Quiz deleted successfully.",result.getMessage());
+        assertEquals(expectedResponse,result);
 
     }
     
@@ -131,8 +159,15 @@ class QuizServiceImplTest {
         quiz.setCategory(new Category());
         
         List<Question> questions = new ArrayList<>();
-        Question question = new Question(12L,"Which is not a programming language",
-                "Java","Python","MYSQL","C++","MYSQL",quiz);
+        Question question = new Question();
+        question.setQuestionId(111);
+        question.setQuestionName("Which is not a programming language");
+        question.setOptionOne("Java");
+        question.setOptionTwo("Python");
+        question.setOptionThree("MYSQL");
+        question.setOptionFour("C++");
+        question.setAnswer("MYSQL");
+        question.setQuiz(quiz);
         questions.add(question);
         quiz.setQuestion(questions);
         

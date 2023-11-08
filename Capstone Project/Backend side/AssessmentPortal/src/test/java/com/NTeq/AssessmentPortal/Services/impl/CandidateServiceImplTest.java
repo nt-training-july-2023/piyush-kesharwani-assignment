@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.NTeq.AssessmentPortal.Dto.CandidateDto;
@@ -28,6 +29,7 @@ import com.NTeq.AssessmentPortal.Exceptions.FieldsRequiredException;
 import com.NTeq.AssessmentPortal.Exceptions.InvalidEmailDomainException;
 import com.NTeq.AssessmentPortal.Exceptions.WrongCredentialException;
 import com.NTeq.AssessmentPortal.Repositories.CandidateRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
 import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,11 +54,26 @@ class CandidateServiceImplTest {
     @Test
     public void testGetAllCandidate_WithCandidates_ShouldReturnListOfCandidates() {
         List<Candidate> candidates = new ArrayList<>();
-        candidates.add(new Candidate());
-        candidates.add(new Candidate());
+        Candidate candidate1 = new Candidate(1,"Piyush","Kesharwani","piyush@nucleusTeq.com",
+                "12345","9098765342","admin");
+        Candidate candidate2 = new Candidate(2,"Vishal","Rao","vishal@nucleusTeq.com",
+                "123456","9098765442","user");
+        candidates.add(candidate1);
+        candidates.add(candidate2);
+        
+        List<CandidateDto> candidateDto = new ArrayList<>();
+       CandidateDto candidateDto1 = new CandidateDto(1,"Piyush","Kesharwani","piyush@nucleusTeq.com",
+                "12345","9098765342","admin");
+       CandidateDto candidateDto2 = new CandidateDto(2,"Vishal","Rao","vishal@nucleusTeq.com",
+               "123456","9098765442","user");
+        candidateDto.add(candidateDto1);
+        candidateDto.add(candidateDto2);
+        
         when(candidateRepository.findAll()).thenReturn(candidates);
+        when(modelMapper.map(candidate1, CandidateDto.class)).thenReturn(candidateDto1);
+        when(modelMapper.map(candidate2, CandidateDto.class)).thenReturn(candidateDto2);
         List<CandidateDto> result = candidateService.getAllCandidate();
-        assertEquals(2, result.size());
+        assertEquals(candidateDto, result);
     }
 
     @Test
@@ -87,6 +104,9 @@ class CandidateServiceImplTest {
         candidate.setPassword(candidateDto.getPassword());
         candidate.setUserRole(candidateDto.getUserRole());
         candidate.setPhoneNumber(candidateDto.getPhoneNumber());
+        
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.CREATED.value(),
+                Message.REGISTERED_SUCCESSFULLY);
 
         when(candidateRepository.findByEmail(candidateDto.getEmail())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(candidateDto.getPassword())).thenReturn("encodedPassword");
@@ -94,7 +114,7 @@ class CandidateServiceImplTest {
 
         SuccessResponse result = candidateService.addCandidate(candidateDto);
         assertNotNull(result);
-        assertEquals("Candidate Register successfully." , result.getMessage());
+        assertEquals(expectedResponse , result);
     }
 
     @Test
@@ -136,6 +156,7 @@ class CandidateServiceImplTest {
         when(candidateRepository.findByEmailAndPassword(candidateDto.getEmail(), candidateDto.getPassword())).thenReturn(Optional.of(candidate));
         when(passwordEncoder.matches(any(), any())).thenReturn(true);
         Map<String, String> response = candidateService.loginCandidate(candidateDto);
+        
         assertNotNull(response);
         assertEquals("Login Successfully", response.get("message"));
         assertEquals("true", response.get("status"));

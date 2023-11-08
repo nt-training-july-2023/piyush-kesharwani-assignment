@@ -38,9 +38,6 @@ const QuizCard = ({ quiz, onDelete, onOpenQuiz, isAdmin }) => {
               <Button className="quiz-btn-update" onClick={() => onOpenQuiz(quiz.quizId)}>
                 Take Test
               </Button>
-              <Button className="quiz-btn-delete" onClick={() =>navigate("/userDashboard")}>
-                Cancel
-              </Button>
             </>
           )}
         </div>

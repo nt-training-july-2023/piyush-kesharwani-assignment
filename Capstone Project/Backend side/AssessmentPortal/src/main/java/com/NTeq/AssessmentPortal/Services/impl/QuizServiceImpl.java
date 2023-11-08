@@ -119,6 +119,12 @@ public class QuizServiceImpl implements QuizService {
     public final SuccessResponse updateQuiz(final long quizId,
             final QuizDto quizDto) {
         Quiz quiz = this.dtoToQuiz(quizDto);
+        if (!quiz.getQuizName().equals(quizDto.getQuizName())
+                && quizRepository.findByQuizName(quizDto.getQuizName())
+                        .isPresent()) {
+            LOGGER.error(Message.QUIZ_ALREADY_EXISTS);
+            throw new AlreadyExistException(Message.QUIZ_ALREADY_EXISTS);
+        }
         quiz.setQuizId(quizId);
         quizRepository.save(quiz);
         return new SuccessResponse(HttpStatus.OK.value(),

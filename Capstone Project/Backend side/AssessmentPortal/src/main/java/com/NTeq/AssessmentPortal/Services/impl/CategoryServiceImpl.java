@@ -49,15 +49,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public final SuccessResponse addCategory(final CategoryDto categoryDto) {
         Category category = this.dtoToCategory(categoryDto);
-            Category newOne = new Category(0L, category.getCategoryName(),
-                    category.getDescription());
        Optional<Category> existingCategory = categoryRepository
                .findByCategoryName(category.getCategoryName());
        if (existingCategory.isPresent()) {
            LOGGER.error(Message.ALREADY_EXISTS);
            throw new AlreadyExistException(Message.ALREADY_EXISTS);
        }
-            categoryRepository.save(newOne);
+            categoryRepository.save(category);
             return new SuccessResponse(HttpStatus.CREATED.value(),
                     Message.CATEGORY_CREATED_SUCCESSFULLY);
     }

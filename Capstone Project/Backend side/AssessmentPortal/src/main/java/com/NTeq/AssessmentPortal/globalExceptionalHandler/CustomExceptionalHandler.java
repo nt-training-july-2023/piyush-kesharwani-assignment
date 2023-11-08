@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
 import com.NTeq.AssessmentPortal.Exceptions.DuplicateEmail;
+import com.NTeq.AssessmentPortal.Exceptions.DuplicateOptionException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Exceptions.WrongCredentialException;
 import com.NTeq.AssessmentPortal.Response.ErrorResponse;
@@ -122,11 +123,25 @@ public class CustomExceptionalHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public final ResponseEntity<ErrorResponse>
     handleHttpMessageNotReadableException(final
-            HttpMessageNotReadableException exception){
+            HttpMessageNotReadableException exception) {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 exception.getMessage());
         return new ResponseEntity<ErrorResponse>(response,
                 HttpStatus.BAD_REQUEST);
+    }
+    /**
+     * Exception handler for handling DuplicateOptionException.
+     * @param exception DuplicateOptionException.
+     * @return ResponseEntity containing error message.
+     */
+    @ExceptionHandler(DuplicateOptionException.class)
+    public final ResponseEntity<ErrorResponse> handleDuplicateOptionException(
+            final DuplicateOptionException exception) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage());
+        return new ResponseEntity<ErrorResponse>(response,
+                HttpStatus.CONFLICT);
     }
 }

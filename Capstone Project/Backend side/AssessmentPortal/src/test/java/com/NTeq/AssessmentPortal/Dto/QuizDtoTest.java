@@ -49,5 +49,58 @@ class QuizDtoTest {
         assertEquals("Description",testcategory.getDescription());
         assertEquals(60, q.getTime());
     }
+    
+    @Test
+    void testEqualsAndHashcode() {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(1);
+        categoryDto.setCategoryName("SpringBoot");
+        categoryDto.setDescription("SpringBoot mcqs");
+        
+        QuizDto quizDto1 = new QuizDto();
+        quizDto1.setQuizId(121);
+        quizDto1.setQuizName("Science");
+        quizDto1.setQuizDescription("mcqs");
+        quizDto1.setCategory(categoryDto);
+        quizDto1.setTime(10);
+        
+        QuizDto quizDto2 = new QuizDto();
+        quizDto2.setQuizId(121);
+        quizDto2.setQuizName("Science");
+        quizDto2.setQuizDescription("mcqs");
+        quizDto2.setCategory(categoryDto);
+        quizDto2.setTime(10);
+        
+        assertTrue(quizDto1.equals(quizDto2));
+        assertFalse(quizDto1.equals(null));
+        assertFalse(quizDto1.equals(""));
+        
+        assertTrue(quizDto1.equals(quizDto1));
+        assertEquals(quizDto1.hashCode(), quizDto2.hashCode());
+        
+        quizDto2.setQuizId(1);
+        assertNotEquals(quizDto1.hashCode(), quizDto2.hashCode());
+        assertFalse(quizDto1.equals(quizDto2));
+        
+        quizDto2.setQuizId(121);
+        quizDto2.setQuizName("maths");
+        assertNotEquals(quizDto1.hashCode(), quizDto2.hashCode());
+        assertFalse(quizDto1.equals(quizDto2));
+        
+        quizDto2.setQuizName("Science");
+        quizDto2.setQuizDescription("desc");
+        assertNotEquals(quizDto1.hashCode(), quizDto2.hashCode());
+        assertFalse(quizDto1.equals(quizDto2));
+        
+        quizDto2.setQuizDescription("mcqs");
+        quizDto2.setCategory(new CategoryDto());
+        assertNotEquals(quizDto1.hashCode(), quizDto2.hashCode());
+        assertFalse(quizDto1.equals(quizDto2));
+        
+        quizDto2.setCategory(categoryDto);
+        quizDto2.setTime(19);
+        assertNotEquals(quizDto1.hashCode(), quizDto2.hashCode());
+        assertFalse(quizDto1.equals(quizDto2));
+    }
 
 }

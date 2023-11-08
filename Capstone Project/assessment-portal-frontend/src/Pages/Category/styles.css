@@ -12,7 +12,7 @@ body {
     align-items: center;
     height: 100vh;
   }
-  
+
   .card {
     background-color: #fff;
     border-radius: 5px;
@@ -53,5 +53,8 @@ body {
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+  }
+  .catlink{
+    text-decoration: none ;
   }
   

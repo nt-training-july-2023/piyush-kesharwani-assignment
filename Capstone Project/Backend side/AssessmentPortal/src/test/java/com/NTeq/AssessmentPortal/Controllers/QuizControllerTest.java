@@ -39,11 +39,13 @@ class QuizControllerTest {
         
         SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
                 "Quiz created successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.CREATED);
         when(quizService.addQuiz(quizDto)).thenReturn(response);
 
         ResponseEntity<SuccessResponse> result = quizController.saveQuiz(quizDto);
-        assertEquals(HttpStatus.CREATED , result.getStatusCode());
-        assertEquals(response, result.getBody());
+        
+        assertEquals(expectedResponse, result);
     }
     
     @Test
@@ -62,11 +64,13 @@ class QuizControllerTest {
         QuizDto quizDto = new QuizDto();
         SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
                 "Quiz updated successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.OK);
+        
         when(quizService.updateQuiz(quizId, quizDto)).thenReturn(response);
         ResponseEntity<SuccessResponse> result = quizController.updateQuiz(quizId, quizDto);
 
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(response, result.getBody());
+        assertEquals(expectedResponse, result);
     }
 
     @Test
@@ -74,25 +78,27 @@ class QuizControllerTest {
         long quizId = 1L;
         SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
                 "Quiz deleted successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.OK);
 
         when(quizService.deleteQuiz(quizId)).thenReturn(response);
         ResponseEntity<SuccessResponse> result = quizController.deleteQuiz(quizId);
 
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(response , result.getBody());
+        assertEquals(expectedResponse , result);
     }
     
     @Test
     void testGetQuiz() {
         long quizId = 1L;
         QuizDto quizDto = new QuizDto();
+        ResponseEntity<QuizDto> expectedResponse = new ResponseEntity<QuizDto>(
+                quizDto,HttpStatus.OK);
         
         when(quizService.getQuizById(quizId)).thenReturn(quizDto);
         
         ResponseEntity<QuizDto> result = quizController.getQuiz(quizId);
         
-        assertEquals(HttpStatus.OK , result.getStatusCode());
-        assertEquals(quizDto , result.getBody());
+        assertEquals(expectedResponse , result);
     }
     
     @Test

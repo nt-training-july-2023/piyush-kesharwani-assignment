@@ -33,10 +33,10 @@ public class ErrorResponse {
     }
     /**
      * Sets the HTTP status code of the API response.
-     * @param statusCode The HTTP status code to be set.
+     * @param statusCodes The HTTP status code to be set.
      */
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setStatusCode(final int statusCodes) {
+        this.statusCode = statusCodes;
     }
     /**
      * Gets the descriptive message accompanying the API response.
@@ -47,10 +47,10 @@ public class ErrorResponse {
     }
     /**
      * Sets the descriptive message accompanying the API response.
-     * @param message The descriptive message to be set.
+     * @param messages The descriptive message to be set.
      */
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessage(final String messages) {
+        this.message = messages;
     }
     /**
      * Gets the map containing field names as keys and corresponding error
@@ -66,7 +66,7 @@ public class ErrorResponse {
      * @param inputErrors The map of errors to be set.
      * Pass null to clear the existing errors.
      */
-    public void setErrors(Map<String, String> inputErrors) {
+    public void setErrors(final Map<String, String> inputErrors) {
         this.errors = inputErrors != null ? new HashMap<>(inputErrors) : null;
     }
     /**

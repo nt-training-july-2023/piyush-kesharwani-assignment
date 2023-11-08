@@ -86,9 +86,6 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<configLocation>C:\Users\Piyush\eclipse-workspace\Capstone Project\Backend side\AssessmentPortal\checkstyle.xml</configLocation>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -123,7 +120,6 @@
 				    <effort>Max</effort>
 				    <threshold>Low</threshold>
 				    <xmlOutput>true</xmlOutput>
-				    <!--<excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>-->
 				</configuration>
 			</plugin>
 			<plugin>

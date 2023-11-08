@@ -30,12 +30,14 @@ class CategoryControllerTest {
         CategoryDto categoryDto = new CategoryDto();
         SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
                 "Category created successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.CREATED);
 
         when(categoryService.addCategory(categoryDto)).thenReturn(response);
 
         ResponseEntity<SuccessResponse> result = categoryController.saveCategory(categoryDto);
         assertEquals(HttpStatus.CREATED , result.getStatusCode());
-        assertEquals(response, result.getBody());
+        assertEquals(expectedResponse, result);
     }
 
     @Test
@@ -43,11 +45,13 @@ class CategoryControllerTest {
         long categoryId = 1L;
         CategoryDto categoryDto = new CategoryDto();
         when(categoryService.getCategoryById(categoryId)).thenReturn(categoryDto);
+        ResponseEntity<CategoryDto> expectedResponse = new ResponseEntity<CategoryDto>(categoryDto,
+                HttpStatus.OK);
+        
+        
+        ResponseEntity<CategoryDto> response = categoryController.getCategory(categoryId);
 
-        ResponseEntity<CategoryDto> responseEntity = categoryController.getCategory(categoryId);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(categoryDto, responseEntity.getBody());
+        assertEquals(expectedResponse, response);
     }
     @Test
     public void testGetAllCategories() {
@@ -66,12 +70,14 @@ class CategoryControllerTest {
         CategoryDto categoryDto = new CategoryDto();
         SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
                 "Category updated successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.OK);
         
         when(categoryService.updateCategory(categoryId, categoryDto)).thenReturn(response);
 
         ResponseEntity<SuccessResponse> result = categoryController.updateCategory(categoryId, categoryDto);
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(response, result.getBody());
+        
+        assertEquals(expectedResponse, result);
     }
 
     @Test
@@ -79,12 +85,13 @@ class CategoryControllerTest {
         long categoryId = 1L;
         SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
                 "Category deleted successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.OK);
         
         when(categoryService.deleteCategory(categoryId)).thenReturn(response);
         ResponseEntity<SuccessResponse> result = categoryController.deleteCategory(categoryId);
 
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(response, result.getBody());
+        assertEquals(expectedResponse, result);
     }
 
 }

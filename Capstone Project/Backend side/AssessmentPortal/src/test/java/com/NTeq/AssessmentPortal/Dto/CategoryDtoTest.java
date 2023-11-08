@@ -42,4 +42,33 @@ class CategoryDtoTest {
         assertEquals("SpringBoot Description", categoryDtoObj.getDescription());
     }
 
+    @Test
+    void testEqualsAndHashcode() {
+      
+        CategoryDto categoryDto1 = new CategoryDto();
+        categoryDto1.setCategoryId(1);
+        categoryDto1.setCategoryName("SpringBoot");
+        categoryDto1.setDescription("SpringBoot mcqs");
+        
+        CategoryDto categoryDto2 = new CategoryDto();
+        categoryDto2.setCategoryId(1);
+        categoryDto2.setCategoryName("SpringBoot");
+        categoryDto2.setDescription("SpringBoot mcqs");
+        
+        assertTrue(categoryDto1.equals(categoryDto1));
+        assertFalse(categoryDto1.equals(null));
+        assertFalse(categoryDto1.equals(""));
+        
+        assertTrue(categoryDto1.equals(categoryDto2));
+        assertEquals(categoryDto1.hashCode(), categoryDto2.hashCode());
+        
+        categoryDto2.setCategoryName("Java");
+        assertNotEquals(categoryDto1.hashCode(), categoryDto2.hashCode());
+        assertFalse(categoryDto1.equals(categoryDto2));
+        
+        categoryDto2.setCategoryName("SpringBoot");
+        categoryDto2.setDescription("Java mcqs");
+        assertNotEquals(categoryDto1.hashCode(), categoryDto2.hashCode());
+        assertFalse(categoryDto1.equals(categoryDto2));
+    }
 }

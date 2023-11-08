@@ -421,4 +421,9 @@ public final class Message {
      */
     private Message() {
     }
-}
+    /**
+     * Error message indicating that each option must be unique.
+     */
+    public static final String DUPLICATE_OPTION_ERROR =
+            "Each options must be unique";
+ }

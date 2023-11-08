@@ -26,8 +26,11 @@ const AddAndUpdate = () => {
 
   const saveCategory = (e) => {
     e.preventDefault();
+    const trimmedCategoryName = categoryName.trim();
+    const trimmedDescription = description.trim();
+
     if(validateForm()){
-    const category = { categoryName, description };
+    const category = { categoryName : trimmedCategoryName , description: trimmedDescription };
     if(id){
       categoryService.updateCategory(id,category).then((response)=>{
         Swal.fire({
@@ -140,7 +143,7 @@ const AddAndUpdate = () => {
             <Button className='btn-primary' onClick={(e) => saveCategory(e)}
             children="Submit">
             </Button>
-            <Link to = "/category/all">
+            <Link to = "/category/all" className='catlink'>
                <Button className='btn-primary' children="Cancel"></Button>
             </Link>
           </form>

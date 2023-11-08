@@ -4,6 +4,7 @@ import categoryService from "../../Services/categoryService";
 import "./CategoryList.css";
 import Swal from "sweetalert2";
 import Button from "../../Component/Button component/Button";
+import Navbar from "../../Component/Navbar component/Navbar";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -59,7 +60,10 @@ const CategoryList = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="category-container">
+    
       <h2 className="category-title">List of Categories</h2>
       {isLoggedIn === "true" && (
         <table className="category-table">
@@ -148,6 +152,7 @@ const CategoryList = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

@@ -5,6 +5,8 @@ import quizService from "../../Services/quizService";
 import Swal from "sweetalert2";
 import './QuizzesByCategory.css';
 import Button from "../../Component/Button component/Button";
+import NoDataPage from "../../Component/NoDataFound/NoDataPage";
+import Navbar from "../../Component/Navbar component/Navbar";
 
 const QuizzesByCategory = () => {
 
@@ -63,10 +65,15 @@ const QuizzesByCategory = () => {
 
   return (
     <div>
+      <Navbar/>
       <h1 className="quiz-cat-title">{categoryName} Quizzes </h1>
          <div className="quizCat-card-container">
          {(isLoggedIn === "true") && (
         <>
+        {quizzes.length === 0 ? (
+          <NoDataPage/>
+        ): (
+          <>
         {quizzes.map((qz) => (
           <div key={qz.quizId} className="card">
             <div className="card-body">
@@ -91,12 +98,13 @@ const QuizzesByCategory = () => {
               ) : (
                 <div className="quiz-cat-button-container">
                 <Button className="btn-update" onClick={"/"} children="Take Test"></Button>
-                <Button className="btn-delete" onClick={()=>navigate("/category/all")} children="Cancel"></Button>
               </div>
               )}
             </div>
           </div>
         ))}
+        </>
+        )}
         </>
          )}
       </div>

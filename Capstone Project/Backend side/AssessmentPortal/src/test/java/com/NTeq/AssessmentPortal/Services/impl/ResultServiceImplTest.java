@@ -12,10 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 
 import com.NTeq.AssessmentPortal.Dto.ResultDto;
 import com.NTeq.AssessmentPortal.Entity.Result;
 import com.NTeq.AssessmentPortal.Repositories.ResultRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
 import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 class ResultServiceImplTest {
@@ -60,10 +62,13 @@ class ResultServiceImplTest {
        result.setAttemptedQuestion(resultDto.getAttemptedQuestion());
        result.setTotalQuestion(resultDto.getTotalQuestion());
        
+       SuccessResponse expectedResult = new SuccessResponse(HttpStatus.CREATED.value(),
+               Message.RESULT_CREATED_SUCCESSFULLY);
+       
        when(modelMapper.map(resultDto,Result.class )).thenReturn(result);
        when(resultRepository.save(result)).thenReturn(result);
        SuccessResponse answer = resultService.addResult(resultDto);
-       assertEquals("Result created successfully." , answer.getMessage());
+       assertEquals(expectedResult, answer);
    }
    
 

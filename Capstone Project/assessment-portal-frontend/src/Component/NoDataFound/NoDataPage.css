@@ -1,0 +1,14 @@
+.no-data {
+    text-align: center;
+    margin: 50px auto;
+  }
+
+.custom-heading{
+    font-size: 36px;
+    color: maroon;
+}
+
+.custom-para{
+    font-size: 24px;
+    color: darkred;
+}

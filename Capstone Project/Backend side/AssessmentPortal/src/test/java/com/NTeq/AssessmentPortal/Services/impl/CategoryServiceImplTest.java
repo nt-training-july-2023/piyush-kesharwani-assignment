@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +14,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 
 import com.NTeq.AssessmentPortal.Dto.CategoryDto;
 import com.NTeq.AssessmentPortal.Dto.QuizDto;
 import com.NTeq.AssessmentPortal.Entity.Category;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
+import com.NTeq.AssessmentPortal.Exceptions.AlreadyExistException;
+import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.CategoryRepository;
+import com.NTeq.AssessmentPortal.Response.Message;
 import com.NTeq.AssessmentPortal.Response.SuccessResponse;
 
 class CategoryServiceImplTest {
@@ -47,9 +52,29 @@ class CategoryServiceImplTest {
 
         when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
         when(categoryRepository.save(category)).thenReturn(category);
+        
+        SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
+                Message.CATEGORY_CREATED_SUCCESSFULLY);
 
         SuccessResponse result = categoryService.addCategory(categoryDto);
-        assertEquals("Category created successfully.", result.getMessage());
+        assertEquals(response, result);
+    }
+    @Test
+    public void testAddCategory_CategoryAlreadyExists() {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(1);
+        categoryDto.setCategoryName("ExistingCategory");
+
+        Category category = new Category();
+        category.setCategoryId(categoryDto.getCategoryId());
+        category.setCategoryName(categoryDto.getCategoryName());
+        
+        when(categoryRepository.findByCategoryName("ExistingCategory")).thenReturn(Optional.of(category));
+        when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
+
+        assertThrows(AlreadyExistException.class, () -> {
+            categoryService.addCategory(categoryDto);
+        });
     }
     @Test
     public void testGetCategoryById_Success() {
@@ -72,11 +97,13 @@ class CategoryServiceImplTest {
     
     @Test
     public void testGetCategoryById_CategoryNotFound() {
-        int categoryId = 1;
+        long categoryId = 1;
+        Category category = new Category();
+        category.setCategoryId(categoryId);
+        
+        when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
 
-        when(categoryRepository.findById((long) categoryId)).thenReturn(Optional.empty());
-
-        assertThrows(RuntimeException.class, () -> categoryService.getCategoryById(categoryId));
+        assertThrows(ResourceNotFound.class, () -> categoryService.getCategoryById(categoryId));
     }
     
     @Test
@@ -89,22 +116,30 @@ class CategoryServiceImplTest {
 
         CategoryDto dto1 = new CategoryDto();
         CategoryDto dto2 = new CategoryDto();
-
+        
         when(modelMapper.map(categories.get(0), CategoryDto.class)).thenReturn(dto1);
         when(modelMapper.map(categories.get(1), CategoryDto.class)).thenReturn(dto2);
 
+        List<CategoryDto> expectedResult = Arrays.asList(dto1,dto2);
+        
         List<CategoryDto> result = categoryService.getAllCategory();
-        assertEquals(2, result.size());
-        assertEquals(dto1, result.get(0));
-        assertEquals(dto2, result.get(1));
+        assertEquals(expectedResult , result);
     }
     
     @Test
     void testDeleteCategory() {
         long categoryId = 1L;
         Category category = new Category();
+        category.setCategoryId(categoryId);
+        
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
-        assertDoesNotThrow(() -> categoryService.deleteCategory(categoryId));
+        
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.OK.value(),
+                Message.CATEGORY_DELETED_SUCCESSFULLY);
+        
+        SuccessResponse result = categoryService.deleteCategory(categoryId);
+        
+        assertEquals(result, expectedResponse);
     }
     
     @Test
@@ -124,9 +159,44 @@ class CategoryServiceImplTest {
         when(categoryRepository.findById((long) 5)).thenReturn(Optional.of(existingCategory));
         when(modelMapper.map(categoryDto, Category.class)).thenReturn(updatedCategory);
         when(categoryRepository.save(updatedCategory)).thenReturn(updatedCategory);
+        SuccessResponse expectedResponse = new SuccessResponse(HttpStatus.OK.value(),
+                Message.CATEGORY_UPDATED_SUCCESSFULLY);
 
-        SuccessResponse resultDto = categoryService.updateCategory(5L,categoryDto);
-        assertEquals("Category updated successfully.", resultDto.getMessage());
+        SuccessResponse result = categoryService.updateCategory(5L,categoryDto);
+        assertEquals(expectedResponse, result);
+    } 
+    @Test
+    public void testUpdateCategory_CategoryNotFound() {
+        long searchId = 1;
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(100);
+
+        when(categoryRepository.findById(searchId)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFound.class, () -> categoryService.updateCategory(searchId,categoryDto));
+    }
+    @Test
+    public void testUpdateCategory_CategoryAlreadyExists() {
+        long categoryId = 1;
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(categoryId);
+        categoryDto.setCategoryName("ExistingCategory");
+
+        Category category = new Category();
+        category.setCategoryId(categoryDto.getCategoryId());
+        category.setCategoryName(categoryDto.getCategoryName());
+        
+        Category existingCategory = new Category();
+        existingCategory.setCategoryId(categoryId);
+        existingCategory.setCategoryName("Category Existing");
+        
+        when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(existingCategory));
+        when(categoryRepository.findByCategoryName("ExistingCategory")).thenReturn(Optional.of(category));
+        when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
+
+        assertThrows(AlreadyExistException.class, () -> {
+            categoryService.updateCategory(categoryId,categoryDto);
+        });
     }
     @Test
     public void testGetQuizzesByCategory() {
@@ -155,5 +225,6 @@ class CategoryServiceImplTest {
         List<QuizDto> result = categoryService
                 .getQuizzesByCategory(category.getCategoryId());
         assertEquals(1, result.size());
+        
     }
 }

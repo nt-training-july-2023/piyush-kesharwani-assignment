@@ -119,7 +119,7 @@ public class QuizController {
      * @param quizId The ID of the category to retrieve.
      * @return The list of questions entity.
      */
-    @GetMapping("questions/{quizId}")
+    @GetMapping("/questions/{quizId}")
     public final List<QuestionDto> getAllQuestionByQuiz(
             @PathVariable final int quizId) {
         LOGGER.info(Message.GET_QUESTION_BY_QUIZ, quizId);

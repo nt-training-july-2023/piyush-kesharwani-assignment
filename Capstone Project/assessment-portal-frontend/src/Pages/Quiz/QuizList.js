@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Button from "../../Component/Button component/Button";
 import QuizCard from "../../Component/Card component/QuizCard";
+import Navbar from "../../Component/Navbar component/Navbar";
 
 const QuizList = () => {
   const [quiz, setQuiz] = useState([]);
@@ -80,16 +81,18 @@ const QuizList = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="quiz-container">
       <div className="quiz-title">
-        <h2>List of Quizzes</h2>
+        <h2 className="listQuiz">List of Quizzes</h2>
       </div>
       {(isLoggedIn === "true") && (
         <>
       {role === "admin" && (
             <>
-              <Button className="btn-add" onClick={() => navigate("/adminDashboard")} children ="Dashboard"></Button>
-              <Button className="btn-add" onClick={() => navigate("/quiz/all/addQuiz")} children="Add Quiz"></Button>
+              {/* <Button className="btn-add" onClick={() => navigate("/adminDashboard")} children ="Dashboard"></Button> */}
+            <div className="addQuizBtn">  <Button className="btn-add" onClick={() => navigate("/quiz/all/addQuiz")} children="Add Quiz"></Button></div>
             </>
           )}
        <div className="quiz-card-container">
@@ -106,7 +109,7 @@ const QuizList = () => {
       </>
       )}
     </div>
-      
+    </> 
   );
 };
 

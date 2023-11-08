@@ -60,17 +60,16 @@ public class CandidateServiceImpl implements CandidateService {
      */
     @Override
     public final SuccessResponse addCandidate(final CandidateDto candidateDto) {
-        Candidate cd = this.dtoToCandidate(candidateDto);
+        Candidate candidate = this.dtoToCandidate(candidateDto);
             Optional<Candidate> existingCdByEmail = candidateRepository
-                    .findByEmail(cd.getEmail());
+                    .findByEmail(candidate.getEmail());
             if (existingCdByEmail.isPresent()) {
                 throw new DuplicateEmail("Email already exits");
             }
-            Candidate newCandidate = new Candidate(0, cd.getFirstName(),
-                    cd.getLastName(), cd.getEmail(),
-                    this.passwordEncoder.encode(cd.getPassword()), "user",
-                    cd.getPhoneNumber());
-                candidateRepository.save(newCandidate);
+            candidate.setUserRole("user");
+            candidate.setPassword(
+                    passwordEncoder.encode(candidateDto.getPassword()));
+                candidateRepository.save(candidate);
                LOGGER.info(Message.REGISTERED_SUCCESSFULLY);
             return new SuccessResponse(HttpStatus.CREATED.value(),
                     Message.REGISTERED_SUCCESSFULLY);

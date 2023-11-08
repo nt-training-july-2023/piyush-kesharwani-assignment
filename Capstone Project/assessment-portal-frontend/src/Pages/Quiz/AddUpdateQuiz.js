@@ -45,7 +45,7 @@ const AddUpdateQuiz = () => {
 }
 
 const validateForm =() =>{
-    if(quizName==='' || quizDescription==='' || (!time || time<=0) || selectedCategory===''){
+    if(quizName==='' || quizDescription==='' || (!time || time<=0) || category===null){
       setErrors('*all the fields are mandatory')
       return true;
     }
@@ -53,21 +53,28 @@ const validateForm =() =>{
   }
 const saveQuiz=(e)=>{
     e.preventDefault();
+    const trimmedQuizName = quizName.trim()
+    const trimmedDescription = quizDescription.trim()
+
     if(!validateForm()){
-      const quiz = {quizName, quizDescription, category, time};
+      const quiz = {quizName:trimmedQuizName,
+        quizDescription: trimmedDescription,
+        category,
+        time };
+
       if(id){
         quizService.updateQuiz(id, quiz).then((response)=>{
-          console.log(response.data);
           Swal.fire({
             title: "Success",
-            text: "qUIZ updated successfully",
+            text: "QUIZ updated successfully",
             icon: "success",
             timer:2000,
             showConfirmButton: false,
           });
           navigate("/quiz/all")
         }).catch(error => {
-            const submitError =error.response.data
+             console.log(error.response)
+            const submitError =error.response.data.message
             Swal.fire({
               title: "Error",
               text: `${submitError}`,
@@ -89,7 +96,7 @@ const saveQuiz=(e)=>{
           });
           navigate("/quiz/all")
         }).catch(error =>{
-          const submitError =error.response.data
+          const submitError =error.response.data.message
           Swal.fire({
             title: "Error",
             text: `${submitError}`,

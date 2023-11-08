@@ -1,5 +1,7 @@
 package com.NTeq.AssessmentPortal.Dto;
 
+import java.util.Objects;
+
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.Valid;
@@ -89,5 +91,39 @@ public class QuizDto {
         } else {
             this.category = null;
         }
+    }
+    /**
+     * Generates a hash code for this QuizDto object.
+     * @return The hash code value based on category,
+     *  quizDescription, quizId, quizName, and time properties.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(category, quizDescription, quizId, quizName, time);
+    }
+    /**
+     * Checks if this QuizDto object is equal to another object.
+     * @param obj The object to compare with.
+     * @return {@code true} if objects are equal based on category,
+     *          quizDescription, quizId, quizName, and time properties,
+     *         {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        QuizDto other = (QuizDto) obj;
+        return Objects.equals(category, other.category)
+                && Objects.equals(quizDescription, other.quizDescription)
+                && quizId == other.quizId
+                && Objects.equals(quizName, other.quizName)
+                && time == other.time;
     }
 }

@@ -1,6 +1,8 @@
 package com.NTeq.AssessmentPortal.Services.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import com.NTeq.AssessmentPortal.Entity.Category;
 import com.NTeq.AssessmentPortal.Entity.Options;
 import com.NTeq.AssessmentPortal.Entity.Question;
 import com.NTeq.AssessmentPortal.Entity.Quiz;
+import com.NTeq.AssessmentPortal.Exceptions.DuplicateOptionException;
 import com.NTeq.AssessmentPortal.Exceptions.ResourceNotFound;
 import com.NTeq.AssessmentPortal.Repositories.QuestionRepository;
 import com.NTeq.AssessmentPortal.Response.Message;
@@ -37,6 +40,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
     /**
+     * @param EXPECTED_NUMBER_OF_OPTIONS containing value.
+     */
+    private static final int EXPECTED_NUMBER_OF_OPTIONS = 4;
+    /**
      * Adds a new question using the provided QuestionDto.
      * @param questionDto The QuestionDto containing question information.
      * @return A message indicating the success of the operation.
@@ -44,6 +51,16 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public final SuccessResponse addQuestion(final QuestionDto questionDto) {
         Question question = this.dtoToQuestion(questionDto);
+        Set<String> optionSet = new HashSet<>();
+        optionSet.add(question.getOptionOne());
+        optionSet.add(question.getOptionTwo());
+        optionSet.add(question.getOptionThree());
+        optionSet.add(question.getOptionFour());
+
+        if (optionSet.size() < EXPECTED_NUMBER_OF_OPTIONS) {
+          LOGGER.error(Message.DUPLICATE_OPTION_ERROR);
+          throw new DuplicateOptionException(Message.DUPLICATE_OPTION_ERROR);
+        }
         String correctOption = question.getAnswer();
         if (!(correctOption.equalsIgnoreCase(question.getOptionOne())
              || correctOption.equalsIgnoreCase(question.getOptionTwo())

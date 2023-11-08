@@ -5,6 +5,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #ccc;
     overflow-x: auto;
+    height: 600px;
   }
   
   .result-container h2 {
@@ -37,7 +38,18 @@
     padding: 10px;
     border: 1px solid burlywood;
   }
-  
+  .search-bar{
+    height: 2rem;
+    width: 15rem;
+    border: solid 2px black;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+  }
+  .search-bar-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
   @media (max-width: 768px) {
     .result-table {
       font-size: 14px;

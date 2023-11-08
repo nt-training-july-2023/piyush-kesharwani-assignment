@@ -38,10 +38,13 @@ class QuestionControllerTest {
         
         SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
                 "Question created successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.CREATED);
+        
         when(questionService.addQuestion(questionDto)).thenReturn(response);
         ResponseEntity<SuccessResponse> result = questionController.addQuestion(questionDto);
-        assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        assertEquals(response, result.getBody());
+        
+        assertEquals(expectedResponse, result);
     }
 
     @Test
@@ -57,10 +60,13 @@ class QuestionControllerTest {
         long questionId = 1L;
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionId(questionId);
+        ResponseEntity<QuestionDto> expectedResponse = new ResponseEntity<QuestionDto>(
+                questionDto,HttpStatus.OK);
+        
         when(questionService.getQuestionById(questionId)).thenReturn(questionDto);
         ResponseEntity<QuestionDto> response = questionController.getQuestionById(questionId);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(questionDto, response.getBody());
+        
+        assertEquals(expectedResponse, response);
     }
     
     @Test
@@ -70,10 +76,13 @@ class QuestionControllerTest {
         questionDto.setQuestionId(questionId);
         SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
                 "Question updated successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.OK);
+        
         when(questionService.updateQuestion(questionId, questionDto)).thenReturn(response);
         ResponseEntity<SuccessResponse> result = questionController.updateQuestion(questionId, questionDto);
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(response, result.getBody());
+        
+        assertEquals(expectedResponse, result);
     }
     
     @Test
@@ -81,9 +90,12 @@ class QuestionControllerTest {
         long questionId = 1L;
         SuccessResponse response = new SuccessResponse(HttpStatus.OK.value(),
                 "Question deleted successfully.");
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.OK);
+        
         when(questionService.deleteQuestion(questionId)).thenReturn(response);
         ResponseEntity<SuccessResponse> result = questionController.deleteQuestion(questionId);
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals(response , result.getBody());
+        
+        assertEquals(expectedResponse , result);
     }
 }

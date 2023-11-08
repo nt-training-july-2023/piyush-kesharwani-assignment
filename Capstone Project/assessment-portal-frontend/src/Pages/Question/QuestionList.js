@@ -7,6 +7,7 @@ import quizService from "../../Services/quizService";
 import Button from "../../Component/Button component/Button";
 import Input from "../../Component/Input component/Input";
 import Error from "../../Component/Error component/Error";
+import NoDataPage from "../../Component/NoDataFound/NoDataPage";
 
 const QuestionList = () => {
   const { id } = useParams();
@@ -70,7 +71,8 @@ const QuestionList = () => {
           .deleteQuestion(questionId)
           .then(() => {
             Swal.fire("Deleted!", "The question has been deleted.", "success");
-            getAllQuestion();
+            // getAllQuestion();
+            getQuestionByQuiz();
           })
           .catch((error) => {
             console.error(error);
@@ -121,6 +123,9 @@ const QuestionList = () => {
             </div>
             <div className="question-card-body">
               <div className="question-table-wrapper">
+                {questions.length === 0 ? (
+                  <NoDataPage/>
+                ) : (
                 <table className="question-table">
                   <tbody className="quiz-table-content">
                     {questions.map((question, index) => (
@@ -200,6 +205,7 @@ const QuestionList = () => {
                     ))}
                   </tbody>
                 </table>
+                )}
               </div>
             </div>
           </div>

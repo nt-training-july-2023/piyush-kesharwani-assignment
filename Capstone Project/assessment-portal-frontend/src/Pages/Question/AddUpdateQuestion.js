@@ -68,6 +68,14 @@ const AddUpdateQuestion = () => {
     setSelectedQuiz(quizId);
   };
 
+  const areOptionsUnique = () => {
+    const optionsArray = [options.optionOne, options.optionTwo, options.optionThree, options.optionFour];
+    const uniqueOptions = new Set(
+      optionsArray.map((option) => option.toLowerCase())
+    );
+    return optionsArray.length === uniqueOptions.size;
+  };
+
   const handleQuestionFieldChange = (field, value) => {
     const isDuplicate = Object.values(options).some(
       (option) => option.trim() === value.trim() && option.trim() !== ""
@@ -78,16 +86,11 @@ const AddUpdateQuestion = () => {
     } else {
       setErrors("");
     }
-    setOptions((prevOptions) => ({
+    setOptions(prevOptions => ({
       ...prevOptions,
-      [field]: value,
+      [field]: value.trim(),
     }));
-    const areAllfieldsFilled = Object.values(options).every(
-      (option) => option.trim() !== ""
-    );
-    setAllFieldsFilled(areAllfieldsFilled);
   };
-
 
   const validateForm = () => {
     if (
@@ -101,7 +104,11 @@ const AddUpdateQuestion = () => {
       setErrors("*All the fields are mandatory");
       return true;
     }
-    setErrors("");
+    if (!areOptionsUnique()) {
+      setErrors("*Options must be unique");
+      return true;
+    }
+    setErrors("")
     return false;
   };
 
@@ -131,7 +138,7 @@ const AddUpdateQuestion = () => {
             title: "Question Updated",
             text: "The question has been updated successfully!",
           });
-          navigate("/question/all");
+          navigate(`/quiz/${quizId}/question`);
         })
         .catch((error) => {
           console.error(error);

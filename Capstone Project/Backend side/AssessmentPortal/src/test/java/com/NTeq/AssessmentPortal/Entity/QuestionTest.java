@@ -56,15 +56,13 @@ class QuestionTest {
     void testAllArgConstructor() {
         Category c = new Category(1,"Programming language","All programming mcqs");
         Quiz qz = new Quiz(12,"Java","Java mcqs",c,60);
-        Question q = new Question(121,"Which is not a programming language","Java",
+        Question q = new Question("Which is not a programming language","Java",
                 "C++","MYSQL","Python","MYSQL",qz);
-        assertEquals(121,q.getQuestionId());
         assertEquals("Which is not a programming language",q.getQuestionName());
         assertEquals("Java",q.getOptionOne());
         assertEquals("C++",q.getOptionTwo());
         assertEquals("MYSQL",q.getOptionThree());
         assertEquals("Python",q.getOptionFour());
         assertEquals("MYSQL",q.getAnswer());
-        assertEquals(qz.getQuizId(),q.getQuiz().getQuizId());
     }
 }

@@ -60,6 +60,22 @@ const UserTest = () => {
   }, []);
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+        if (document.visibilityState === 'hidden' && !submitted) {
+            setTimeout(() => {
+                handleSubmit();
+            }, 500);
+        }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+}, []);
+
+  useEffect(() => {
     const storedSelectedAnswers = localStorage.getItem("selectedAnswers");
     if (storedSelectedAnswers) {
       setSelectedAnswers(JSON.parse(storedSelectedAnswers));
@@ -72,15 +88,6 @@ const UserTest = () => {
     getQuestionByQuiz();
   }, []);
 
-  useEffect(() => {
-    const disableBackButton = () => {
-      window.history.pushState(null, null, window.location.href);
-    };
-    window.addEventListener("popstate", disableBackButton);
-    return () => {
-      window.removeEventListener("popstate", disableBackButton);
-    };
-  }, []);
 
   useEffect(() => {
     if (role === "user") {

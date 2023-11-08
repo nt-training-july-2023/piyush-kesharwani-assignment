@@ -2,6 +2,9 @@ package com.NTeq.AssessmentPortal.Entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,6 +56,36 @@ class QuizTest {
         assertEquals("Science",newCat.getCategoryName());
         assertEquals("Description",newCat.getDescription());
         assertEquals(60, q.getTime());
+    }
+    
+    @Test
+    public void testSetQuestions() {
+
+        Quiz quiz = new Quiz(1, "Sample Quiz", "Description", new Category(1, "CategoryName", "CategoryDescription"), 30);
+
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question( "Question1", "Option1", "Option2", "Option3", "Option4", "CorrectOption1",quiz));
+        questions.add(new Question("Question2", "Option1", "Option2", "Option3", "Option4", "CorrectOption2",quiz));
+
+        quiz.setQuestion(questions);
+        List<Question> retrievedQuestions = quiz.getQuestion();
+        assertEquals(questions, retrievedQuestions);
+    }
+    
+    @Test
+    public void testGetQuestions() {
+
+        Quiz quiz = new Quiz(1, "Sample Quiz", "Description", new Category(1, "CategoryName", "CategoryDescription"),30);
+
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("Question1", "Option1", "Option2", "Option3", "Option4", "CorrectOption1",quiz));
+        questions.add(new Question("Question2", "Option1", "Option2", "Option3", "Option4", "CorrectOption2",quiz));
+
+        quiz.setQuestion(questions);
+
+        List<Question> retrievedQuestions = quiz.getQuestion();
+
+        assertEquals(questions, retrievedQuestions);
     }
 
 }

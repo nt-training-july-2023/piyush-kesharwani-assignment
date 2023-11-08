@@ -36,27 +36,28 @@ class CandidateControllerTest {
         SuccessResponse response = new SuccessResponse(HttpStatus.CREATED.value(),
                 "Candidate Register successfully.");
         when(candidateService.addCandidate(candidateDto)).thenReturn(response);
+        
+        ResponseEntity<SuccessResponse> expectedResponse = new ResponseEntity<SuccessResponse>(
+                response,HttpStatus.CREATED);
 
         ResponseEntity<SuccessResponse> result = candidateController.saveUser(candidateDto);
 
-        assertEquals(HttpStatus.CREATED , result.getStatusCode());
-        assertEquals(response, result.getBody());
+        assertEquals(expectedResponse, result);
     }
     
     @Test
     public void testLoginCandidate() {
         LoginRequestDto loginRequestDto = new LoginRequestDto();
 
-        Map<String, String> loginResponse = new HashMap<>();
-        loginResponse.put("status", "Success");
-        loginResponse.put("message", "Login successfully");
+        Map<String, String> expectedloginResponse = new HashMap<>();
+        expectedloginResponse.put("status", "Success");
+        expectedloginResponse.put("message", "Login successfully");
 
-        when(candidateService.loginCandidate(loginRequestDto)).thenReturn(loginResponse);
+        when(candidateService.loginCandidate(loginRequestDto)).thenReturn(expectedloginResponse);
 
         Map<String, String> response = candidateController.loginCandidate(loginRequestDto);
 
-        assertEquals("Success", response.get("status"));
-        assertEquals("Login successfully", response.get("message"));
+        assertEquals(expectedloginResponse , response);
     }
     
     @Test

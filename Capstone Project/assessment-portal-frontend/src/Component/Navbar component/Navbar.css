@@ -1,0 +1,65 @@
+.Navbar {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-company-name {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: black !important;
+    border: none;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .navbar-company-name:hover {
+    color: rgb(228, 130, 130);
+}
+  
+  .navbar-list {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-icon {
+    margin-right: 5px;
+  }
+  
+  .navbar-item.active {
+    font-weight: bold;
+  }
+  
+  .Button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .Button:hover {
+    background-color: #218838;
+  }
+  
+  .navbar-item:last-child .Button {
+    background-color: #dc3545;
+  }
+  
+  .navbar-item:last-child .Button:hover {
+    background-color: #c82333;
+  }
+  

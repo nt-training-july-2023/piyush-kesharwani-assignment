@@ -8,8 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,37 +29,31 @@ public class Question {
      * The name of the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Question Name is required")
     private String questionName;
     /**
      * The first option of the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Option one is required")
     private String optionOne;
     /**
      * The second option of the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Option Two is required")
     private String optionTwo;
     /**
      * The third option of the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Option Three is required")
     private String optionThree;
     /**
      * The fourth option of the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Option Four is required")
     private String optionFour;
     /**
      * The correct option of the question.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Answer is required")
     private String answer;
     /**
      * The associated Quiz to which this question belongs.
@@ -69,7 +61,6 @@ public class Question {
      */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quizId", nullable = false)
-    @NotNull(message = "Quiz is required")
     private Quiz quiz;
     /**
      * Get the associated Quiz for this question.
@@ -91,29 +82,29 @@ public class Question {
     }
     /**
      * Constructor to initialize a Question with its attributes.
-     * @param qId     The unique identifier for this question.
+     * @param quizzes quiz.
      * @param qName   The name or text of the question.
      * @param optionI      The first option for answering the question.
      * @param optionII      The second option for answering the question.
      * @param optionIII    The third option for answering the question.
      * @param optionIV     The fourth option for answering the question.
      * @param answers         The correct answer to the question.
-     * @param qz         The quiz object for the question.
      */
-    public Question(final long qId, final String qName,
+    public Question(final String qName,
              final String optionI, final String optionII,
              final String optionIII, final String optionIV,
-               final String answers, final Quiz qz) {
+               final String answers, final Quiz quizzes) {
         super();
-        this.questionId = qId;
         this.questionName = qName;
         this.optionOne = optionI;
         this.optionTwo = optionII;
         this.optionThree = optionIII;
         this.optionFour = optionIV;
         this.answer = answers;
-        this.quiz = new Quiz(qz.getQuizId(),
-                qz.getQuizName(), qz.getQuizDescription(), qz.getCategory(),
-                qz.getTime());
+        this.quiz = new Quiz(quizzes.getQuizId(),
+                quizzes.getQuizName(),
+                quizzes.getQuizDescription(),
+                quizzes.getCategory(),
+                quizzes.getTime());
     }
 }

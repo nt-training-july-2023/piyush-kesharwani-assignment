@@ -87,7 +87,6 @@ const Login = () => {
 
   return (
     <div>
-    {/* <h1>Assessment Portal</h1> */}
     <div className="login-container">
       <form className="portal-form" onSubmit={handleLogin}>
         <div className="portal-form-content">

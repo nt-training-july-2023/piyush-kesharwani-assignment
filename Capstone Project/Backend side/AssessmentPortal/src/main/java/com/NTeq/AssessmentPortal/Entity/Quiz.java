@@ -16,8 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,13 +38,11 @@ public class Quiz {
      * The name of the quiz.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Quiz Name is required")
     private String quizName;
     /**
      * The description of the quiz.
      */
     @Column(nullable = false)
-    @NotBlank(message = "Quiz description is required")
     private String quizDescription;
     /**
      * The category associated with this entity.
@@ -58,7 +54,6 @@ public class Quiz {
      */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId", nullable = false)
-    @NotNull(message = "Category is required")
     private Category category;
     /**
      * The time of the quiz.
